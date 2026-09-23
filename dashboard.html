@@ -309,6 +309,250 @@ input,select,textarea{font-family:inherit}
   .tbl{min-width:600px}
   .modal{padding:24px 20px}
 }
+
+/* =========================================================
+   PROMAX RESPONSIVE UI/UX — DASHBOARD
+   Lightweight: transform/opacity based, no heavy libraries
+   ========================================================= */
+:root{
+  --ui-ease:cubic-bezier(.22,1,.36,1);
+  --ui-spring:cubic-bezier(.34,1.56,.64,1);
+  --ui-glass:rgba(255,255,255,.78);
+}
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+button,a,.stat,.panel,.feature,.how-step,.program,.testi-card,.price-card,.faq-item,.sb-link{
+  -webkit-tap-highlight-color:transparent;
+}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid rgba(74,144,226,.25);
+  outline-offset:3px;
+}
+.app{min-height:100svh}
+.main{width:100%;min-width:0}
+.sidebar{will-change:transform}
+.sb-link{position:relative;overflow:hidden}
+.sb-link::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.24) 50%,transparent 80%);
+  transform:translateX(-120%);
+  transition:transform .55s var(--ui-ease);
+}
+.sb-link:hover::after{transform:translateX(120%)}
+.sb-link.on{transition:transform .22s var(--ui-spring),box-shadow .25s}
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::after{
+  content:"";position:absolute;inset:-30%;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.32) 50%,transparent 62%);
+  transform:translateX(-120%) rotate(8deg);
+  transition:transform .65s var(--ui-ease);
+  pointer-events:none;
+}
+.btn:hover::after{transform:translateX(120%) rotate(8deg)}
+.btn:active{transform:translateY(1px) scale(.985)!important}
+.stat,.panel{
+  will-change:transform;
+}
+.stat::before,.panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(74,144,226,.07),transparent 28%);
+  opacity:0;transition:opacity .25s;
+}
+.stat:hover::before,.panel:hover::before{opacity:1}
+.stat{transition:transform .32s var(--ui-spring),box-shadow .3s,border-color .25s}
+.panel{position:relative;transition:transform .3s var(--ui-ease),box-shadow .3s,border-color .25s}
+.panel:hover{box-shadow:0 14px 34px -20px rgba(42,37,64,.24)}
+.tbl tr{transition:background .2s,transform .2s var(--ui-ease)}
+.tbl tbody tr:hover{transform:translateX(2px)}
+.field input,.field select,.field textarea{
+  transition:border-color .22s,background .22s,box-shadow .22s,transform .22s var(--ui-ease);
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  box-shadow:0 0 0 4px rgba(74,144,226,.09);
+  transform:translateY(-1px);
+}
+.modal-ov{transition:opacity .22s}
+.modal-ov.show{animation:uiFadeIn .2s ease-out}
+.modal{animation:uiModalIn .34s var(--ui-spring)}
+@keyframes uiFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes uiModalIn{from{opacity:0;transform:translateY(18px) scale(.965)}to{opacity:1;transform:translateY(0) scale(1)}}
+.view{animation:uiViewIn .32s var(--ui-ease)}
+@keyframes uiViewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.toast{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.toast.show{animation:toastPop .4s var(--ui-spring)}
+@keyframes toastPop{0%{transform:translateX(-50%) translateY(90px) scale(.96)}100%{transform:translateX(-50%) translateY(0) scale(1)}}
+@media (min-width:901px){
+  .app{grid-template-columns:clamp(210px,18vw,260px) minmax(0,1fr)}
+  .main{padding:clamp(24px,3vw,40px);max-width:none}
+  .topbar{align-items:center}
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .panel{padding:clamp(20px,2vw,28px)}
+}
+@media (min-width:901px) and (max-width:1180px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .topbar h1{font-size:24px}
+}
+@media (max-width:900px){
+  body{font-size:14px}
+  .main{padding:18px 14px 92px}
+  .topbar{margin-bottom:20px;gap:14px}
+  .topbar-actions{width:100%}
+  .topbar-actions .btn{flex:1;justify-content:center}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:18px}
+  .stat{padding:16px;border-radius:17px}
+  .stat .val{font-size:23px}
+  .panel{padding:18px;border-radius:18px;margin-bottom:16px}
+  .panel-head{margin-bottom:14px}
+  .tbl-wrap{margin:0 -18px;padding:0 18px}
+  .tbl{min-width:570px}
+  .modal-ov{padding:12px}
+  .modal{max-height:calc(100svh - 24px);border-radius:20px;padding:22px 16px}
+}
+@media (max-width:520px){
+  .sidebar{padding:8px 7px}
+  .sb-nav{gap:3px}
+  .sb-link{padding:7px 8px;min-width:58px}
+  .sb-link .ic{font-size:18px}
+  .sb-link span:last-child{font-size:9.5px}
+  .main{padding-left:10px;padding-right:10px}
+  .topbar h1{font-size:21px}
+  .topbar .sub{font-size:12.5px}
+  .stats{gap:8px}
+  .stat{padding:14px 12px;border-radius:15px}
+  .stat .lbl{font-size:9.5px}
+  .stat .val{font-size:20px}
+  .stat .ic{width:29px;height:29px;right:9px;top:9px;font-size:14px}
+  .panel{padding:14px;border-radius:16px}
+  .form-actions{flex-direction:column-reverse}
+  .form-actions .btn{width:100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+
+/* =========================================================
+   PROMAX RESPONSIVE UI/UX — DASHBOARD
+   Lightweight: transform/opacity based, no heavy libraries
+   ========================================================= */
+:root{
+  --ui-ease:cubic-bezier(.22,1,.36,1);
+  --ui-spring:cubic-bezier(.34,1.56,.64,1);
+  --ui-glass:rgba(255,255,255,.78);
+}
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+button,a,.stat,.panel,.feature,.how-step,.program,.testi-card,.price-card,.faq-item,.sb-link{
+  -webkit-tap-highlight-color:transparent;
+}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid rgba(74,144,226,.25);
+  outline-offset:3px;
+}
+.app{min-height:100svh}
+.main{width:100%;min-width:0}
+.sidebar{will-change:transform}
+.sb-link{position:relative;overflow:hidden}
+.sb-link::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.24) 50%,transparent 80%);
+  transform:translateX(-120%);
+  transition:transform .55s var(--ui-ease);
+}
+.sb-link:hover::after{transform:translateX(120%)}
+.sb-link.on{transition:transform .22s var(--ui-spring),box-shadow .25s}
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::after{
+  content:"";position:absolute;inset:-30%;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.32) 50%,transparent 62%);
+  transform:translateX(-120%) rotate(8deg);
+  transition:transform .65s var(--ui-ease);
+  pointer-events:none;
+}
+.btn:hover::after{transform:translateX(120%) rotate(8deg)}
+.btn:active{transform:translateY(1px) scale(.985)!important}
+.stat,.panel{
+  will-change:transform;
+}
+.stat::before,.panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(74,144,226,.07),transparent 28%);
+  opacity:0;transition:opacity .25s;
+}
+.stat:hover::before,.panel:hover::before{opacity:1}
+.stat{transition:transform .32s var(--ui-spring),box-shadow .3s,border-color .25s}
+.panel{position:relative;transition:transform .3s var(--ui-ease),box-shadow .3s,border-color .25s}
+.panel:hover{box-shadow:0 14px 34px -20px rgba(42,37,64,.24)}
+.tbl tr{transition:background .2s,transform .2s var(--ui-ease)}
+.tbl tbody tr:hover{transform:translateX(2px)}
+.field input,.field select,.field textarea{
+  transition:border-color .22s,background .22s,box-shadow .22s,transform .22s var(--ui-ease);
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  box-shadow:0 0 0 4px rgba(74,144,226,.09);
+  transform:translateY(-1px);
+}
+.modal-ov{transition:opacity .22s}
+.modal-ov.show{animation:uiFadeIn .2s ease-out}
+.modal{animation:uiModalIn .34s var(--ui-spring)}
+@keyframes uiFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes uiModalIn{from{opacity:0;transform:translateY(18px) scale(.965)}to{opacity:1;transform:translateY(0) scale(1)}}
+.view{animation:uiViewIn .32s var(--ui-ease)}
+@keyframes uiViewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.toast{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.toast.show{animation:toastPop .4s var(--ui-spring)}
+@keyframes toastPop{0%{transform:translateX(-50%) translateY(90px) scale(.96)}100%{transform:translateX(-50%) translateY(0) scale(1)}}
+@media (min-width:901px){
+  .app{grid-template-columns:clamp(210px,18vw,260px) minmax(0,1fr)}
+  .main{padding:clamp(24px,3vw,40px);max-width:none}
+  .topbar{align-items:center}
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .panel{padding:clamp(20px,2vw,28px)}
+}
+@media (min-width:901px) and (max-width:1180px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .topbar h1{font-size:24px}
+}
+@media (max-width:900px){
+  body{font-size:14px}
+  .main{padding:18px 14px 92px}
+  .topbar{margin-bottom:20px;gap:14px}
+  .topbar-actions{width:100%}
+  .topbar-actions .btn{flex:1;justify-content:center}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:18px}
+  .stat{padding:16px;border-radius:17px}
+  .stat .val{font-size:23px}
+  .panel{padding:18px;border-radius:18px;margin-bottom:16px}
+  .panel-head{margin-bottom:14px}
+  .tbl-wrap{margin:0 -18px;padding:0 18px}
+  .tbl{min-width:570px}
+  .modal-ov{padding:12px}
+  .modal{max-height:calc(100svh - 24px);border-radius:20px;padding:22px 16px}
+}
+@media (max-width:520px){
+  .sidebar{padding:8px 7px}
+  .sb-nav{gap:3px}
+  .sb-link{padding:7px 8px;min-width:58px}
+  .sb-link .ic{font-size:18px}
+  .sb-link span:last-child{font-size:9.5px}
+  .main{padding-left:10px;padding-right:10px}
+  .topbar h1{font-size:21px}
+  .topbar .sub{font-size:12.5px}
+  .stats{gap:8px}
+  .stat{padding:14px 12px;border-radius:15px}
+  .stat .lbl{font-size:9.5px}
+  .stat .val{font-size:20px}
+  .stat .ic{width:29px;height:29px;right:9px;top:9px;font-size:14px}
+  .panel{padding:14px;border-radius:16px}
+  .form-actions{flex-direction:column-reverse}
+  .form-actions .btn{width:100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
 </style>
 </head>
 <body>
@@ -1458,5 +1702,97 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
+
+<script>
+/* PROMAX MICRO-INTERACTIONS — DASHBOARD */
+(function(){
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.addEventListener('pointermove', function(e){
+    const el=e.target.closest('.stat,.panel');
+    if(!el || reduced) return;
+    const r=el.getBoundingClientRect();
+    el.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
+    el.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+  }, {passive:true});
+
+  document.addEventListener('pointerdown', function(e){
+    const b=e.target.closest('.btn,.subtab,.modal-close,.sb-link');
+    if(!b || reduced) return;
+    b.animate(
+      [{transform:'scale(1)'},{transform:'scale(.97)'},{transform:'scale(1)'}],
+      {duration:180,easing:'ease-out'}
+    );
+  });
+
+  if(!reduced && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.style.animationDelay=(Math.min(entry.target.dataset.uiDelay||0,240))+'ms';
+          entry.target.classList.add('ui-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.08});
+    document.querySelectorAll('.stat,.panel').forEach(function(el,i){
+      el.classList.add('ui-reveal');
+      el.dataset.uiDelay=(i%4)*45;
+      io.observe(el);
+    });
+  }
+
+  const style=document.createElement('style');
+  style.textContent='.ui-reveal{opacity:0;transform:translateY(10px)}.ui-reveal.ui-visible{animation:uiReveal .45s var(--ui-ease) forwards}@keyframes uiReveal{to{opacity:1;transform:none}}';
+  document.head.appendChild(style);
+})();
+</script>
+
+
+<script>
+/* PROMAX MICRO-INTERACTIONS — DASHBOARD */
+(function(){
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.addEventListener('pointermove', function(e){
+    const el=e.target.closest('.stat,.panel');
+    if(!el || reduced) return;
+    const r=el.getBoundingClientRect();
+    el.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
+    el.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+  }, {passive:true});
+
+  document.addEventListener('pointerdown', function(e){
+    const b=e.target.closest('.btn,.subtab,.modal-close,.sb-link');
+    if(!b || reduced) return;
+    b.animate(
+      [{transform:'scale(1)'},{transform:'scale(.97)'},{transform:'scale(1)'}],
+      {duration:180,easing:'ease-out'}
+    );
+  });
+
+  if(!reduced && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.style.animationDelay=(Math.min(entry.target.dataset.uiDelay||0,240))+'ms';
+          entry.target.classList.add('ui-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.08});
+    document.querySelectorAll('.stat,.panel').forEach(function(el,i){
+      el.classList.add('ui-reveal');
+      el.dataset.uiDelay=(i%4)*45;
+      io.observe(el);
+    });
+  }
+
+  const style=document.createElement('style');
+  style.textContent='.ui-reveal{opacity:0;transform:translateY(10px)}.ui-reveal.ui-visible{animation:uiReveal .45s var(--ui-ease) forwards}@keyframes uiReveal{to{opacity:1;transform:none}}';
+  document.head.appendChild(style);
+})();
+</script>
+
 </body>
 </html>
