@@ -919,6 +919,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 @media (max-width:680px){
   .nav-actions .btn{display:none}
 }
+
+/* LOGIN CHOOSER */
+.lg-ov{position:fixed;inset:0;z-index:200;background:rgba(42,37,64,.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px}
+.lg-ov.show{display:flex}
+.lg-box{background:#fff;border-radius:26px;padding:28px 24px;width:100%;max-width:420px;position:relative;box-shadow:var(--shadow-lg)}
+.lg-box h3{font-size:22px;margin-bottom:4px}.lg-box>p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+.lg-x{position:absolute;top:14px;right:16px;font-size:20px;color:var(--muted)}
+.lg-opt{display:flex;align-items:center;gap:14px;padding:14px 16px;border:2px solid var(--line);border-radius:18px;margin-bottom:10px;transition:border-color .2s,transform .25s var(--ease)}
+.lg-opt:hover{border-color:var(--blue);transform:translateY(-2px)}
+.lg-opt i{font-style:normal;font-size:26px;width:44px;height:44px;border-radius:14px;background:var(--blue-soft);display:grid;place-items:center}
+.lg-opt b{display:block;font-family:var(--heading);font-size:15.5px}.lg-opt span{font-size:13px;color:var(--muted)}
+
+.jd-tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
+.jd-tabs button{padding:8px 16px;border-radius:100px;background:#fff;border:2px solid var(--line);font-family:var(--heading);font-weight:700;font-size:13.5px;color:var(--muted)}
+.jd-tabs button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.jd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.jd-day{background:#fff;border:2px solid var(--line);border-radius:22px;padding:20px}
+.jd-day h3{font-size:16px;margin-bottom:10px;color:var(--blue-deep)}
+.jd-it{padding:9px 0;border-top:1px dashed var(--line);font-size:14px}
+.jd-it b{font-family:var(--heading);display:block;font-size:14.5px}.jd-it span{color:var(--muted);font-size:13px}
+.jd-empty{text-align:center;color:var(--muted);grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -931,13 +952,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   <div class="nav-links">
     <a href="#fitur">Fitur</a>
     <a href="#program">Program</a>
+    <a href="#jadwal">Jadwal</a>
     <a href="#harga">Harga</a>
     <a href="#faq">FAQ</a>
-    <a href="dashboard.html">Dashboard</a>
   </div>
   <div class="nav-actions">
-    <a href="dashboard.html" class="btn-login">Masuk</a>
-    <a href="#daftar" class="btn btn-primary"><span class="btn-text">Coba Gratis</span></a>
+    <button type="button" class="btn btn-primary" data-login>Masuk</button>
     <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -947,12 +967,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   <div class="mmenu-panel">
     <a href="#fitur">Fitur</a>
     <a href="#program">Program</a>
+    <a href="#jadwal">Jadwal</a>
     <a href="#harga">Harga</a>
     <a href="#faq">FAQ</a>
-    <a href="dashboard.html">Dashboard</a>
     <div class="mmenu-cta">
       <a href="#daftar" class="btn btn-yellow">Coba Kelas Gratis</a>
-      <a href="dashboard.html" class="btn btn-ghost">Masuk</a>
+      <button type="button" class="btn btn-ghost" data-login>Masuk</button>
     </div>
   </div>
 </div>
@@ -1183,6 +1203,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
         <a href="#daftar" class="btn btn-ghost">Pilih Program</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="jadwal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Jadwal</div>
+      <h2>Jadwal <span class="hl">kelas</span> minggu ini.</h2>
+      <p>Pilih kelas untuk melihat jadwal belajarnya.</p>
+    </div>
+    <div class="jd-tabs" id="jdTabs"></div>
+    <div class="jd-grid" id="jdGrid"><p class="jd-empty">Memuat jadwal…</p></div>
   </div>
 </section>
 
@@ -1488,5 +1520,40 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 })();
 </script>
 
+
+<div class="lg-ov" id="lgOv"><div class="lg-box">
+  <button class="lg-x" type="button" id="lgX" aria-label="Tutup">✕</button>
+  <h3>Masuk sebagai</h3><p>Pilih sesuai peran Anda.</p>
+  <a class="lg-opt" href="dashboard.html"><i>🛠️</i><div><b>Admin</b><span>Kelola siswa, jadwal, pembayaran</span></div></a>
+  <a class="lg-opt" href="portal.html#guru"><i>👨‍🏫</i><div><b>Guru</b><span>Isi absensi mengajar</span></div></a>
+  <a class="lg-opt" href="portal.html#ortu"><i>👨‍👩‍👧</i><div><b>Orang Tua</b><span>Lihat jadwal &amp; pembayaran anak</span></div></a>
+</div></div>
+<script>
+(function(){var o=document.getElementById('lgOv');
+document.addEventListener('click',function(e){
+ if(e.target.closest('[data-login]')){o.classList.add('show');document.body.classList.remove('menu-open')}
+ else if(e.target===o||e.target.closest('#lgX'))o.classList.remove('show')});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')o.classList.remove('show')});})();
+</script>
+<script>
+(function(){
+var H=['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'],D=[],K='Semua';
+var g=document.getElementById('jdGrid'),t=document.getElementById('jdTabs');
+function e(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function end(j,d){var p=(j||'0:0').split(':'),m=(+p[0]*60+ +p[1]+ +d)%1440;return ('0'+Math.floor(m/60)).slice(-2)+':'+('0'+m%60).slice(-2)}
+function draw(){
+ var ks=['Semua'].concat(D.map(function(x){return x.kelas}).filter(function(v,i,a){return v&&a.indexOf(v)===i}).sort());
+ t.innerHTML=ks.map(function(k){return '<button type="button" class="'+(k===K?'on':'')+'" data-k="'+e(k)+'">'+e(k)+'</button>'}).join('');
+ var h='';
+ H.forEach(function(hr){
+  var l=D.filter(function(x){return x.hari===hr&&(K==='Semua'||x.kelas===K)}).sort(function(a,b){return a.jam.localeCompare(b.jam)});
+  if(l.length)h+='<div class="jd-day"><h3>'+hr+'</h3>'+l.map(function(x){return '<div class="jd-it"><b>'+e(x.mapel)+'</b><span>'+e(x.jam)+'–'+end(x.jam,x.durasi)+' · '+e(x.kelas)+(x.guruNama?' · '+e(x.guruNama):'')+'</span></div>'}).join('')+'</div>';
+ });
+ g.innerHTML=h||'<p class="jd-empty">Belum ada jadwal.</p>';
+}
+t.addEventListener('click',function(ev){var b=ev.target.closest('[data-k]');if(b){K=b.dataset.k;draw()}});
+fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/jadwal').then(function(r){return r.json()}).then(function(d){D=d.jadwal||[];draw()}).catch(function(){g.innerHTML='<p class="jd-empty">Jadwal belum bisa dimuat.</p>'});
+})();
+</script>
 </body>
 </html>

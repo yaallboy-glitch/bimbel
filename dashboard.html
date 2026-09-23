@@ -681,6 +681,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           <p class="sub">Catat pembayaran bulanan siswa</p>
         </div>
         <div class="topbar-actions">
+          <button class="btn btn-ghost" type="button" onclick="buatTagihan()">Buat Tagihan Bulan Ini</button>
           <button class="btn btn-primary" type="button" onclick="openBayarForm()">+ Catat Pembayaran</button>
         </div>
       </div>
@@ -815,6 +816,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <input type="tel" id="swWa" placeholder="08xxxxxxxxxx">
       </div>
     </div>
+    <div class="form-row full">
+      <div class="field">
+        <label>PIN Orang Tua (untuk login portal)</label>
+        <input type="text" id="swPin" placeholder="Kosongkan = dibuat otomatis" maxlength="8">
+      </div>
+    </div>
     <div class="form-row">
       <div class="field">
         <label>Program</label>
@@ -870,6 +877,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           <option value="aktif">Aktif</option>
           <option value="nonaktif">Nonaktif</option>
         </select>
+      </div>
+    </div>
+    <div class="form-row full">
+      <div class="field">
+        <label>PIN Guru (untuk login portal)</label>
+        <input type="text" id="grPin" placeholder="Kosongkan = dibuat otomatis" maxlength="8">
       </div>
     </div>
     <div class="form-row full">
@@ -1409,6 +1422,7 @@ function openSiswaForm(id){
     $('swProgram').value = s.program;
     $('swIuran').value = s.iuran;
     $('swCatatan').value = s.catatan || '';
+    $('swPin').value = s.pin || '';
   } else {
     $('swId').value = '';
     $('swNama').value = '';
@@ -1418,6 +1432,7 @@ function openSiswaForm(id){
     $('swProgram').value = 'Reguler';
     $('swIuran').value = 450000;
     $('swCatatan').value = '';
+    $('swPin').value = '';
   }
   openModal('modalSiswa');
 }
@@ -1431,7 +1446,8 @@ async function saveSiswa(){
     wa: $('swWa').value.trim(),
     program: $('swProgram').value,
     iuran: parseInt($('swIuran').value, 10) || 0,
-    catatan: $('swCatatan').value.trim()
+    catatan: $('swCatatan').value.trim(),
+    pin: $('swPin').value.trim() || randPin()
   };
   if(!data.nama){ showToast('Nama siswa wajib diisi'); return; }
   const old = id ? DB.siswa.find(x => x.id === id) : null;
@@ -1490,6 +1506,7 @@ function openGuruForm(id){
     $('grMapel').value = g.mapel;
     $('grStatus').value = g.status;
     $('grAlamat').value = g.alamat || '';
+    $('grPin').value = g.pin || '';
   } else {
     $('grId').value = '';
     $('grNama').value = '';
@@ -1497,6 +1514,7 @@ function openGuruForm(id){
     $('grMapel').value = '';
     $('grStatus').value = 'aktif';
     $('grAlamat').value = '';
+    $('grPin').value = '';
   }
   openModal('modalGuru');
 }
@@ -1508,7 +1526,8 @@ async function saveGuru(){
     wa: $('grWa').value.trim(),
     mapel: $('grMapel').value.trim(),
     status: $('grStatus').value,
-    alamat: $('grAlamat').value.trim()
+    alamat: $('grAlamat').value.trim(),
+    pin: $('grPin').value.trim() || randPin()
   };
   if(!data.nama){ showToast('Nama guru wajib diisi'); return; }
   if(!data.mapel){ showToast('Mata pelajaran wajib diisi'); return; }
@@ -1565,7 +1584,7 @@ function renderBayar(){
       <td data-label="Metode">${esc(b.metode || '—')}</td>
       <td data-label="Status">${st}</td>
       <td class="act"><div class="row-act">
-        ${b.status === 'unpaid' ? `<button class="btn btn-yellow btn-sm" type="button" onclick="tandaiLunas('${esc(b.id)}')">Tandai Lunas</button>` : ''}
+        <button class="btn ${b.status === 'unpaid' ? 'btn-yellow' : 'btn-ghost'} btn-sm" type="button" onclick="setStatusBayar('${esc(b.id)}','${b.status === 'unpaid' ? 'paid' : 'unpaid'}')">${b.status === 'unpaid' ? 'Tandai Lunas' : 'Batal Lunas'}</button>
         <button class="btn btn-ghost btn-sm" type="button" onclick="openBayarForm(null,'${esc(b.id)}')">Edit</button>
         <button class="btn btn-danger btn-sm" type="button" onclick="hapusBayar('${esc(b.id)}')">Hapus</button>
       </div></td>
@@ -1623,10 +1642,23 @@ async function saveBayar(){
     closeModal('modalBayar'); renderAll();
   }
 }
-async function tandaiLunas(id){
+async function setStatusBayar(id, status){
   const b = DB.bayar.find(x => x.id === id);
   if(!b) return;
-  if(await save('bayar', { ...b, status:'paid' })){ renderAll(); showToast('Ditandai lunas ✓'); }
+  if(await save('bayar', { ...b, status })){ renderAll(); showToast(status === 'paid' ? 'Ditandai lunas ✓' : 'Ditandai belum bayar'); }
+}
+const randPin = () => String(Math.floor(100000 + Math.random()*900000));
+
+/* buat tagihan bulan ini untuk semua siswa yang belum punya catatan */
+async function buatTagihan(){
+  const bln = getBulanIni(), thn = getTahunIni();
+  const todo = DB.siswa.filter(s => !DB.bayar.some(b => b.siswaId === s.id && b.bulan === bln && String(b.tahun) === String(thn)));
+  if(!todo.length){ showToast('Semua siswa sudah punya tagihan bulan ini'); return; }
+  if(!confirm('Buat tagihan ' + bln + ' ' + thn + ' untuk ' + todo.length + ' siswa?')) return;
+  for(const s of todo){
+    if(!await save('bayar', { id: uid('bayar'), siswaId: s.id, bulan: bln, tahun: thn, jumlah: s.iuran || 0, status:'unpaid', metode:'' })) break;
+  }
+  renderAll(); showToast('Tagihan dibuat');
 }
 async function hapusBayar(id){
   if(!confirm('Hapus catatan pembayaran ini?')) return;

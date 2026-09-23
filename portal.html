@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Portal — Alief Bimbel</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FFFBEF;--ink:#2A2540;--muted:#6E6685;--line:rgba(42,37,64,.1);--blue:#4A90E2;--blue-soft:#DBEAFE;--yellow:#FFC93C;--yellow-soft:#FFF3C4;--coral:#FF7A7A;--coral-soft:#FFE0E0;--mint:#4ECDC4;--mint-soft:#D4F5F1;--h:'Poppins',system-ui,sans-serif;--b:'Nunito',system-ui,sans-serif}
+body{background:var(--bg);color:var(--ink);font-family:var(--b);font-size:15px;line-height:1.6;min-height:100vh}
+h1,h2,h3{font-family:var(--h);letter-spacing:-.02em}
+button,input{font-family:inherit}button{cursor:pointer;border:none}
+.wrap{max-width:720px;margin:0 auto;padding:18px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--h);font-weight:800}
+.logo i{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--mint));color:#fff;display:grid;place-items:center;font-style:normal}
+.card{background:#fff;border:2px solid var(--line);border-radius:22px;padding:22px;margin-bottom:14px}
+.btn{padding:10px 18px;border-radius:100px;font-family:var(--h);font-weight:700;font-size:13.5px;background:var(--blue);color:#fff}
+.btn.g{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn.y{background:var(--yellow);color:var(--ink)}
+.btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.wa{background:#25D366;color:#fff}
+.tabs{display:flex;gap:8px;margin-bottom:16px}.tabs .btn{flex:1}
+label{display:block;font-weight:700;font-size:13px;margin:12px 0 5px}
+input{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font-size:15px}
+input:focus{outline:none;border-color:var(--blue)}
+.err{color:#C53030;font-size:13.5px;margin-top:10px;min-height:20px;font-weight:600}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row b{font-family:var(--h);font-size:14.5px}.row small{display:block;color:var(--muted);font-size:13px}
+.bd{padding:3px 12px;border-radius:100px;font-size:12px;font-weight:800}
+.ok{background:var(--mint-soft);color:#0F766E}.no{background:var(--coral-soft);color:#B22B2B}.wt{background:var(--yellow-soft);color:#7A5A00}
+.hari{font-family:var(--h);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
+.acts{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.sub{color:var(--muted);font-size:14px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="index.html" class="logo"><i>A</i>Alief Bimbel</a>
+    <button class="btn g" id="out" hidden>Keluar</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login" class="card">
+    <h2>Masuk</h2>
+    <p class="sub" style="margin-bottom:14px">Gunakan nomor WhatsApp &amp; PIN dari admin.</p>
+    <div class="tabs"><button class="btn" data-r="guru">Guru</button><button class="btn g" data-r="ortu">Orang Tua</button></div>
+    <form id="f">
+      <label for="wa">Nomor WhatsApp</label><input id="wa" type="tel" placeholder="08xxxxxxxxxx" required>
+      <label for="pin">PIN</label><input id="pin" type="password" placeholder="••••••" required>
+      <div class="err" id="err"></div>
+      <button class="btn" style="width:100%;padding:13px" id="go">Masuk</button>
+    </form>
+  </div>
+
+  <div id="app" hidden></div>
+</div>
+
+<script>
+'use strict';
+const API = 'https://alief-worker.aliefbimbel.workers.dev';
+const ADMIN_WA = '62882003377569';
+const HARI = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+const NAMA_HARI = ['Minggu',...HARI.slice(0,6)];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rp = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
+const iso = () => { const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const endT = (j,d) => { const [h,m] = (j||'0:0').split(':').map(Number), t = (h*60+m+Number(d||0))%1440; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); };
+
+let role = (location.hash.slice(1) === 'ortu') ? 'ortu' : 'guru';
+let token = sessionStorage.getItem('alief_tk') || '';
+let me = null, tanggal = iso();
+
+async function api(path, opts = {}){
+  const r = await fetch(API + path, { ...opts, headers: { 'Content-Type':'application/json', ...(token ? { Authorization:'Bearer ' + token } : {}) } });
+  const d = await r.json().catch(() => ({}));
+  if(!r.ok){ const e = new Error(d.error || 'Server belum mendukung login ini'); e.code = r.status; throw e; }
+  return d;
+}
+
+/* ---- login ---- */
+function setRole(r){
+  role = r;
+  document.querySelectorAll('.tabs .btn').forEach(b => b.classList.toggle('g', b.dataset.r !== r));
+}
+document.querySelectorAll('.tabs .btn').forEach(b => b.onclick = () => setRole(b.dataset.r));
+setRole(role);
+
+$('f').onsubmit = async e => {
+  e.preventDefault(); $('err').textContent = ''; $('go').disabled = true;
+  try{
+    const d = await api('/api/login', { method:'POST', body: JSON.stringify({ role, wa: $('wa').value.trim(), pin: $('pin').value.trim() }) });
+    token = d.token; sessionStorage.setItem('alief_tk', token); sessionStorage.setItem('alief_role', role);
+    me = d; show();
+  }catch(x){ $('err').textContent = x.code === 401 ? 'Nomor WhatsApp atau PIN salah.' : x.message; }
+  $('go').disabled = false;
+};
+$('out').onclick = () => { sessionStorage.clear(); token = ''; me = null; $('app').hidden = true; $('out').hidden = true; $('login').hidden = false; $('pin').value = ''; };
+
+async function refresh(){
+  try{ me = await api('/api/me'); show(); }
+  catch(x){ if(x.code === 401) $('out').onclick(); else alert('Gagal: ' + x.message); }
+}
+
+/* ---- tampilan ---- */
+function show(){
+  $('login').hidden = true; $('app').hidden = false; $('out').hidden = false;
+  (sessionStorage.getItem('alief_role') === 'ortu' || me.role === 'ortu') ? viewOrtu() : viewGuru();
+}
+
+function jadwalHtml(list, withGuru){
+  if(!list.length) return '<p class="sub">Belum ada jadwal.</p>';
+  let h = '';
+  HARI.forEach(hr => {
+    const l = list.filter(j => j.hari === hr).sort((a,b) => a.jam.localeCompare(b.jam));
+    if(!l.length) return;
+    h += `<div class="hari">${hr}</div>` + l.map(j => `<div class="row"><div><b>${esc(j.mapel)}</b><small>${esc(j.kelas||'')}${withGuru && j.guruNama ? ' · ' + esc(j.guruNama) : ''}</small></div><span class="bd wt">🕐 ${esc(j.jam)}–${endT(j.jam,j.durasi)}</span></div>`).join('');
+  });
+  return h;
+}
+
+/* ---- ORANG TUA ---- */
+function viewOrtu(){
+  const { siswa = [], jadwal = [], bayar = [] } = me;
+  $('app').innerHTML = siswa.map(s => {
+    const jd = jadwal.filter(j => j.kelas === s.kelas);
+    const by = bayar.filter(b => b.siswaId === s.id).sort((a,b) => (b.tahun - a.tahun) || (NAMA_BLN.indexOf(b.bulan) - NAMA_BLN.indexOf(a.bulan)));
+    return `<div class="card"><h2>${esc(s.nama)}</h2><p class="sub">${esc(s.kelas)} · ${esc(s.program||'')}</p>
+      <h3 style="margin-top:16px;font-size:16px">📅 Jadwal Belajar</h3>${jadwalHtml(jd, true)}</div>
+      <div class="card"><h3 style="font-size:16px">💰 Pembayaran ${esc(s.nama)}</h3>
+      ${by.length ? by.map(b => `<div class="row"><div><b>${esc(b.bulan)} ${esc(b.tahun)}</b><small>${rp(b.jumlah)}</small></div>
+        ${b.status === 'paid' ? '<span class="bd ok">✓ Lunas</span>'
+          : `<div style="display:flex;gap:8px;align-items:center"><span class="bd no">Belum Bayar</span><a class="btn wa" href="${waLink(s,b)}" target="_blank" rel="noopener">Bayar via WhatsApp</a></div>`}</div>`).join('')
+        : '<p class="sub">Belum ada tagihan.</p>'}</div>`;
+  }).join('') || '<div class="card"><p class="sub">Data anak tidak ditemukan.</p></div>';
+}
+const NAMA_BLN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function waLink(s, b){
+  const t = `Halo Admin Alief Bimbel, saya ingin membayar iuran ${s.nama} (${s.kelas}) bulan ${b.bulan} ${b.tahun} sebesar ${rp(b.jumlah)}.`;
+  return 'https://wa.me/' + ADMIN_WA + '?text=' + encodeURIComponent(t);
+}
+
+/* ---- GURU ---- */
+function viewGuru(){
+  const { guru, jadwal = [], absen = [] } = me;
+  const d = new Date(tanggal + 'T00:00:00'), hr = NAMA_HARI[d.getDay()];
+  const hariIni = jadwal.filter(j => j.hari === hr).sort((a,b) => a.jam.localeCompare(b.jam));
+  const BD = { hadir:'<span class="bd ok">✓ Hadir</span>', izin:'<span class="bd wt">Izin</span>', sakit:'<span class="bd wt">Sakit</span>', alpa:'<span class="bd no">Alpa</span>' };
+  $('app').innerHTML = `<div class="card"><h2>Halo, ${esc(guru?.nama || 'Guru')}</h2><p class="sub">Isi absensi mengajar Anda.</p>
+    <label for="tgl">Tanggal</label><input type="date" id="tgl" value="${tanggal}"></div>
+    <div class="card"><h3 style="font-size:16px;margin-bottom:6px">Kelas ${hr}</h3>
+    ${hariIni.length ? hariIni.map(j => {
+      const a = absen.find(x => x.jadwalId === j.id && x.tanggal === tanggal), st = a?.status;
+      const B = (v, l) => `<button class="btn g ${st === v ? 'on' : ''}" data-abs="${esc(j.id)}" data-st="${v}" ${st === 'alpa' ? 'disabled' : ''}>${l}</button>`;
+      return `<div class="row" style="flex-direction:column;align-items:stretch"><div style="display:flex;justify-content:space-between;gap:8px"><div><b>${esc(j.mapel)}</b><small>${esc(j.kelas||'')} · ${esc(j.jam)}–${endT(j.jam,j.durasi)}</small></div>${BD[st] || '<span class="bd wt">Belum diabsen</span>'}</div>
+      <div class="acts">${B('hadir','✓ Hadir')}${B('izin','Izin')}${B('sakit','Sakit')}</div></div>`;
+    }).join('') : '<p class="sub">Tidak ada jadwal mengajar hari ini.</p>'}</div>
+    <div class="card"><h3 style="font-size:16px">📅 Jadwal Saya</h3>${jadwalHtml(jadwal, false)}</div>`;
+  $('tgl').onchange = e => { tanggal = e.target.value || iso(); viewGuru(); };
+  document.querySelectorAll('[data-abs]').forEach(b => b.onclick = () => setAbsen(b.dataset.abs, b.dataset.st));
+}
+async function setAbsen(jadwalId, status){
+  const ex = (me.absen || []).find(a => a.jadwalId === jadwalId && a.tanggal === tanggal);
+  const rec = ex ? { ...ex, status } : { id:'absen_' + jadwalId + '_' + tanggal, jadwalId, tanggal, status, createdAt: Date.now() };
+  try{
+    await api('/api/absen/' + encodeURIComponent(rec.id), { method:'PUT', body: JSON.stringify(rec) });
+    me.absen = (me.absen || []).filter(a => a.id !== rec.id).concat(rec); viewGuru();
+  }catch(x){ if(x.code === 401) $('out').onclick(); else alert('Gagal: ' + x.message); }
+}
+
+if(token){ me = { role: sessionStorage.getItem('alief_role') || 'guru' }; refresh(); }
+</script>
+</body>
+</html>
