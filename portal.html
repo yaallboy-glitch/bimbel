@@ -63,7 +63,8 @@ input:focus{outline:none;border-color:var(--blue)}
 <script>
 'use strict';
 const API = 'https://alief-worker.aliefbimbel.workers.dev';
-const ADMIN_WA = '62882003377569';
+let ADMIN_WA = '62882003377569';
+fetch(API + '/api/public/info').then(r => r.json()).then(d => { if(d.wa) ADMIN_WA = d.wa; }).catch(() => {});
 const HARI = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
 const NAMA_HARI = ['Minggu',...HARI.slice(0,6)];
 const $ = id => document.getElementById(id);

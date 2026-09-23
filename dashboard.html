@@ -561,6 +561,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       <button class="sb-link" type="button" data-view="guru"><span class="ic">👨‍🏫</span><span>Guru</span></button>
       <button class="sb-link" type="button" data-view="bayar"><span class="ic">💰</span><span>Pembayaran</span></button>
       <button class="sb-link" type="button" data-view="absen"><span class="ic">✅</span><span>Absensi Guru</span></button>
+      <button class="sb-link" type="button" data-view="pengaturan"><span class="ic">⚙️</span><span>Pengaturan</span></button>
     </nav>
     <div class="sb-footer">
       <div class="sync" id="syncDesk"><i></i><span>Menghubungkan…</span></div>
@@ -711,6 +712,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
       <div class="panel">
         <div id="absenList"></div>
+      </div>
+    </section>
+
+    <!-- VIEW: PENGATURAN -->
+    <section id="view-pengaturan" class="view" style="display:none">
+      <div class="topbar"><div><h1>Pengaturan</h1><p class="sub">Tarif dan nomor WhatsApp yang tampil di website</p></div></div>
+      <div class="panel">
+        <div class="form-row full"><div class="field"><label for="pgWa">Nomor WhatsApp Admin</label><input type="tel" id="pgWa" placeholder="08xxxxxxxxxx"></div></div>
+        <div class="form-row"><div class="field"><label for="pgSd">Program SD (Rp/bulan)</label><input type="number" id="pgSd" step="10000"></div><div class="field"><label for="pgSmp">Program SMP</label><input type="number" id="pgSmp" step="10000"></div></div>
+        <div class="form-row"><div class="field"><label for="pgSma">Program SMA</label><input type="number" id="pgSma" step="10000"></div><div class="field"><label for="pgReguler">Paket Reguler</label><input type="number" id="pgReguler" step="10000"></div></div>
+        <div class="form-row"><div class="field"><label for="pgIntensif">Paket Intensif</label><input type="number" id="pgIntensif" step="10000"></div><div class="field"><label for="pgPrivat">Paket Privat</label><input type="number" id="pgPrivat" step="10000"></div></div>
+        <div class="form-actions"><button class="btn btn-primary" type="button" onclick="savePengaturan()">Simpan</button></div>
       </div>
     </section>
 
@@ -987,7 +1000,7 @@ const CACHE_KEY = 'aliefbimbel_cache_v2';
 const OLD_KEY   = 'aliefbimbel_data_v1';      // data lama (versi localStorage)
 const VIEW_KEY  = 'alief_view';
 
-const KINDS = ['siswa','guru','jadwal','bayar','absen'];
+const KINDS = ['siswa','guru','jadwal','bayar','absen','pengaturan'];
 const URUT_HARI = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
 const NAMA_HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const NAMA_BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -1008,7 +1021,7 @@ const lsDel = k => { try{ localStorage.removeItem(k); }catch(e){} };
 /* ============================================================
    DATA & API
    ============================================================ */
-const emptyDB = () => ({ siswa:[], guru:[], jadwal:[], bayar:[], absen:[] });
+const emptyDB = () => ({ siswa:[], guru:[], jadwal:[], bayar:[], absen:[], pengaturan:[] });
 function normalize(d){
   const out = emptyDB();
   KINDS.forEach(k => { out[k] = Array.isArray(d?.[k]) ? d[k] : []; });
@@ -1199,7 +1212,7 @@ function endTime(jam, durasi){
 /* ============================================================
    NAVIGASI + BURGER
    ============================================================ */
-const VIEW_TITLE = { overview:'Ringkasan', jadwal:'Jadwal', siswa:'Siswa', guru:'Guru', bayar:'Pembayaran', absen:'Absensi Guru' };
+const VIEW_TITLE = { overview:'Ringkasan', jadwal:'Jadwal', siswa:'Siswa', guru:'Guru', bayar:'Pembayaran', absen:'Absensi Guru', pengaturan:'Pengaturan' };
 
 function showView(view){
   if(!VIEW_TITLE[view]) view = 'overview';
@@ -1737,8 +1750,28 @@ function fillSiswaSelect(selectId){
   if(cur) sel.value = cur;
 }
 
+const DEF_TARIF = { sd:450000, smp:650000, sma:850000, reguler:450000, intensif:750000, privat:1200000 };
+function renderPengaturan(){
+  if(document.activeElement && document.activeElement.closest('#view-pengaturan')) return;
+  const p = DB.pengaturan.find(x => x.id === 'utama') || {};
+  const t = { ...DEF_TARIF, ...(p.tarif||{}) };
+  $('pgWa').value = p.wa || '';
+  ['sd','smp','sma','reguler','intensif','privat'].forEach(k => $('pg' + k[0].toUpperCase() + k.slice(1)).value = t[k]);
+}
+async function savePengaturan(){
+  let wa = $('pgWa').value.replace(/\D/g,'');
+  if(wa.startsWith('0')) wa = '62' + wa.slice(1);
+  if(wa.length < 9){ showToast('Nomor WhatsApp tidak valid'); return; }
+  const tarif = {};
+  for(const k of ['sd','smp','sma','reguler','intensif','privat']){
+    tarif[k] = parseInt($('pg' + k[0].toUpperCase() + k.slice(1)).value, 10) || 0;
+    if(!tarif[k]){ showToast('Semua tarif wajib diisi'); return; }
+  }
+  if(await save('pengaturan', { id:'utama', wa, tarif })){ showToast('Pengaturan disimpan'); renderAll(); }
+}
+
 function renderAll(){
-  renderOverview(); renderJadwal(); renderSiswa(); renderGuru(); renderBayar(); renderAbsensi();
+  renderOverview(); renderJadwal(); renderSiswa(); renderGuru(); renderBayar(); renderAbsensi(); renderPengaturan();
 }
 
 /* ============================================================
