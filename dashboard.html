@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFBEF">
 <title>Dashboard — Alief Bimbel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -283,284 +284,269 @@ input,select,textarea{font-family:inherit}
 .subtab:hover{border-color:var(--blue);color:var(--blue-deep)}
 .subtab.on{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:900px){
+
+/* =========================================================
+   RESPONSIVE, LAYOUT & POLISH
+   ========================================================= */
+:root{--ui-ease:cubic-bezier(.22,1,.36,1);--ui-spring:cubic-bezier(.34,1.56,.64,1)}
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+button,a{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid rgba(74,144,226,.25);outline-offset:3px;
+}
+.app{min-height:100vh;min-height:100dvh}
+.main{min-width:0;width:100%;max-width:1400px;margin:0 auto}
+.loading .main{opacity:.4;pointer-events:none;transition:opacity .2s}
+
+/* tombol: isi selalu di tengah */
+.btn{justify-content:center;text-align:center;position:relative;overflow:hidden;isolation:isolate}
+.btn:active{transform:translateY(1px) scale(.985)!important}
+.btn[disabled]{opacity:.6;pointer-events:none}
+.btn-ghost.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* sidebar */
+.sb-link{width:100%;text-align:left;position:relative}
+.sb-link.on:hover{transform:none}
+.sb-footer{display:grid;gap:4px}
+.sb-back,.sb-out{width:100%;text-align:left;text-decoration:none}
+.sb-back{color:var(--muted)}
+.sb-out{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--heading);font-weight:700;font-size:13px;
+  color:var(--muted);padding:10px 12px;border-radius:10px;
+  transition:background .2s,color .2s;
+}
+.sb-out:hover{background:var(--danger-soft);color:var(--danger)}
+.sync{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;
+  font-size:12px;font-weight:700;color:var(--muted);
+}
+.sync i{width:8px;height:8px;border-radius:50%;background:#94A3B8;flex-shrink:0}
+.sync.ok i{background:#22C55E}
+.sync.busy i{background:var(--yellow);animation:blink 1s ease-in-out infinite}
+.sync.err i{background:var(--danger)}
+@keyframes blink{50%{opacity:.35}}
+
+/* top bar mobile + burger */
+.mtop,.sb-ov{display:none}
+.burger{
+  width:44px;height:44px;border-radius:14px;background:#fff;
+  border:1.5px solid var(--line);box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;
+}
+.burger span{
+  display:block;width:20px;height:2.5px;border-radius:2px;background:var(--ink);
+  transition:transform .3s var(--ui-ease),opacity .2s;
+}
+.nav-open .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nav-open .burger span:nth-child(2){opacity:0}
+.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.mtop-brand{display:flex;align-items:center;gap:10px;font-family:var(--heading);font-weight:800;font-size:16px}
+
+/* stat & panel */
+.stat,.panel{position:relative}
+.stat .val{white-space:nowrap}
+.view{animation:viewIn .3s var(--ui-ease)}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* item (kartu daftar) */
+.item{
+  padding:14px 16px;border-radius:14px;background:var(--bg);
+  border:1.5px solid var(--line);margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.item:last-child{margin-bottom:0}
+.item-title{font-family:var(--heading);font-weight:700;font-size:15px}
+.item-meta{font-size:12.5px;color:var(--muted);margin-top:2px;font-weight:600}
+.item-act{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+
+/* jadwal per hari */
+.day{margin-bottom:28px}
+.day:last-child{margin-bottom:0}
+.day-head{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin-bottom:14px;padding-bottom:10px;border-bottom:2px dashed var(--line);
+}
+.day-name{font-family:var(--heading);font-weight:800;font-size:17px;letter-spacing:-.02em}
+.day.today .day-name{color:var(--blue-deep)}
+.jd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.jd-card{
+  background:var(--bg);border:1.5px solid var(--line);border-radius:18px;padding:16px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:transform .25s var(--ui-spring),box-shadow .25s,border-color .25s;
+}
+.jd-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(74,144,226,.4)}
+.jd-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.jd-time{font-family:var(--heading);font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.1}
+.jd-time small{display:block;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:0;margin-top:3px}
+.jd-mapel{font-family:var(--heading);font-weight:700;font-size:16px;line-height:1.3}
+.jd-info{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+.jd-note{font-size:12.5px;color:var(--muted);background:#fff;border-radius:10px;padding:8px 10px;border:1px dashed var(--line)}
+.jd-act{
+  display:flex;justify-content:center;gap:8px;
+  padding-top:12px;border-top:1px solid var(--line);margin-top:auto;
+}
+.jd-act .btn{flex:1;max-width:150px}
+
+/* tabel */
+.tbl-wrap{overflow-x:auto}
+.tbl td.act{text-align:center}
+.tbl th.act{text-align:center}
+.row-act{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tbl tr{transition:background .2s}
+
+/* absensi */
+.abs-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px}
+.abs-actions .btn{width:100%}
+.abs-date{max-width:320px}
+
+/* lock */
+.lock{
+  position:fixed;inset:0;z-index:300;display:none;
+  align-items:center;justify-content:center;padding:20px;
+  background:linear-gradient(160deg,#FFFBEF,#E8F1FF);
+}
+.lock.show{display:flex}
+.lock-card{
+  width:100%;max-width:380px;background:#fff;border-radius:26px;
+  padding:34px 26px;box-shadow:var(--shadow-lg);border:2px solid var(--line);
+  display:grid;gap:14px;justify-items:center;text-align:center;
+}
+.lock-card .sb-logo{width:52px;height:52px;border-radius:16px;font-size:24px}
+.lock-card h2{font-size:22px;font-weight:800}
+.lock-card .sub{color:var(--muted);font-size:14px;margin:0}
+.lock-card .sub.err{color:var(--danger);font-weight:700}
+.lock-card .field{width:100%;text-align:left}
+.lock-card .btn{width:100%}
+.lock-card .sb-back{justify-content:center}
+
+@media (min-width:901px){
+  .app{grid-template-columns:clamp(220px,18vw,260px) minmax(0,1fr)}
+  .main{padding:clamp(24px,3vw,40px)}
+  .topbar{align-items:center}
+}
+@media (min-width:901px) and (max-width:1180px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ---- tablet & HP: sidebar jadi drawer ---- */
+@media (max-width:900px){
+  body{font-size:14px}
   .app{grid-template-columns:1fr}
+  .mtop{
+    display:flex;position:fixed;top:0;left:0;right:0;z-index:60;height:62px;
+    padding:0 14px;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(255,251,239,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
   .sidebar{
-    position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;
-    padding:10px 12px;border-right:0;border-top:1px solid var(--line);
-    flex-direction:row;overflow-x:auto;z-index:50;
-    box-shadow:0 -8px 24px -12px rgba(42,37,64,.15);
+    position:fixed;top:0;left:0;bottom:0;right:auto;
+    width:min(290px,84vw);height:100vh;height:100dvh;z-index:80;
+    padding:22px 0;border-right:0;border-top:0;flex-direction:column;overflow-y:auto;
+    transform:translateX(-104%);transition:transform .35s var(--ui-ease),box-shadow .35s;
   }
-  .sb-brand,.sb-footer{display:none}
-  .sb-nav{display:flex;gap:6px;padding:0;flex:1}
-  .sb-link{
-    flex-direction:column;gap:4px;padding:8px 12px;
-    font-size:10.5px;margin:0;white-space:nowrap;
+  .nav-open .sidebar{transform:none;box-shadow:24px 0 60px -20px rgba(42,37,64,.35)}
+  .sb-ov{
+    display:block;position:fixed;inset:0;z-index:70;
+    background:rgba(42,37,64,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+    opacity:0;pointer-events:none;transition:opacity .3s;
   }
-  .sb-link .ic{font-size:20px}
-  .main{padding:20px 16px 100px}
-  .stats{grid-template-columns:repeat(2,1fr);gap:12px}
-  .stat .val{font-size:24px}
+  .nav-open .sb-ov{opacity:1;pointer-events:auto}
+  .nav-open{overflow:hidden}
+  .sb-link{padding:13px 14px}
+  .main{padding:78px 14px 36px}
+  .topbar{flex-direction:column;align-items:stretch;gap:14px;margin-bottom:20px}
+  .topbar h1{font-size:23px}
+  .topbar-actions{width:100%}
+  .topbar-actions .btn{width:100%;padding:13px 20px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:18px}
+  .stat{padding:16px;border-radius:17px}
+  .stat .val{font-size:23px}
   .stat .ic{width:32px;height:32px;font-size:16px;top:12px;right:12px}
+  .panel{padding:18px;border-radius:18px;margin-bottom:16px}
+  .panel-head{margin-bottom:14px}
+  .toast{bottom:18px}
+}
+
+/* ---- HP: tabel jadi kartu ---- */
+@media (max-width:760px){
+  .tbl-wrap{overflow:visible}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl thead{display:none}
+  .tbl tr{
+    background:var(--bg);border:1.5px solid var(--line);
+    border-radius:16px;padding:12px 14px;margin-bottom:12px;
+  }
+  .tbl tr:last-child{margin-bottom:0}
+  .tbl tr:hover td{background:none}
+  .tbl td{
+    border:0!important;padding:6px 0;
+    display:flex;justify-content:space-between;align-items:center;gap:14px;text-align:right;
+  }
+  .tbl td::before{
+    content:attr(data-label);flex-shrink:0;text-align:left;
+    font-family:var(--heading);font-size:11px;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  }
+  .tbl td.nm{display:block;text-align:left;padding-bottom:8px;margin-bottom:4px;border-bottom:1px dashed var(--line)!important}
+  .tbl td.nm::before,.tbl td.act::before{display:none}
+  .tbl td.act{display:block;padding-top:12px;margin-top:6px;border-top:1px solid var(--line)!important}
+  .row-act .btn{flex:1;min-width:0}
+  .item{flex-direction:column;align-items:stretch;text-align:center}
+  .item-act{justify-content:center}
+  .item-act .btn{flex:1}
+  .abs-date{max-width:none}
+}
+
+@media (max-width:760px){.ortu{text-align:right}}
+/* ---- form & modal di HP ---- */
+@media (max-width:600px){
   .form-row,.form-row.three{grid-template-columns:1fr}
-  .topbar h1{font-size:22px}
-  .tbl-wrap{overflow-x:auto;margin:0 -24px;padding:0 24px}
-  .tbl{min-width:600px}
-  .modal{padding:24px 20px}
+  .field input,.field select,.field textarea{font-size:16px}
+  .modal-ov{padding:0;align-items:flex-end}
+  .modal{
+    max-width:none;border-radius:24px 24px 0 0;
+    max-height:92vh;max-height:92dvh;padding:26px 18px 22px;
+    animation:sheetIn .35s var(--ui-ease);
+  }
+  .modal h2{padding-right:44px}
+  .form-actions{flex-direction:column-reverse}
+  .form-actions .btn{width:100%}
 }
+@keyframes sheetIn{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
 
-/* =========================================================
-   PROMAX RESPONSIVE UI/UX — DASHBOARD
-   Lightweight: transform/opacity based, no heavy libraries
-   ========================================================= */
-:root{
-  --ui-ease:cubic-bezier(.22,1,.36,1);
-  --ui-spring:cubic-bezier(.34,1.56,.64,1);
-  --ui-glass:rgba(255,255,255,.78);
-}
-html{scroll-behavior:smooth}
-body{overflow-x:hidden}
-button,a,.stat,.panel,.feature,.how-step,.program,.testi-card,.price-card,.faq-item,.sb-link{
-  -webkit-tap-highlight-color:transparent;
-}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:3px solid rgba(74,144,226,.25);
-  outline-offset:3px;
-}
-.app{min-height:100svh}
-.main{width:100%;min-width:0}
-.sidebar{will-change:transform}
-.sb-link{position:relative;overflow:hidden}
-.sb-link::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.24) 50%,transparent 80%);
-  transform:translateX(-120%);
-  transition:transform .55s var(--ui-ease);
-}
-.sb-link:hover::after{transform:translateX(120%)}
-.sb-link.on{transition:transform .22s var(--ui-spring),box-shadow .25s}
-.btn{position:relative;overflow:hidden;isolation:isolate}
-.btn::after{
-  content:"";position:absolute;inset:-30%;
-  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.32) 50%,transparent 62%);
-  transform:translateX(-120%) rotate(8deg);
-  transition:transform .65s var(--ui-ease);
-  pointer-events:none;
-}
-.btn:hover::after{transform:translateX(120%) rotate(8deg)}
-.btn:active{transform:translateY(1px) scale(.985)!important}
-.stat,.panel{
-  will-change:transform;
-}
-.stat::before,.panel::before{
-  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(74,144,226,.07),transparent 28%);
-  opacity:0;transition:opacity .25s;
-}
-.stat:hover::before,.panel:hover::before{opacity:1}
-.stat{transition:transform .32s var(--ui-spring),box-shadow .3s,border-color .25s}
-.panel{position:relative;transition:transform .3s var(--ui-ease),box-shadow .3s,border-color .25s}
-.panel:hover{box-shadow:0 14px 34px -20px rgba(42,37,64,.24)}
-.tbl tr{transition:background .2s,transform .2s var(--ui-ease)}
-.tbl tbody tr:hover{transform:translateX(2px)}
-.field input,.field select,.field textarea{
-  transition:border-color .22s,background .22s,box-shadow .22s,transform .22s var(--ui-ease);
-}
-.field input:focus,.field select:focus,.field textarea:focus{
-  box-shadow:0 0 0 4px rgba(74,144,226,.09);
-  transform:translateY(-1px);
-}
-.modal-ov{transition:opacity .22s}
-.modal-ov.show{animation:uiFadeIn .2s ease-out}
-.modal{animation:uiModalIn .34s var(--ui-spring)}
-@keyframes uiFadeIn{from{opacity:0}to{opacity:1}}
-@keyframes uiModalIn{from{opacity:0;transform:translateY(18px) scale(.965)}to{opacity:1;transform:translateY(0) scale(1)}}
-.view{animation:uiViewIn .32s var(--ui-ease)}
-@keyframes uiViewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.toast{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.toast.show{animation:toastPop .4s var(--ui-spring)}
-@keyframes toastPop{0%{transform:translateX(-50%) translateY(90px) scale(.96)}100%{transform:translateX(-50%) translateY(0) scale(1)}}
-@media (min-width:901px){
-  .app{grid-template-columns:clamp(210px,18vw,260px) minmax(0,1fr)}
-  .main{padding:clamp(24px,3vw,40px);max-width:none}
-  .topbar{align-items:center}
-  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .panel{padding:clamp(20px,2vw,28px)}
-}
-@media (min-width:901px) and (max-width:1180px){
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .topbar h1{font-size:24px}
-}
-@media (max-width:900px){
-  body{font-size:14px}
-  .main{padding:18px 14px 92px}
-  .topbar{margin-bottom:20px;gap:14px}
-  .topbar-actions{width:100%}
-  .topbar-actions .btn{flex:1;justify-content:center}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:18px}
-  .stat{padding:16px;border-radius:17px}
-  .stat .val{font-size:23px}
-  .panel{padding:18px;border-radius:18px;margin-bottom:16px}
-  .panel-head{margin-bottom:14px}
-  .tbl-wrap{margin:0 -18px;padding:0 18px}
-  .tbl{min-width:570px}
-  .modal-ov{padding:12px}
-  .modal{max-height:calc(100svh - 24px);border-radius:20px;padding:22px 16px}
-}
 @media (max-width:520px){
-  .sidebar{padding:8px 7px}
-  .sb-nav{gap:3px}
-  .sb-link{padding:7px 8px;min-width:58px}
-  .sb-link .ic{font-size:18px}
-  .sb-link span:last-child{font-size:9.5px}
-  .main{padding-left:10px;padding-right:10px}
+  .main{padding-left:12px;padding-right:12px}
   .topbar h1{font-size:21px}
-  .topbar .sub{font-size:12.5px}
   .stats{gap:8px}
   .stat{padding:14px 12px;border-radius:15px}
-  .stat .lbl{font-size:9.5px}
+  .stat .lbl{font-size:9.5px;padding-right:30px}
   .stat .val{font-size:20px}
   .stat .ic{width:29px;height:29px;right:9px;top:9px;font-size:14px}
   .panel{padding:14px;border-radius:16px}
-  .form-actions{flex-direction:column-reverse}
-  .form-actions .btn{width:100%;justify-content:center}
+  .jd-grid{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
-
-
-/* =========================================================
-   PROMAX RESPONSIVE UI/UX — DASHBOARD
-   Lightweight: transform/opacity based, no heavy libraries
-   ========================================================= */
-:root{
-  --ui-ease:cubic-bezier(.22,1,.36,1);
-  --ui-spring:cubic-bezier(.34,1.56,.64,1);
-  --ui-glass:rgba(255,255,255,.78);
-}
-html{scroll-behavior:smooth}
-body{overflow-x:hidden}
-button,a,.stat,.panel,.feature,.how-step,.program,.testi-card,.price-card,.faq-item,.sb-link{
-  -webkit-tap-highlight-color:transparent;
-}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:3px solid rgba(74,144,226,.25);
-  outline-offset:3px;
-}
-.app{min-height:100svh}
-.main{width:100%;min-width:0}
-.sidebar{will-change:transform}
-.sb-link{position:relative;overflow:hidden}
-.sb-link::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.24) 50%,transparent 80%);
-  transform:translateX(-120%);
-  transition:transform .55s var(--ui-ease);
-}
-.sb-link:hover::after{transform:translateX(120%)}
-.sb-link.on{transition:transform .22s var(--ui-spring),box-shadow .25s}
-.btn{position:relative;overflow:hidden;isolation:isolate}
-.btn::after{
-  content:"";position:absolute;inset:-30%;
-  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.32) 50%,transparent 62%);
-  transform:translateX(-120%) rotate(8deg);
-  transition:transform .65s var(--ui-ease);
-  pointer-events:none;
-}
-.btn:hover::after{transform:translateX(120%) rotate(8deg)}
-.btn:active{transform:translateY(1px) scale(.985)!important}
-.stat,.panel{
-  will-change:transform;
-}
-.stat::before,.panel::before{
-  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(74,144,226,.07),transparent 28%);
-  opacity:0;transition:opacity .25s;
-}
-.stat:hover::before,.panel:hover::before{opacity:1}
-.stat{transition:transform .32s var(--ui-spring),box-shadow .3s,border-color .25s}
-.panel{position:relative;transition:transform .3s var(--ui-ease),box-shadow .3s,border-color .25s}
-.panel:hover{box-shadow:0 14px 34px -20px rgba(42,37,64,.24)}
-.tbl tr{transition:background .2s,transform .2s var(--ui-ease)}
-.tbl tbody tr:hover{transform:translateX(2px)}
-.field input,.field select,.field textarea{
-  transition:border-color .22s,background .22s,box-shadow .22s,transform .22s var(--ui-ease);
-}
-.field input:focus,.field select:focus,.field textarea:focus{
-  box-shadow:0 0 0 4px rgba(74,144,226,.09);
-  transform:translateY(-1px);
-}
-.modal-ov{transition:opacity .22s}
-.modal-ov.show{animation:uiFadeIn .2s ease-out}
-.modal{animation:uiModalIn .34s var(--ui-spring)}
-@keyframes uiFadeIn{from{opacity:0}to{opacity:1}}
-@keyframes uiModalIn{from{opacity:0;transform:translateY(18px) scale(.965)}to{opacity:1;transform:translateY(0) scale(1)}}
-.view{animation:uiViewIn .32s var(--ui-ease)}
-@keyframes uiViewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.toast{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.toast.show{animation:toastPop .4s var(--ui-spring)}
-@keyframes toastPop{0%{transform:translateX(-50%) translateY(90px) scale(.96)}100%{transform:translateX(-50%) translateY(0) scale(1)}}
-@media (min-width:901px){
-  .app{grid-template-columns:clamp(210px,18vw,260px) minmax(0,1fr)}
-  .main{padding:clamp(24px,3vw,40px);max-width:none}
-  .topbar{align-items:center}
-  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .panel{padding:clamp(20px,2vw,28px)}
-}
-@media (min-width:901px) and (max-width:1180px){
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .topbar h1{font-size:24px}
-}
-@media (max-width:900px){
-  body{font-size:14px}
-  .main{padding:18px 14px 92px}
-  .topbar{margin-bottom:20px;gap:14px}
-  .topbar-actions{width:100%}
-  .topbar-actions .btn{flex:1;justify-content:center}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:18px}
-  .stat{padding:16px;border-radius:17px}
-  .stat .val{font-size:23px}
-  .panel{padding:18px;border-radius:18px;margin-bottom:16px}
-  .panel-head{margin-bottom:14px}
-  .tbl-wrap{margin:0 -18px;padding:0 18px}
-  .tbl{min-width:570px}
-  .modal-ov{padding:12px}
-  .modal{max-height:calc(100svh - 24px);border-radius:20px;padding:22px 16px}
-}
-@media (max-width:520px){
-  .sidebar{padding:8px 7px}
-  .sb-nav{gap:3px}
-  .sb-link{padding:7px 8px;min-width:58px}
-  .sb-link .ic{font-size:18px}
-  .sb-link span:last-child{font-size:9.5px}
-  .main{padding-left:10px;padding-right:10px}
-  .topbar h1{font-size:21px}
-  .topbar .sub{font-size:12.5px}
-  .stats{gap:8px}
-  .stat{padding:14px 12px;border-radius:15px}
-  .stat .lbl{font-size:9.5px}
-  .stat .val{font-size:20px}
-  .stat .ic{width:29px;height:29px;right:9px;top:9px;font-size:14px}
-  .panel{padding:14px;border-radius:16px}
-  .form-actions{flex-direction:column-reverse}
-  .form-actions .btn{width:100%;justify-content:center}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-}
-
 </style>
 </head>
-<body>
+<body class="loading">
+
+<!-- TOP BAR (HP / tablet) -->
+<header class="mtop">
+  <button class="burger" id="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="sidebar"><span></span><span></span><span></span></button>
+  <div class="mtop-brand"><div class="sb-logo">A</div><span id="mtopTitle">Ringkasan</span></div>
+  <div class="sync" id="syncMobile" title="Status server"><i></i></div>
+</header>
+<div class="sb-ov" id="sbOv"></div>
 
 <div class="app">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
       <div class="sb-logo">A</div>
       <div>
@@ -569,15 +555,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
     </div>
     <nav class="sb-nav">
-      <a class="sb-link on" data-view="overview"><span class="ic">📊</span><span>Ringkasan</span></a>
-      <a class="sb-link" data-view="jadwal"><span class="ic">📅</span><span>Jadwal</span></a>
-      <a class="sb-link" data-view="siswa"><span class="ic">👥</span><span>Siswa</span></a>
-      <a class="sb-link" data-view="guru"><span class="ic">👨‍🏫</span><span>Guru</span></a>
-      <a class="sb-link" data-view="bayar"><span class="ic">💰</span><span>Pembayaran</span></a>
-      <a class="sb-link" data-view="absen"><span class="ic">✅</span><span>Absensi Guru</span></a>
+      <button class="sb-link on" type="button" data-view="overview"><span class="ic">📊</span><span>Ringkasan</span></button>
+      <button class="sb-link" type="button" data-view="jadwal"><span class="ic">📅</span><span>Jadwal</span></button>
+      <button class="sb-link" type="button" data-view="siswa"><span class="ic">👥</span><span>Siswa</span></button>
+      <button class="sb-link" type="button" data-view="guru"><span class="ic">👨‍🏫</span><span>Guru</span></button>
+      <button class="sb-link" type="button" data-view="bayar"><span class="ic">💰</span><span>Pembayaran</span></button>
+      <button class="sb-link" type="button" data-view="absen"><span class="ic">✅</span><span>Absensi Guru</span></button>
     </nav>
     <div class="sb-footer">
+      <div class="sync" id="syncDesk"><i></i><span>Menghubungkan…</span></div>
       <a href="index.html" class="sb-back"><span>←</span> Kembali ke Landing</a>
+      <button class="sb-out" type="button" id="btnLogout"><span>⎋</span> Keluar</button>
     </div>
   </aside>
 
@@ -642,10 +630,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       <div class="topbar">
         <div>
           <h1>Jadwal Mengajar</h1>
-          <p class="sub">Atur jadwal kelas per hari</p>
+          <p class="sub">Urut per hari, Senin sampai Minggu</p>
         </div>
         <div class="topbar-actions">
-          <button class="btn btn-primary" onclick="openJadwalForm()">+ Tambah Jadwal</button>
+          <button class="btn btn-primary" type="button" onclick="openJadwalForm()">+ Tambah Jadwal</button>
         </div>
       </div>
       <div class="panel">
@@ -661,7 +649,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           <p class="sub">Daftar siswa yang terdaftar</p>
         </div>
         <div class="topbar-actions">
-          <button class="btn btn-primary" onclick="openSiswaForm()">+ Tambah Siswa</button>
+          <button class="btn btn-primary" type="button" onclick="openSiswaForm()">+ Tambah Siswa</button>
         </div>
       </div>
       <div class="panel">
@@ -677,7 +665,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           <p class="sub">Daftar pengajar Alief Bimbel</p>
         </div>
         <div class="topbar-actions">
-          <button class="btn btn-primary" onclick="openGuruForm()">+ Tambah Guru</button>
+          <button class="btn btn-primary" type="button" onclick="openGuruForm()">+ Tambah Guru</button>
         </div>
       </div>
       <div class="panel">
@@ -693,14 +681,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           <p class="sub">Catat pembayaran bulanan siswa</p>
         </div>
         <div class="topbar-actions">
-          <button class="btn btn-primary" onclick="openBayarForm()">+ Catat Pembayaran</button>
+          <button class="btn btn-primary" type="button" onclick="openBayarForm()">+ Catat Pembayaran</button>
         </div>
       </div>
       <div class="panel">
         <div class="subtabs" id="bayarTabs">
-          <button class="subtab on" data-filter="all">Semua</button>
-          <button class="subtab" data-filter="paid">Lunas</button>
-          <button class="subtab" data-filter="unpaid">Belum Bayar</button>
+          <button class="subtab on" type="button" data-filter="all">Semua</button>
+          <button class="subtab" type="button" data-filter="paid">Lunas</button>
+          <button class="subtab" type="button" data-filter="unpaid">Belum Bayar</button>
         </div>
         <div id="bayarList"></div>
       </div>
@@ -715,11 +703,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         </div>
       </div>
       <div class="panel">
-        <div class="form-row">
-          <div class="field">
-            <label>Pilih Tanggal</label>
-            <input type="date" id="absenTanggal" onchange="renderAbsensi()">
-          </div>
+        <div class="field abs-date">
+          <label for="absenTanggal">Pilih Tanggal</label>
+          <input type="date" id="absenTanggal" onchange="renderAbsensi()">
         </div>
       </div>
       <div class="panel">
@@ -733,7 +719,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- MODAL JADWAL -->
 <div class="modal-ov" id="modalJadwal" onclick="if(event.target===this)closeModal('modalJadwal')">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('modalJadwal')">✕</button>
+    <button class="modal-close" type="button" onclick="closeModal('modalJadwal')">✕</button>
     <h2 id="jdlTitle">Tambah Jadwal</h2>
     <p class="sub">Isi detail jadwal mengajar</p>
     <input type="hidden" id="jdlId">
@@ -742,7 +728,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <label>Hari</label>
         <select id="jdlHari">
           <option>Senin</option><option>Selasa</option><option>Rabu</option>
-          <option>Kamis</option><option>Jumat</option><option>Sabtu</option>
+          <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
         </select>
       </div>
       <div class="field">
@@ -787,8 +773,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
     </div>
     <div class="form-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalJadwal')">Batal</button>
-      <button class="btn btn-primary" onclick="saveJadwal()">Simpan</button>
+      <button class="btn btn-ghost" type="button" onclick="closeModal('modalJadwal')">Batal</button>
+      <button class="btn btn-primary" type="button" onclick="saveJadwal()">Simpan</button>
     </div>
   </div>
 </div>
@@ -796,7 +782,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- MODAL SISWA -->
 <div class="modal-ov" id="modalSiswa" onclick="if(event.target===this)closeModal('modalSiswa')">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('modalSiswa')">✕</button>
+    <button class="modal-close" type="button" onclick="closeModal('modalSiswa')">✕</button>
     <h2 id="swTitle">Tambah Siswa</h2>
     <p class="sub">Data siswa baru</p>
     <input type="hidden" id="swId">
@@ -850,8 +836,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
     </div>
     <div class="form-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalSiswa')">Batal</button>
-      <button class="btn btn-primary" onclick="saveSiswa()">Simpan</button>
+      <button class="btn btn-ghost" type="button" onclick="closeModal('modalSiswa')">Batal</button>
+      <button class="btn btn-primary" type="button" onclick="saveSiswa()">Simpan</button>
     </div>
   </div>
 </div>
@@ -859,7 +845,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- MODAL GURU -->
 <div class="modal-ov" id="modalGuru" onclick="if(event.target===this)closeModal('modalGuru')">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('modalGuru')">✕</button>
+    <button class="modal-close" type="button" onclick="closeModal('modalGuru')">✕</button>
     <h2 id="grTitle">Tambah Guru</h2>
     <p class="sub">Data pengajar</p>
     <input type="hidden" id="grId">
@@ -893,8 +879,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
     </div>
     <div class="form-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalGuru')">Batal</button>
-      <button class="btn btn-primary" onclick="saveGuru()">Simpan</button>
+      <button class="btn btn-ghost" type="button" onclick="closeModal('modalGuru')">Batal</button>
+      <button class="btn btn-primary" type="button" onclick="saveGuru()">Simpan</button>
     </div>
   </div>
 </div>
@@ -902,7 +888,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- MODAL BAYAR -->
 <div class="modal-ov" id="modalBayar" onclick="if(event.target===this)closeModal('modalBayar')">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('modalBayar')">✕</button>
+    <button class="modal-close" type="button" onclick="closeModal('modalBayar')">✕</button>
     <h2 id="byTitle">Catat Pembayaran</h2>
     <p class="sub">Catat pembayaran bulanan siswa</p>
     <input type="hidden" id="byId">
@@ -953,233 +939,373 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
     </div>
     <div class="form-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalBayar')">Batal</button>
-      <button class="btn btn-primary" onclick="saveBayar()">Simpan</button>
+      <button class="btn btn-ghost" type="button" onclick="closeModal('modalBayar')">Batal</button>
+      <button class="btn btn-primary" type="button" onclick="saveBayar()">Simpan</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+
+<!-- LOCK / PIN -->
+<div class="lock" id="lock">
+  <form class="lock-card" id="lockForm" autocomplete="off">
+    <div class="sb-logo">A</div>
+    <h2>Masuk Dashboard</h2>
+    <p class="sub" id="lockMsg">Masukkan PIN admin untuk membuka data bimbel.</p>
+    <div class="field">
+      <label for="lockPin">PIN Admin</label>
+      <input type="password" id="lockPin" placeholder="••••••" autocomplete="current-password" required>
+    </div>
+    <button class="btn btn-primary" type="submit" id="lockBtn">Masuk</button>
+    <a href="index.html" class="sb-back">← Kembali ke Landing</a>
+  </form>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+'use strict';
 /* ============================================================
-   DATA LAYER — localStorage
+   KONFIGURASI
    ============================================================ */
-const KEY = 'aliefbimbel_data_v1';
+const API_BASE  = 'https://alief-worker.aliefbimbel.workers.dev';
+const PIN_KEY   = 'alief_admin_key';
+const CACHE_KEY = 'aliefbimbel_cache_v2';
+const OLD_KEY   = 'aliefbimbel_data_v1';      // data lama (versi localStorage)
+const VIEW_KEY  = 'alief_view';
 
-function loadData(){
-  try{
-    const raw = localStorage.getItem(KEY);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  return {
-    siswa: [],
-    guru: [],
-    jadwal: [],
-    bayar: [],
-    absen: [],
-    _nextId: { siswa: 1, guru: 1, jadwal: 1, bayar: 1 }
-  };
-}
-function saveData(){
-  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){}
-}
-let DB = loadData();
+const KINDS = ['siswa','guru','jadwal','bayar','absen'];
+const URUT_HARI = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+const NAMA_HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const NAMA_BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
-function uid(kind){
-  const n = DB._nextId[kind] || 1;
-  DB._nextId[kind] = n + 1;
-  return kind + '-' + n + '-' + Date.now().toString(36);
-}
-
-/* ============================================================
-   UTILITIES
-   ============================================================ */
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtRp = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
 const fmtShort = n => {
   n = Number(n||0);
-  if(n >= 1000000) return (n/1000000).toFixed(1).replace('.0','') + 'jt';
-  if(n >= 1000) return Math.floor(n/1000) + 'rb';
-  return String(n);
+  if(n >= 1000000) return 'Rp ' + (n/1000000).toFixed(1).replace('.0','').replace('.',',') + 'jt';
+  if(n >= 1000) return 'Rp ' + Math.floor(n/1000) + 'rb';
+  return 'Rp ' + n;
 };
+const lsGet = k => { try{ return localStorage.getItem(k); }catch(e){ return null; } };
+const lsSet = (k,v) => { try{ localStorage.setItem(k,v); }catch(e){} };
+const lsDel = k => { try{ localStorage.removeItem(k); }catch(e){} };
 
+/* ============================================================
+   DATA & API
+   ============================================================ */
+const emptyDB = () => ({ siswa:[], guru:[], jadwal:[], bayar:[], absen:[] });
+function normalize(d){
+  const out = emptyDB();
+  KINDS.forEach(k => { out[k] = Array.isArray(d?.[k]) ? d[k] : []; });
+  return out;
+}
+let DB = emptyDB();
+let adminKey = lsGet(PIN_KEY) || '';
+let busy = false;
+
+function uid(kind){
+  return kind + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+}
+function cacheDB(){ lsSet(CACHE_KEY, JSON.stringify(DB)); }
+
+async function api(path, opts = {}){
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 15000);
+  try{
+    const res = await fetch(API_BASE + path, {
+      ...opts,
+      signal: ctrl.signal,
+      headers: { 'Content-Type':'application/json', 'X-Admin-Key': adminKey, ...(opts.headers||{}) }
+    });
+    if(res.status === 401){ const e = new Error('PIN salah'); e.code = 401; throw e; }
+    const data = await res.json().catch(() => ({}));
+    if(!res.ok){ const e = new Error(data.error || ('Error ' + res.status)); e.code = res.status; throw e; }
+    return data;
+  }catch(err){
+    if(err.name === 'AbortError'){ err.message = 'Server tidak merespons'; }
+    throw err;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+/* status sinkronisasi */
+function setSync(state, text){
+  const label = text || ({ ok:'Tersimpan di server', busy:'Menyimpan…', err:'Gagal terhubung', load:'Menghubungkan…' }[state] || '');
+  ['syncDesk','syncMobile'].forEach(id => {
+    const el = $(id); if(!el) return;
+    el.className = 'sync ' + (state === 'load' ? 'busy' : state);
+    el.title = label;
+    const span = el.querySelector('span'); if(span) span.textContent = label;
+  });
+}
+
+function handleErr(e){
+  if(e.code === 401){ showLock('PIN salah atau sudah diganti. Masukkan lagi.'); setSync('err'); return; }
+  setSync('err');
+  showToast('Gagal: ' + (e.message || 'tidak bisa terhubung ke server'));
+}
+
+/* simpan 1 record ke server, lalu perbarui data lokal */
+async function save(kind, rec){
+  if(busy) return false;
+  busy = true; setSync('busy');
+  try{
+    await api('/api/' + kind + '/' + encodeURIComponent(rec.id), { method:'PUT', body: JSON.stringify(rec) });
+    const i = DB[kind].findIndex(x => x.id === rec.id);
+    if(i > -1) DB[kind][i] = rec; else DB[kind].push(rec);
+    cacheDB(); setSync('ok');
+    return true;
+  }catch(e){
+    handleErr(e); return false;
+  }finally{ busy = false; }
+}
+
+async function remove(kind, id){
+  if(busy) return false;
+  busy = true; setSync('busy');
+  try{
+    await api('/api/' + kind + '/' + encodeURIComponent(id), { method:'DELETE' });
+    DB[kind] = DB[kind].filter(x => x.id !== id);
+    if(kind === 'siswa')  DB.bayar  = DB.bayar.filter(b => b.siswaId !== id);
+    if(kind === 'jadwal') DB.absen  = DB.absen.filter(a => a.jadwalId !== id);
+    if(kind === 'guru')   DB.jadwal = DB.jadwal.map(j => j.guruId === id ? { ...j, guruId:'' } : j);
+    cacheDB(); setSync('ok');
+    return true;
+  }catch(e){
+    handleErr(e); return false;
+  }finally{ busy = false; }
+}
+
+/* ============================================================
+   LOGIN (PIN) & LOAD
+   ============================================================ */
+function showLock(msg){
+  $('lock').classList.add('show');
+  const m = $('lockMsg');
+  m.textContent = msg || 'Masukkan PIN admin untuk membuka data bimbel.';
+  m.classList.toggle('err', !!msg);
+  $('lockPin').value = '';
+  setTimeout(() => $('lockPin').focus(), 50);
+}
+function hideLock(){ $('lock').classList.remove('show'); }
+
+$('lockForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const pin = $('lockPin').value.trim();
+  if(!pin) return;
+  const btn = $('lockBtn');
+  btn.disabled = true; btn.textContent = 'Memeriksa…';
+  adminKey = pin;
+  const ok = await loadFromServer(true);
+  btn.disabled = false; btn.textContent = 'Masuk';
+  if(ok) lsSet(PIN_KEY, pin);
+});
+
+$('btnLogout').addEventListener('click', () => {
+  if(!confirm('Keluar dari dashboard?')) return;
+  lsDel(PIN_KEY); lsDel(CACHE_KEY);
+  adminKey = ''; DB = emptyDB(); renderAll();
+  closeNav();
+  document.body.classList.add('loading');
+  showLock();
+});
+
+async function loadFromServer(fromLogin){
+  setSync('load');
+  try{
+    const d = await api('/api/data');
+    DB = normalize(d);
+    cacheDB(); hideLock();
+    document.body.classList.remove('loading');
+    renderAll(); setSync('ok');
+    offerMigration();
+    return true;
+  }catch(e){
+    if(e.code === 401){
+      showLock(fromLogin ? 'PIN salah. Coba lagi.' : (adminKey ? 'PIN salah atau sudah diganti.' : ''));
+      setSync('err');
+      return false;
+    }
+    // server tidak terjangkau -> tampilkan cache terakhir (hanya lihat)
+    try{ DB = normalize(JSON.parse(lsGet(CACHE_KEY) || '{}')); }catch(_){ DB = emptyDB(); }
+    document.body.classList.remove('loading');
+    hideLock(); renderAll(); setSync('err');
+    showToast('Server tidak terjangkau. Menampilkan data terakhir.');
+    return false;
+  }
+}
+
+/* data lama di browser (versi sebelum ada server) -> unggah ke server */
+async function offerMigration(){
+  if(lsGet('alief_migrated')) return;
+  if(KINDS.some(k => DB[k].length)) return;           // server sudah berisi data
+  let old; try{ old = JSON.parse(lsGet(OLD_KEY) || 'null'); }catch(e){ old = null; }
+  if(!old) return;
+  const data = normalize(old);
+  const total = KINDS.reduce((s,k) => s + data[k].length, 0);
+  if(!total) return;
+  if(!confirm('Ditemukan ' + total + ' data lama di browser ini. Unggah ke server sekarang?')) return;
+  try{
+    setSync('busy');
+    await api('/api/import', { method:'POST', body: JSON.stringify(data) });
+    lsSet('alief_migrated','1');
+    showToast('Data lama berhasil diunggah ✓');
+    await loadFromServer();
+  }catch(e){ handleErr(e); }
+}
+
+/* ============================================================
+   UTIL UI
+   ============================================================ */
 function showToast(msg){
   const t = $('toast');
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 2800);
+  t._t = setTimeout(() => t.classList.remove('show'), 3000);
 }
 function openModal(id){ $(id).classList.add('show'); }
 function closeModal(id){ $(id).classList.remove('show'); }
 
-function getHariIni(){
-  const d = new Date();
-  const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  return hari[d.getDay()];
-}
-function getBulanIni(){
-  const d = new Date();
-  return ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][d.getMonth()];
-}
-function getTahunIni(){ return new Date().getFullYear(); }
-function getTanggalISO(){ 
+const getHariIni  = () => NAMA_HARI[new Date().getDay()];
+const getBulanIni = () => NAMA_BULAN[new Date().getMonth()];
+const getTahunIni = () => new Date().getFullYear();
+function getTanggalISO(){
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
+function endTime(jam, durasi){
+  const [h,m] = String(jam||'0:0').split(':').map(Number);
+  const t = (h*60 + (m||0) + Number(durasi||0)) % 1440;
+  return String(Math.floor(t/60)).padStart(2,'0') + ':' + String(t%60).padStart(2,'0');
+}
 
 /* ============================================================
-   NAVIGATION
+   NAVIGASI + BURGER
    ============================================================ */
+const VIEW_TITLE = { overview:'Ringkasan', jadwal:'Jadwal', siswa:'Siswa', guru:'Guru', bayar:'Pembayaran', absen:'Absensi Guru' };
+
+function showView(view){
+  if(!VIEW_TITLE[view]) view = 'overview';
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.toggle('on', l.dataset.view === view));
+  document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+  $('view-' + view).style.display = 'block';
+  $('mtopTitle').textContent = VIEW_TITLE[view];
+  try{ sessionStorage.setItem(VIEW_KEY, view); }catch(e){}
+  window.scrollTo(0, 0);
+  renderAll();
+}
 document.querySelectorAll('.sb-link').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const view = link.dataset.view;
-    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('on'));
-    link.classList.add('on');
-    document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-    const target = $('view-' + view);
-    if(target) target.style.display = 'block';
-    renderAll();
-  });
+  link.addEventListener('click', () => { showView(link.dataset.view); closeNav(); });
 });
+
+function setNav(open){
+  document.body.classList.toggle('nav-open', open);
+  const b = $('burger');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  b.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+}
+function closeNav(){ setNav(false); }
+$('burger').addEventListener('click', () => setNav(!document.body.classList.contains('nav-open')));
+$('sbOv').addEventListener('click', closeNav);
+window.addEventListener('resize', () => { if(window.innerWidth > 900) closeNav(); });
 
 /* ============================================================
    RENDER: OVERVIEW
    ============================================================ */
 function renderOverview(){
-  const totalSiswa = DB.siswa.length;
-  const totalGuru = DB.guru.filter(g => g.status === 'aktif').length;
-  const totalJadwal = DB.jadwal.length;
-  const bulanIni = getBulanIni();
-  const tahunIni = getTahunIni();
-  const totalBayarBulanIni = DB.bayar
+  const bulanIni = getBulanIni(), tahunIni = getTahunIni();
+  const pemasukan = DB.bayar
     .filter(b => b.bulan === bulanIni && String(b.tahun) === String(tahunIni) && b.status === 'paid')
-    .reduce((s, b) => s + Number(b.jumlah||0), 0);
+    .reduce((s,b) => s + Number(b.jumlah||0), 0);
 
-  $('ovSiswa').textContent = totalSiswa;
-  $('ovGuru').textContent = totalGuru;
-  $('ovJadwal').textContent = totalJadwal;
-  $('ovBayar').innerHTML = fmtShort(totalBayarBulanIni);
+  $('ovSiswa').textContent  = DB.siswa.length;
+  $('ovGuru').textContent   = DB.guru.filter(g => g.status === 'aktif').length;
+  $('ovJadwal').textContent = DB.jadwal.length;
+  $('ovBayar').textContent  = fmtShort(pemasukan);
 
-  // Jadwal hari ini
   const hariIni = getHariIni();
-  const jadwalHariIni = DB.jadwal.filter(j => j.hari === hariIni)
-    .sort((a,b) => a.jam.localeCompare(b.jam));
-  
+  const jadwalHariIni = DB.jadwal.filter(j => j.hari === hariIni).sort((a,b) => a.jam.localeCompare(b.jam));
   $('todayLabel').textContent = hariIni + ', ' + new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
 
-  if(!jadwalHariIni.length){
-    $('todayList').innerHTML = `<div class="empty">
-      <div class="ic">📅</div>
-      <h3>Tidak ada jadwal hari ini</h3>
-      <p>Hari libur atau belum ada jadwal untuk ${hariIni}.</p>
-    </div>`;
-  } else {
-    $('todayList').innerHTML = jadwalHariIni.map(j => {
-      const guru = DB.guru.find(g => g.id === j.guruId);
-      const jumlahSiswa = DB.siswa.filter(s => s.kelas === j.kelas).length;
-      return `
-        <div style="padding:14px;border-radius:12px;background:var(--bg);margin-bottom:10px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap">
+  $('todayList').innerHTML = !jadwalHariIni.length
+    ? `<div class="empty"><div class="ic">📅</div><h3>Tidak ada jadwal hari ini</h3><p>Hari libur atau belum ada jadwal untuk ${hariIni}.</p></div>`
+    : jadwalHariIni.map(j => {
+        const guru = DB.guru.find(g => g.id === j.guruId);
+        const n = DB.siswa.filter(s => s.kelas === j.kelas).length;
+        return `<div class="item">
           <div>
-            <div style="font-family:var(--heading);font-weight:700;font-size:15px">${esc(j.mapel)} · ${esc(j.kelas||'-')}</div>
-            <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-              🕐 ${esc(j.jam)} (${j.durasi} menit) · 👨‍🏫 ${esc(guru?.nama || 'Belum diisi')}
-            </div>
+            <div class="item-title">${esc(j.mapel)} · ${esc(j.kelas||'-')}</div>
+            <div class="item-meta">🕐 ${esc(j.jam)}–${endTime(j.jam,j.durasi)} · 👨‍🏫 ${esc(guru?.nama || 'Belum diisi')}</div>
           </div>
-          <span class="badge badge-blue">👥 ${jumlahSiswa} siswa</span>
-        </div>
-      `;
-    }).join('');
-  }
+          <div class="item-act"><span class="badge badge-blue">👥 ${n} siswa</span></div>
+        </div>`;
+      }).join('');
 
-  // Belum bayar
   const belumBayar = DB.siswa.filter(s => {
     const b = DB.bayar.find(x => x.siswaId === s.id && x.bulan === bulanIni && String(x.tahun) === String(tahunIni));
     return !b || b.status !== 'paid';
   });
-
-  if(!belumBayar.length){
-    $('unpaidList').innerHTML = `<div class="empty">
-      <div class="ic">🎉</div>
-      <h3>Semua sudah bayar!</h3>
-      <p>Bagus, tidak ada tunggakan bulan ${bulanIni}.</p>
-    </div>`;
-  } else {
-    $('unpaidList').innerHTML = belumBayar.map(s => `
-      <div style="padding:14px;border-radius:12px;background:var(--bg);margin-bottom:10px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap">
+  $('unpaidList').innerHTML = !belumBayar.length
+    ? `<div class="empty"><div class="ic">🎉</div><h3>Semua sudah bayar!</h3><p>Tidak ada tunggakan bulan ${bulanIni}.</p></div>`
+    : belumBayar.map(s => `<div class="item">
         <div>
-          <div style="font-family:var(--heading);font-weight:700;font-size:15px">${esc(s.nama)}</div>
-          <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-            ${esc(s.kelas)} · Ortu: ${esc(s.ortu||'-')} · ${esc(s.wa||'-')}
-          </div>
+          <div class="item-title">${esc(s.nama)}</div>
+          <div class="item-meta">${esc(s.kelas)} · Ortu: ${esc(s.ortu||'-')} · ${esc(s.wa||'-')}</div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center">
+        <div class="item-act">
           <span class="badge badge-red">Belum Bayar</span>
-          <button class="btn btn-yellow btn-sm" onclick="openBayarForm('${esc(s.id)}')">Catat Bayar</button>
+          <button class="btn btn-yellow btn-sm" type="button" onclick="openBayarForm('${esc(s.id)}')">Catat Bayar</button>
         </div>
-      </div>
-    `).join('');
-  }
+      </div>`).join('');
 }
 
 /* ============================================================
-   RENDER: JADWAL
+   RENDER: JADWAL (kartu, urut Senin → Minggu)
    ============================================================ */
-const URUT_HARI = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
-
 function renderJadwal(){
   if(!DB.jadwal.length){
-    $('jadwalList').innerHTML = `<div class="empty">
-      <div class="ic">📅</div>
-      <h3>Belum ada jadwal</h3>
+    $('jadwalList').innerHTML = `<div class="empty"><div class="ic">📅</div><h3>Belum ada jadwal</h3>
       <p>Klik "Tambah Jadwal" untuk mulai mengatur jadwal mengajar.</p>
-      <button class="btn btn-primary" onclick="openJadwalForm()">+ Tambah Jadwal</button>
-    </div>`;
+      <button class="btn btn-primary" type="button" onclick="openJadwalForm()">+ Tambah Jadwal</button></div>`;
     return;
   }
-
-  const grouped = {};
-  URUT_HARI.forEach(h => grouped[h] = []);
-  DB.jadwal.forEach(j => {
-    if(!grouped[j.hari]) grouped[j.hari] = [];
-    grouped[j.hari].push(j);
-  });
-
+  const hariIni = getHariIni();
   let html = '';
   URUT_HARI.forEach(hari => {
-    const list = grouped[hari] || [];
+    const list = DB.jadwal.filter(j => j.hari === hari).sort((a,b) => a.jam.localeCompare(b.jam));
     if(!list.length) return;
-    list.sort((a,b) => a.jam.localeCompare(b.jam));
-
-    html += `<div style="margin-bottom:24px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <span style="font-family:var(--heading);font-weight:800;font-size:16px;letter-spacing:-.02em">${hari}</span>
+    html += `<div class="day${hari === hariIni ? ' today' : ''}">
+      <div class="day-head">
+        <span class="day-name">${hari}</span>
         <span class="badge badge-gray">${list.length} kelas</span>
+        ${hari === hariIni ? '<span class="badge badge-blue">Hari ini</span>' : ''}
       </div>
-      <div class="tbl-wrap"><table class="tbl">
-        <thead><tr>
-          <th>Jam</th><th>Mapel</th><th>Kelas</th><th>Guru</th><th>Siswa</th><th></th>
-        </tr></thead>
-        <tbody>`;
+      <div class="jd-grid">`;
     list.forEach(j => {
       const guru = DB.guru.find(g => g.id === j.guruId);
-      const jumlahSiswa = DB.siswa.filter(s => s.kelas === j.kelas).length;
-      html += `<tr>
-        <td><span class="badge badge-blue">🕐 ${esc(j.jam)}</span></td>
-        <td><div class="name">${esc(j.mapel)}</div><div class="meta">${j.durasi} menit</div></td>
-        <td>${esc(j.kelas||'-')}</td>
-        <td>${esc(guru?.nama || '—')}</td>
-        <td><span class="badge badge-yellow">👥 ${jumlahSiswa}</span></td>
-        <td style="text-align:right;white-space:nowrap">
-          <button class="btn btn-ghost btn-sm" onclick="openJadwalForm('${esc(j.id)}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="hapusJadwal('${esc(j.id)}')">Hapus</button>
-        </td>
-      </tr>`;
+      const n = DB.siswa.filter(s => s.kelas === j.kelas).length;
+      html += `<div class="jd-card">
+        <div class="jd-top">
+          <div class="jd-time">${esc(j.jam)} – ${endTime(j.jam,j.durasi)}<small>${j.durasi} menit</small></div>
+          <span class="badge badge-yellow">👥 ${n}</span>
+        </div>
+        <div class="jd-mapel">${esc(j.mapel)}</div>
+        <div class="jd-info">
+          <span>🎓 ${esc(j.kelas||'-')}</span>
+          <span>👨‍🏫 ${esc(guru?.nama || 'Guru belum diisi')}</span>
+        </div>
+        ${j.catatan ? `<div class="jd-note">📝 ${esc(j.catatan)}</div>` : ''}
+        <div class="jd-act">
+          <button class="btn btn-ghost btn-sm" type="button" onclick="openJadwalForm('${esc(j.id)}')">Edit</button>
+          <button class="btn btn-danger btn-sm" type="button" onclick="hapusJadwal('${esc(j.id)}')">Hapus</button>
+        </div>
+      </div>`;
     });
-    html += `</tbody></table></div></div>`;
+    html += `</div></div>`;
   });
   $('jadwalList').innerHTML = html;
 }
@@ -1211,7 +1337,7 @@ function openJadwalForm(id){
   openModal('modalJadwal');
 }
 
-function saveJadwal(){
+async function saveJadwal(){
   const id = $('jdlId').value;
   const data = {
     hari: $('jdlHari').value,
@@ -1224,26 +1350,16 @@ function saveJadwal(){
   };
   if(!data.mapel){ showToast('Mata pelajaran wajib diisi'); return; }
   if(!data.jam){ showToast('Jam mulai wajib diisi'); return; }
-
-  if(id){
-    const i = DB.jadwal.findIndex(x => x.id === id);
-    if(i > -1) DB.jadwal[i] = { ...DB.jadwal[i], ...data };
-    showToast('Jadwal diperbarui');
-  } else {
-    DB.jadwal.push({ id: uid('jadwal'), ...data });
-    showToast('Jadwal ditambahkan');
+  const old = id ? DB.jadwal.find(x => x.id === id) : null;
+  const rec = { ...(old||{}), ...data, id: id || uid('jadwal') };
+  if(await save('jadwal', rec)){
+    showToast(id ? 'Jadwal diperbarui' : 'Jadwal ditambahkan');
+    closeModal('modalJadwal'); renderAll();
   }
-  saveData();
-  closeModal('modalJadwal');
-  renderAll();
 }
-
-function hapusJadwal(id){
-  if(!confirm('Hapus jadwal ini?')) return;
-  DB.jadwal = DB.jadwal.filter(x => x.id !== id);
-  saveData();
-  renderAll();
-  showToast('Jadwal dihapus');
+async function hapusJadwal(id){
+  if(!confirm('Hapus jadwal ini? Catatan absensinya juga ikut terhapus.')) return;
+  if(await remove('jadwal', id)){ renderAll(); showToast('Jadwal dihapus'); }
 }
 
 /* ============================================================
@@ -1251,40 +1367,33 @@ function hapusJadwal(id){
    ============================================================ */
 function renderSiswa(){
   if(!DB.siswa.length){
-    $('siswaList').innerHTML = `<div class="empty">
-      <div class="ic">👥</div>
-      <h3>Belum ada siswa</h3>
+    $('siswaList').innerHTML = `<div class="empty"><div class="ic">👥</div><h3>Belum ada siswa</h3>
       <p>Klik "Tambah Siswa" untuk menambahkan siswa pertama.</p>
-      <button class="btn btn-primary" onclick="openSiswaForm()">+ Tambah Siswa</button>
-    </div>`;
+      <button class="btn btn-primary" type="button" onclick="openSiswaForm()">+ Tambah Siswa</button></div>`;
     return;
   }
-  const bulanIni = getBulanIni();
-  const tahunIni = getTahunIni();
-
-  let html = `<div class="tbl-wrap"><table class="tbl">
-    <thead><tr>
-      <th>Nama</th><th>Kelas</th><th>Orang Tua</th><th>Program</th><th>Status Bayar</th><th></th>
-    </tr></thead><tbody>`;
+  const bulanIni = getBulanIni(), tahunIni = getTahunIni();
+  let html = `<div class="tbl-wrap"><table class="tbl"><thead><tr>
+    <th>Nama</th><th>Kelas</th><th>Orang Tua</th><th>Program</th><th>Status Bayar</th><th class="act">Aksi</th>
+  </tr></thead><tbody>`;
   DB.siswa.forEach(s => {
     const bayar = DB.bayar.find(b => b.siswaId === s.id && b.bulan === bulanIni && String(b.tahun) === String(tahunIni));
-    const statusBayar = bayar?.status === 'paid' 
+    const st = bayar?.status === 'paid'
       ? '<span class="badge badge-green">✓ Lunas</span>'
       : '<span class="badge badge-red">Belum Bayar</span>';
     html += `<tr>
-      <td><div class="name">${esc(s.nama)}</div><div class="meta">${esc(s.catatan||'')}</div></td>
-      <td>${esc(s.kelas)}</td>
-      <td><div>${esc(s.ortu||'-')}</div><div class="meta">${esc(s.wa||'-')}</div></td>
-      <td><span class="badge badge-blue">${esc(s.program)}</span></td>
-      <td>${statusBayar}</td>
-      <td style="text-align:right;white-space:nowrap">
-        <button class="btn btn-ghost btn-sm" onclick="openSiswaForm('${esc(s.id)}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="hapusSiswa('${esc(s.id)}')">Hapus</button>
-      </td>
+      <td class="nm"><div class="name">${esc(s.nama)}</div>${s.catatan ? `<div class="meta">${esc(s.catatan)}</div>` : ''}</td>
+      <td data-label="Kelas">${esc(s.kelas)}</td>
+      <td data-label="Orang Tua"><div class="ortu"><div>${esc(s.ortu||'-')}</div><div class="meta">${esc(s.wa||'-')}</div></div></td>
+      <td data-label="Program"><span class="badge badge-blue">${esc(s.program)}</span></td>
+      <td data-label="Status Bayar">${st}</td>
+      <td class="act"><div class="row-act">
+        <button class="btn btn-ghost btn-sm" type="button" onclick="openSiswaForm('${esc(s.id)}')">Edit</button>
+        <button class="btn btn-danger btn-sm" type="button" onclick="hapusSiswa('${esc(s.id)}')">Hapus</button>
+      </div></td>
     </tr>`;
   });
-  html += '</tbody></table></div>';
-  $('siswaList').innerHTML = html;
+  $('siswaList').innerHTML = html + '</tbody></table></div>';
 }
 
 function openSiswaForm(id){
@@ -1313,7 +1422,7 @@ function openSiswaForm(id){
   openModal('modalSiswa');
 }
 
-function saveSiswa(){
+async function saveSiswa(){
   const id = $('swId').value;
   const data = {
     nama: $('swNama').value.trim(),
@@ -1325,27 +1434,16 @@ function saveSiswa(){
     catatan: $('swCatatan').value.trim()
   };
   if(!data.nama){ showToast('Nama siswa wajib diisi'); return; }
-
-  if(id){
-    const i = DB.siswa.findIndex(x => x.id === id);
-    if(i > -1) DB.siswa[i] = { ...DB.siswa[i], ...data };
-    showToast('Data siswa diperbarui');
-  } else {
-    DB.siswa.push({ id: uid('siswa'), ...data });
-    showToast('Siswa ditambahkan');
+  const old = id ? DB.siswa.find(x => x.id === id) : null;
+  const rec = { ...(old||{}), ...data, id: id || uid('siswa') };
+  if(await save('siswa', rec)){
+    showToast(id ? 'Data siswa diperbarui' : 'Siswa ditambahkan');
+    closeModal('modalSiswa'); renderAll();
   }
-  saveData();
-  closeModal('modalSiswa');
-  renderAll();
 }
-
-function hapusSiswa(id){
-  if(!confirm('Hapus siswa ini? Data pembayaran juga akan terhapus.')) return;
-  DB.siswa = DB.siswa.filter(x => x.id !== id);
-  DB.bayar = DB.bayar.filter(b => b.siswaId !== id);
-  saveData();
-  renderAll();
-  showToast('Siswa dihapus');
+async function hapusSiswa(id){
+  if(!confirm('Hapus siswa ini? Data pembayarannya juga akan terhapus.')) return;
+  if(await remove('siswa', id)){ renderAll(); showToast('Siswa dihapus'); }
 }
 
 /* ============================================================
@@ -1353,37 +1451,32 @@ function hapusSiswa(id){
    ============================================================ */
 function renderGuru(){
   if(!DB.guru.length){
-    $('guruList').innerHTML = `<div class="empty">
-      <div class="ic">👨‍🏫</div>
-      <h3>Belum ada guru</h3>
+    $('guruList').innerHTML = `<div class="empty"><div class="ic">👨‍🏫</div><h3>Belum ada guru</h3>
       <p>Klik "Tambah Guru" untuk menambahkan pengajar.</p>
-      <button class="btn btn-primary" onclick="openGuruForm()">+ Tambah Guru</button>
-    </div>`;
+      <button class="btn btn-primary" type="button" onclick="openGuruForm()">+ Tambah Guru</button></div>`;
     return;
   }
-  let html = `<div class="tbl-wrap"><table class="tbl">
-    <thead><tr>
-      <th>Nama</th><th>Mapel</th><th>WhatsApp</th><th>Jadwal</th><th>Status</th><th></th>
-    </tr></thead><tbody>`;
+  let html = `<div class="tbl-wrap"><table class="tbl"><thead><tr>
+    <th>Nama</th><th>Mapel</th><th>WhatsApp</th><th>Jadwal</th><th>Status</th><th class="act">Aksi</th>
+  </tr></thead><tbody>`;
   DB.guru.forEach(g => {
-    const jadwalCount = DB.jadwal.filter(j => j.guruId === g.id).length;
-    const statusBadge = g.status === 'aktif' 
+    const n = DB.jadwal.filter(j => j.guruId === g.id).length;
+    const st = g.status === 'aktif'
       ? '<span class="badge badge-green">Aktif</span>'
       : '<span class="badge badge-gray">Nonaktif</span>';
     html += `<tr>
-      <td><div class="name">${esc(g.nama)}</div><div class="meta">${esc(g.alamat||'')}</div></td>
-      <td>${esc(g.mapel)}</td>
-      <td>${esc(g.wa||'-')}</td>
-      <td><span class="badge badge-blue">📅 ${jadwalCount} kelas/minggu</span></td>
-      <td>${statusBadge}</td>
-      <td style="text-align:right;white-space:nowrap">
-        <button class="btn btn-ghost btn-sm" onclick="openGuruForm('${esc(g.id)}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="hapusGuru('${esc(g.id)}')">Hapus</button>
-      </td>
+      <td class="nm"><div class="name">${esc(g.nama)}</div>${g.alamat ? `<div class="meta">${esc(g.alamat)}</div>` : ''}</td>
+      <td data-label="Mapel">${esc(g.mapel)}</td>
+      <td data-label="WhatsApp">${esc(g.wa||'-')}</td>
+      <td data-label="Jadwal"><span class="badge badge-blue">📅 ${n} kelas/minggu</span></td>
+      <td data-label="Status">${st}</td>
+      <td class="act"><div class="row-act">
+        <button class="btn btn-ghost btn-sm" type="button" onclick="openGuruForm('${esc(g.id)}')">Edit</button>
+        <button class="btn btn-danger btn-sm" type="button" onclick="hapusGuru('${esc(g.id)}')">Hapus</button>
+      </div></td>
     </tr>`;
   });
-  html += '</tbody></table></div>';
-  $('guruList').innerHTML = html;
+  $('guruList').innerHTML = html + '</tbody></table></div>';
 }
 
 function openGuruForm(id){
@@ -1408,7 +1501,7 @@ function openGuruForm(id){
   openModal('modalGuru');
 }
 
-function saveGuru(){
+async function saveGuru(){
   const id = $('grId').value;
   const data = {
     nama: $('grNama').value.trim(),
@@ -1419,34 +1512,22 @@ function saveGuru(){
   };
   if(!data.nama){ showToast('Nama guru wajib diisi'); return; }
   if(!data.mapel){ showToast('Mata pelajaran wajib diisi'); return; }
-
-  if(id){
-    const i = DB.guru.findIndex(x => x.id === id);
-    if(i > -1) DB.guru[i] = { ...DB.guru[i], ...data };
-    showToast('Data guru diperbarui');
-  } else {
-    DB.guru.push({ id: uid('guru'), ...data });
-    showToast('Guru ditambahkan');
+  const old = id ? DB.guru.find(x => x.id === id) : null;
+  const rec = { ...(old||{}), ...data, id: id || uid('guru') };
+  if(await save('guru', rec)){
+    showToast(id ? 'Data guru diperbarui' : 'Guru ditambahkan');
+    closeModal('modalGuru'); renderAll();
   }
-  saveData();
-  closeModal('modalGuru');
-  renderAll();
 }
-
-function hapusGuru(id){
-  if(!confirm('Hapus guru ini? Jadwal yang terkait akan kosong.')) return;
-  DB.guru = DB.guru.filter(x => x.id !== id);
-  DB.jadwal = DB.jadwal.map(j => j.guruId === id ? { ...j, guruId: '' } : j);
-  saveData();
-  renderAll();
-  showToast('Guru dihapus');
+async function hapusGuru(id){
+  if(!confirm('Hapus guru ini? Guru pada jadwal terkait akan dikosongkan.')) return;
+  if(await remove('guru', id)){ renderAll(); showToast('Guru dihapus'); }
 }
 
 /* ============================================================
    RENDER: PEMBAYARAN
    ============================================================ */
 let bayarFilter = 'all';
-
 document.querySelectorAll('#bayarTabs .subtab').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#bayarTabs .subtab').forEach(b => b.classList.remove('on'));
@@ -1458,50 +1539,44 @@ document.querySelectorAll('#bayarTabs .subtab').forEach(btn => {
 
 function renderBayar(){
   let list = DB.bayar.slice();
-  if(bayarFilter === 'paid') list = list.filter(b => b.status === 'paid');
+  if(bayarFilter === 'paid')   list = list.filter(b => b.status === 'paid');
   if(bayarFilter === 'unpaid') list = list.filter(b => b.status === 'unpaid');
-  list.sort((a,b) => (b.tahun + b.bulan).localeCompare(a.tahun + a.bulan));
+  // terbaru dulu: tahun, lalu urutan bulan (bukan alfabet)
+  list.sort((a,b) => (Number(b.tahun) - Number(a.tahun)) || (NAMA_BULAN.indexOf(b.bulan) - NAMA_BULAN.indexOf(a.bulan)));
 
   if(!list.length){
-    $('bayarList').innerHTML = `<div class="empty">
-      <div class="ic">💰</div>
-      <h3>Belum ada catatan pembayaran</h3>
+    $('bayarList').innerHTML = `<div class="empty"><div class="ic">💰</div><h3>Belum ada catatan pembayaran</h3>
       <p>Klik "Catat Pembayaran" untuk mulai mencatat.</p>
-      <button class="btn btn-primary" onclick="openBayarForm()">+ Catat Pembayaran</button>
-    </div>`;
+      <button class="btn btn-primary" type="button" onclick="openBayarForm()">+ Catat Pembayaran</button></div>`;
     return;
   }
-
-  let html = `<div class="tbl-wrap"><table class="tbl">
-    <thead><tr>
-      <th>Siswa</th><th>Periode</th><th>Jumlah</th><th>Metode</th><th>Status</th><th></th>
-    </tr></thead><tbody>`;
+  let html = `<div class="tbl-wrap"><table class="tbl"><thead><tr>
+    <th>Siswa</th><th>Periode</th><th>Jumlah</th><th>Metode</th><th>Status</th><th class="act">Aksi</th>
+  </tr></thead><tbody>`;
   list.forEach(b => {
     const s = DB.siswa.find(x => x.id === b.siswaId);
-    const statusBadge = b.status === 'paid' 
+    const st = b.status === 'paid'
       ? '<span class="badge badge-green">✓ Lunas</span>'
       : '<span class="badge badge-red">Belum Bayar</span>';
     html += `<tr>
-      <td><div class="name">${esc(s?.nama || '(siswa dihapus)')}</div><div class="meta">${esc(s?.kelas||'')}</div></td>
-      <td>${esc(b.bulan)} ${esc(b.tahun)}</td>
-      <td><span class="badge badge-blue">${fmtRp(b.jumlah)}</span></td>
-      <td>${esc(b.metode || '—')}</td>
-      <td>${statusBadge}</td>
-      <td style="text-align:right;white-space:nowrap">
-        ${b.status === 'unpaid' ? `<button class="btn btn-yellow btn-sm" onclick="tandaiLunas('${esc(b.id)}')">Tandai Lunas</button>` : ''}
-        <button class="btn btn-ghost btn-sm" onclick="openBayarForm(null, '${esc(b.id)}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="hapusBayar('${esc(b.id)}')">Hapus</button>
-      </td>
+      <td class="nm"><div class="name">${esc(s?.nama || '(siswa dihapus)')}</div><div class="meta">${esc(s?.kelas||'')}</div></td>
+      <td data-label="Periode">${esc(b.bulan)} ${esc(b.tahun)}</td>
+      <td data-label="Jumlah"><span class="badge badge-blue">${fmtRp(b.jumlah)}</span></td>
+      <td data-label="Metode">${esc(b.metode || '—')}</td>
+      <td data-label="Status">${st}</td>
+      <td class="act"><div class="row-act">
+        ${b.status === 'unpaid' ? `<button class="btn btn-yellow btn-sm" type="button" onclick="tandaiLunas('${esc(b.id)}')">Tandai Lunas</button>` : ''}
+        <button class="btn btn-ghost btn-sm" type="button" onclick="openBayarForm(null,'${esc(b.id)}')">Edit</button>
+        <button class="btn btn-danger btn-sm" type="button" onclick="hapusBayar('${esc(b.id)}')">Hapus</button>
+      </div></td>
     </tr>`;
   });
-  html += '</tbody></table></div>';
-  $('bayarList').innerHTML = html;
+  $('bayarList').innerHTML = html + '</tbody></table></div>';
 }
 
 function openBayarForm(siswaId, bayarId){
   fillSiswaSelect('bySiswa');
   $('byTitle').textContent = bayarId ? 'Edit Pembayaran' : 'Catat Pembayaran';
-
   if(bayarId){
     const b = DB.bayar.find(x => x.id === bayarId);
     if(!b) return;
@@ -1525,7 +1600,7 @@ function openBayarForm(siswaId, bayarId){
   openModal('modalBayar');
 }
 
-function saveBayar(){
+async function saveBayar(){
   const id = $('byId').value;
   const data = {
     siswaId: $('bySiswa').value,
@@ -1538,41 +1613,24 @@ function saveBayar(){
   if(!data.siswaId){ showToast('Pilih siswa dulu'); return; }
   if(!data.jumlah){ showToast('Jumlah wajib diisi'); return; }
 
-  if(id){
-    const i = DB.bayar.findIndex(x => x.id === id);
-    if(i > -1) DB.bayar[i] = { ...DB.bayar[i], ...data };
-    showToast('Pembayaran diperbarui');
-  } else {
-    // Cek apakah sudah ada pembayaran bulan+siswa yang sama
-    const existing = DB.bayar.find(b => b.siswaId === data.siswaId && b.bulan === data.bulan && String(b.tahun) === String(data.tahun));
-    if(existing){
-      Object.assign(existing, data);
-      showToast('Pembayaran bulan ini diperbarui');
-    } else {
-      DB.bayar.push({ id: uid('bayar'), ...data });
-      showToast('Pembayaran dicatat');
-    }
+  // satu siswa + bulan + tahun = satu catatan
+  const dup = DB.bayar.find(b => b.id !== id && b.siswaId === data.siswaId && b.bulan === data.bulan && String(b.tahun) === String(data.tahun));
+  const old = id ? DB.bayar.find(x => x.id === id) : dup;
+  const rec = { ...(old||{}), ...data, id: old?.id || uid('bayar') };
+  if(dup && id){ showToast('Siswa ini sudah punya catatan di bulan tersebut'); return; }
+  if(await save('bayar', rec)){
+    showToast(old ? 'Pembayaran diperbarui' : 'Pembayaran dicatat');
+    closeModal('modalBayar'); renderAll();
   }
-  saveData();
-  closeModal('modalBayar');
-  renderAll();
 }
-
-function tandaiLunas(id){
+async function tandaiLunas(id){
   const b = DB.bayar.find(x => x.id === id);
   if(!b) return;
-  b.status = 'paid';
-  saveData();
-  renderAll();
-  showToast('Ditandai lunas ✓');
+  if(await save('bayar', { ...b, status:'paid' })){ renderAll(); showToast('Ditandai lunas ✓'); }
 }
-
-function hapusBayar(id){
+async function hapusBayar(id){
   if(!confirm('Hapus catatan pembayaran ini?')) return;
-  DB.bayar = DB.bayar.filter(x => x.id !== id);
-  saveData();
-  renderAll();
-  showToast('Catatan dihapus');
+  if(await remove('bayar', id)){ renderAll(); showToast('Catatan dihapus'); }
 }
 
 /* ============================================================
@@ -1580,218 +1638,99 @@ function hapusBayar(id){
    ============================================================ */
 function renderAbsensi(){
   const tanggal = $('absenTanggal').value || getTanggalISO();
-  const hari = new Date(tanggal + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long' });
-  const hariEn = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(tanggal+'T00:00:00').getDay()];
-  const hariMap = { Sunday:'Minggu', Monday:'Senin', Tuesday:'Selasa', Wednesday:'Rabu', Thursday:'Kamis', Friday:'Jumat', Saturday:'Sabtu' };
-  const hariIndo = hariMap[hariEn] || 'Senin';
-
+  const d = new Date(tanggal + 'T00:00:00');
+  const hariIndo = NAMA_HARI[d.getDay()];
   const jadwalHari = DB.jadwal.filter(j => j.hari === hariIndo).sort((a,b) => a.jam.localeCompare(b.jam));
 
   if(!jadwalHari.length){
-    $('absenList').innerHTML = `<div class="empty">
-      <div class="ic">📅</div>
-      <h3>Tidak ada kelas pada hari ini</h3>
-      <p>Tidak ada jadwal mengajar untuk ${hariIndo}.</p>
-    </div>`;
+    $('absenList').innerHTML = `<div class="empty"><div class="ic">📅</div><h3>Tidak ada kelas pada hari ini</h3><p>Tidak ada jadwal mengajar untuk ${hariIndo}.</p></div>`;
     return;
   }
-
-  let html = `<div style="margin-bottom:14px;font-size:13.5px;color:var(--muted);font-weight:600">
-    Absensi untuk <b style="color:var(--ink)">${hariIndo}, ${new Date(tanggal+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}</b>
-  </div>`;
+  const tglLabel = d.toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+  let html = `<div style="margin-bottom:14px;font-size:13.5px;color:var(--muted);font-weight:600">Absensi untuk <b style="color:var(--ink)">${hariIndo}, ${tglLabel}</b></div>`;
 
   jadwalHari.forEach(j => {
     const guru = DB.guru.find(g => g.id === j.guruId);
     const absen = DB.absen.find(a => a.jadwalId === j.id && a.tanggal === tanggal);
     const status = absen?.status || 'belum';
+    const badge = {
+      hadir:'<span class="badge badge-green">✓ Hadir</span>',
+      izin:'<span class="badge badge-yellow">Izin</span>',
+      sakit:'<span class="badge badge-yellow">Sakit</span>',
+      alpa:'<span class="badge badge-red">Alpa</span>'
+    }[status] || '<span class="badge badge-gray">Belum diabsen</span>';
+    const b = (val, label) => `<button class="btn btn-ghost btn-sm${status === val ? ' on' : ''}" type="button" onclick="setAbsen('${esc(j.id)}','${tanggal}','${val}')">${label}</button>`;
 
-    let statusBadge = '<span class="badge badge-gray">Belum diabsen</span>';
-    if(status === 'hadir') statusBadge = '<span class="badge badge-green">✓ Hadir</span>';
-    if(status === 'izin') statusBadge = '<span class="badge badge-yellow">Izin</span>';
-    if(status === 'sakit') statusBadge = '<span class="badge badge-yellow">Sakit</span>';
-    if(status === 'alpa') statusBadge = '<span class="badge badge-red">Alpa</span>';
-
-    html += `<div style="padding:16px;border-radius:12px;background:var(--bg);margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px">
+    html += `<div class="item" style="flex-direction:column;align-items:stretch;gap:14px">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
         <div>
-          <div style="font-family:var(--heading);font-weight:700;font-size:15px">${esc(j.mapel)} · ${esc(j.kelas||'-')}</div>
-          <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-            🕐 ${esc(j.jam)} (${j.durasi} menit) · 👨‍🏫 ${esc(guru?.nama || 'Belum diisi')}
-          </div>
+          <div class="item-title">${esc(j.mapel)} · ${esc(j.kelas||'-')}</div>
+          <div class="item-meta">🕐 ${esc(j.jam)}–${endTime(j.jam,j.durasi)} · 👨‍🏫 ${esc(guru?.nama || 'Belum diisi')}</div>
         </div>
-        ${statusBadge}
+        ${badge}
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" onclick="setAbsen('${esc(j.id)}','${tanggal}','hadir')">✓ Hadir</button>
-        <button class="btn btn-ghost btn-sm" onclick="setAbsen('${esc(j.id)}','${tanggal}','izin')">Izin</button>
-        <button class="btn btn-ghost btn-sm" onclick="setAbsen('${esc(j.id)}','${tanggal}','sakit')">Sakit</button>
-        <button class="btn btn-ghost btn-sm" onclick="setAbsen('${esc(j.id)}','${tanggal}','alpa')">Alpa</button>
-        ${absen ? `<button class="btn btn-danger btn-sm" onclick="clearAbsen('${esc(absen.id)}')">Reset</button>` : ''}
+      <div class="abs-actions">
+        ${b('hadir','✓ Hadir')}${b('izin','Izin')}${b('sakit','Sakit')}${b('alpa','Alpa')}
+        ${absen ? `<button class="btn btn-danger btn-sm" type="button" onclick="clearAbsen('${esc(absen.id)}')">Reset</button>` : ''}
       </div>
     </div>`;
   });
-
   $('absenList').innerHTML = html;
 }
 
-function setAbsen(jadwalId, tanggal, status){
+async function setAbsen(jadwalId, tanggal, status){
   const existing = DB.absen.find(a => a.jadwalId === jadwalId && a.tanggal === tanggal);
-  if(existing){
-    existing.status = status;
-  } else {
-    DB.absen.push({ id: uid('absen'), jadwalId, tanggal, status, createdAt: Date.now() });
-  }
-  saveData();
-  renderAbsensi();
-  showToast('Absensi dicatat');
+  const rec = existing
+    ? { ...existing, status }
+    : { id: 'absen_' + jadwalId + '_' + tanggal, jadwalId, tanggal, status, createdAt: Date.now() };
+  if(await save('absen', rec)){ renderAbsensi(); showToast('Absensi dicatat'); }
 }
-
-function clearAbsen(id){
-  DB.absen = DB.absen.filter(a => a.id !== id);
-  saveData();
-  renderAbsensi();
-  showToast('Absensi direset');
+async function clearAbsen(id){
+  if(await remove('absen', id)){ renderAbsensi(); showToast('Absensi direset'); }
 }
 
 /* ============================================================
    HELPERS
    ============================================================ */
 function fillGuruSelect(selectId){
-  const sel = $(selectId);
-  const cur = sel.value;
+  const sel = $(selectId), cur = sel.value;
   sel.innerHTML = '<option value="">— Pilih Guru —</option>' +
-    DB.guru.filter(g => g.status === 'aktif').map(g => 
-      `<option value="${esc(g.id)}">${esc(g.nama)} (${esc(g.mapel)})</option>`
-    ).join('');
+    DB.guru.filter(g => g.status === 'aktif').map(g => `<option value="${esc(g.id)}">${esc(g.nama)} (${esc(g.mapel)})</option>`).join('');
   if(cur) sel.value = cur;
 }
-
 function fillSiswaSelect(selectId){
-  const sel = $(selectId);
-  const cur = sel.value;
+  const sel = $(selectId), cur = sel.value;
   sel.innerHTML = '<option value="">— Pilih Siswa —</option>' +
-    DB.siswa.map(s => 
-      `<option value="${esc(s.id)}">${esc(s.nama)} (${esc(s.kelas)})</option>`
-    ).join('');
+    DB.siswa.map(s => `<option value="${esc(s.id)}">${esc(s.nama)} (${esc(s.kelas)})</option>`).join('');
   if(cur) sel.value = cur;
 }
 
-/* ============================================================
-   RENDER ALL
-   ============================================================ */
 function renderAll(){
-  renderOverview();
-  renderJadwal();
-  renderSiswa();
-  renderGuru();
-  renderBayar();
-  renderAbsensi();
+  renderOverview(); renderJadwal(); renderSiswa(); renderGuru(); renderBayar(); renderAbsensi();
 }
 
 /* ============================================================
    INIT
    ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  $('absenTanggal').value = getTanggalISO();
-  renderAll();
-});
-
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape'){
     document.querySelectorAll('.modal-ov.show').forEach(m => m.classList.remove('show'));
+    closeNav();
   }
 });
-</script>
 
-<script>
-/* PROMAX MICRO-INTERACTIONS — DASHBOARD */
-(function(){
-  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  document.addEventListener('pointermove', function(e){
-    const el=e.target.closest('.stat,.panel');
-    if(!el || reduced) return;
-    const r=el.getBoundingClientRect();
-    el.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
-    el.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
-  }, {passive:true});
-
-  document.addEventListener('pointerdown', function(e){
-    const b=e.target.closest('.btn,.subtab,.modal-close,.sb-link');
-    if(!b || reduced) return;
-    b.animate(
-      [{transform:'scale(1)'},{transform:'scale(.97)'},{transform:'scale(1)'}],
-      {duration:180,easing:'ease-out'}
-    );
-  });
-
-  if(!reduced && 'IntersectionObserver' in window){
-    const io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.style.animationDelay=(Math.min(entry.target.dataset.uiDelay||0,240))+'ms';
-          entry.target.classList.add('ui-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    },{threshold:.08});
-    document.querySelectorAll('.stat,.panel').forEach(function(el,i){
-      el.classList.add('ui-reveal');
-      el.dataset.uiDelay=(i%4)*45;
-      io.observe(el);
-    });
+document.addEventListener('DOMContentLoaded', () => {
+  $('absenTanggal').value = getTanggalISO();
+  let v = 'overview'; try{ v = sessionStorage.getItem(VIEW_KEY) || 'overview'; }catch(e){}
+  showView(v);
+  if(!adminKey){
+    document.body.classList.add('loading');
+    setSync('err','Belum masuk');
+    showLock();
+  } else {
+    loadFromServer();
   }
-
-  const style=document.createElement('style');
-  style.textContent='.ui-reveal{opacity:0;transform:translateY(10px)}.ui-reveal.ui-visible{animation:uiReveal .45s var(--ui-ease) forwards}@keyframes uiReveal{to{opacity:1;transform:none}}';
-  document.head.appendChild(style);
-})();
-</script>
-
-
-<script>
-/* PROMAX MICRO-INTERACTIONS — DASHBOARD */
-(function(){
-  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  document.addEventListener('pointermove', function(e){
-    const el=e.target.closest('.stat,.panel');
-    if(!el || reduced) return;
-    const r=el.getBoundingClientRect();
-    el.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
-    el.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
-  }, {passive:true});
-
-  document.addEventListener('pointerdown', function(e){
-    const b=e.target.closest('.btn,.subtab,.modal-close,.sb-link');
-    if(!b || reduced) return;
-    b.animate(
-      [{transform:'scale(1)'},{transform:'scale(.97)'},{transform:'scale(1)'}],
-      {duration:180,easing:'ease-out'}
-    );
-  });
-
-  if(!reduced && 'IntersectionObserver' in window){
-    const io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.style.animationDelay=(Math.min(entry.target.dataset.uiDelay||0,240))+'ms';
-          entry.target.classList.add('ui-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    },{threshold:.08});
-    document.querySelectorAll('.stat,.panel').forEach(function(el,i){
-      el.classList.add('ui-reveal');
-      el.dataset.uiDelay=(i%4)*45;
-      io.observe(el);
-    });
-  }
-
-  const style=document.createElement('style');
-  style.textContent='.ui-reveal{opacity:0;transform:translateY(10px)}.ui-reveal.ui-visible{animation:uiReveal .45s var(--ui-ease) forwards}@keyframes uiReveal{to{opacity:1;transform:none}}';
-  document.head.appendChild(style);
-})();
+});
 </script>
 
 </body>

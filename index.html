@@ -717,8 +717,6 @@ footer::before{
   .hero-trust .num{font-size:22px}
   .footer-grid{grid-template-columns:1fr;gap:32px}
   .cta-box{padding:50px 24px}
-  .nav .btn span.btn-text{display:none}
-  .nav .btn{padding:11px 16px}
 }
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -804,7 +802,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .hero-visual .mock-badge.b2{right:-10px}
   section{padding:72px 0}
   .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .feature:last-child,.how-step:last-child{grid-column:1/-1}
+  .how-step:last-child,.program:last-child,.price-card:last-child,.testi-card:last-child{grid-column:1/-1;width:calc(50% - 10px);justify-self:center}
 }
 @media (max-width:680px){
   .wrap{padding:0 15px}
@@ -865,6 +863,62 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 
+
+/* =========================================================
+   PERBAIKAN — layout hero, highlight, burger menu
+   ========================================================= */
+.hero>.wrap{width:100%}
+.hl,.hl2{isolation:isolate}
+.menu-toggle{
+  display:none;width:44px;height:44px;border-radius:14px;
+  background:#fff;border:1.5px solid var(--line);box-shadow:var(--shadow-sm);
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+}
+.menu-toggle span{
+  display:block;width:20px;height:2.5px;border-radius:2px;background:var(--ink);
+  transition:transform .3s var(--ui-ease),opacity .2s;
+}
+.menu-open .menu-toggle span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.menu-open .menu-toggle span:nth-child(2){opacity:0}
+.menu-open .menu-toggle span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.mmenu{display:none}
+@media (max-width:900px){
+  .menu-toggle{display:flex}
+  .mmenu{
+    display:block;position:fixed;inset:0;z-index:99;
+    visibility:hidden;pointer-events:none;
+  }
+  .mmenu-backdrop{
+    position:absolute;inset:0;background:rgba(42,37,64,.4);
+    backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+    opacity:0;transition:opacity .3s;
+  }
+  .mmenu-panel{
+    position:absolute;top:72px;left:14px;right:14px;
+    background:#fff;border-radius:24px;padding:14px;
+    box-shadow:var(--shadow-lg);border:1.5px solid var(--line);
+    display:flex;flex-direction:column;gap:4px;text-align:center;
+    opacity:0;transform:translateY(-12px) scale(.98);
+    transition:opacity .25s,transform .35s var(--ui-ease);
+    max-height:calc(100dvh - 90px);overflow-y:auto;
+  }
+  .mmenu-panel>a:not(.btn){
+    padding:14px;border-radius:14px;
+    font-family:var(--heading);font-weight:700;font-size:16px;color:var(--ink);
+  }
+  .mmenu-panel>a:not(.btn):active{background:var(--yellow-soft)}
+  .mmenu-cta{display:grid;gap:10px;margin-top:10px;padding-top:14px;border-top:1px solid var(--line)}
+  .mmenu-cta .btn{justify-content:center;width:100%}
+  .menu-open{overflow:hidden}
+  .menu-open .mmenu{visibility:visible;pointer-events:auto}
+  .menu-open .mmenu-backdrop{opacity:1}
+  .menu-open .mmenu-panel{opacity:1;transform:none}
+  .menu-open .nav{background:rgba(255,251,239,.96);box-shadow:0 1px 0 var(--line)}
+  .nav-actions{gap:8px}
+}
+@media (max-width:680px){
+  .nav-actions .btn{display:none}
+}
 </style>
 </head>
 <body>
@@ -882,10 +936,26 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
     <a href="dashboard.html">Dashboard</a>
   </div>
   <div class="nav-actions">
-    <a href="#login" class="btn-login">Masuk</a>
+    <a href="dashboard.html" class="btn-login">Masuk</a>
     <a href="#daftar" class="btn btn-primary"><span class="btn-text">Coba Gratis</span></a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
   </div>
 </nav>
+
+<div class="mmenu" id="mobileMenu" aria-hidden="true">
+  <div class="mmenu-backdrop" data-close></div>
+  <div class="mmenu-panel">
+    <a href="#fitur">Fitur</a>
+    <a href="#program">Program</a>
+    <a href="#harga">Harga</a>
+    <a href="#faq">FAQ</a>
+    <a href="dashboard.html">Dashboard</a>
+    <div class="mmenu-cta">
+      <a href="#daftar" class="btn btn-yellow">Coba Kelas Gratis</a>
+      <a href="dashboard.html" class="btn btn-ghost">Masuk</a>
+    </div>
+  </div>
+</div>
 
 <header class="hero">
   <div class="hero-bg">
@@ -895,7 +965,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   </div>
   <div class="wrap">
     <div class="hero-grid">
-      <div>
+      <div class="hero-content">
         <div class="eyebrow reveal">Kelas baru dibuka minggu ini</div>
         <h1 class="reveal">Belajar jadi <span class="hl">menyenangkan</span>, prestasi jadi <span class="hl2">mungkin</span>.</h1>
         <p class="hero-sub reveal">
@@ -986,7 +1056,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 <span class="trust-item">SMAN ??</span>
 <span class="trust-item">SDN ??</span>
 <span class="trust-item">SMPN ??</span>
-<span class="trust-item">SMKN ??/span>
+<span class="trust-item">SMKN ??</span>
     </div>
   </div>
 </section>
@@ -1328,7 +1398,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
       if(e.isIntersecting){
         setTimeout(function(){
           e.target.classList.add('in');
-          setTimeout(function(){ e.target.classList.add('done'); }, 900);
+          setTimeout(function(){ e.target.classList.remove('reveal','in','done'); }, 900);
         }, i * 55);
         revealObs.unobserve(e.target);
       }
@@ -1394,23 +1464,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
     if(!b || reduced) return;
     b.animate([{transform:'scale(1)'},{transform:'scale(.97)'},{transform:'scale(1)'}],{duration:180,easing:'ease-out'});
   });
-  if(!reduced && 'IntersectionObserver' in window){
-    const io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.style.animationDelay=(Math.min(entry.target.dataset.uiDelay||0,260))+'ms';
-          entry.target.classList.add('ui-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    },{threshold:.08});
-    document.querySelectorAll('.feature,.how-step,.program,.testi-card,.price-card,.trust-item').forEach(function(el,i){
-      el.classList.add('ui-reveal');el.dataset.uiDelay=(i%4)*45;io.observe(el);
-    });
+})();
+</script>
+
+<script>
+/* MENU BURGER */
+(function(){
+  var btn = document.getElementById('menuToggle');
+  var menu = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+  function setOpen(open){
+    document.body.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
   }
-  const style=document.createElement('style');
-  style.textContent='.ui-reveal{opacity:0;transform:translateY(12px)}.ui-reveal.ui-visible{animation:uiReveal .5s var(--ui-ease) forwards}@keyframes uiReveal{to{opacity:1;transform:none}}';
-  document.head.appendChild(style);
+  btn.addEventListener('click', function(){ setOpen(!document.body.classList.contains('menu-open')); });
+  menu.addEventListener('click', function(e){
+    if(e.target.closest('[data-close]') || e.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setOpen(false); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 900) setOpen(false); });
 })();
 </script>
 
