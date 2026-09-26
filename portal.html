@@ -614,6 +614,23 @@ input::placeholder {
       <div id="googleBtnGuru" style="display:flex;justify-content:center"></div>
       <p class="sub" id="googleErr" style="color:var(--color-warning);text-align:center;min-height:18px"></p>
     </div>
+
+    <div class="divider"><span>belum punya PIN?</span></div>
+    <button type="button" class="btn btn-outline btn-full" id="toggleDaftar">📝 Daftar Baru</button>
+
+    <form id="fDaftar" hidden style="margin-top:14px">
+      <label for="dNama">Nama <span class="sub" id="dNamaHint"></span></label>
+      <input id="dNama" type="text" placeholder="Nama lengkap" required>
+
+      <label for="dWa">Nomor WhatsApp</label>
+      <input id="dWa" type="tel" placeholder="08xxxxxxxxxx" required autocomplete="tel">
+
+      <div class="err" id="dErr" role="alert"></div>
+
+      <button class="btn btn-success btn-full" id="dGo" type="submit" style="margin-top:14px">
+        Daftar
+      </button>
+    </form>
   </div>
 
   <!-- APP CONTENT -->
@@ -802,6 +819,7 @@ function setRole(r) {
   document.querySelectorAll('.tabs .btn').forEach(b => {
     b.classList.toggle('active', b.dataset.r === r);
   });
+  updateDaftarHint();
 }
 
 document.querySelectorAll('.tabs .btn').forEach(b => {
@@ -809,6 +827,67 @@ document.querySelectorAll('.tabs .btn').forEach(b => {
 });
 
 setRole(role);
+
+// ============================================
+// DAFTAR MANDIRI (Guru / Orang Tua)
+// ============================================
+
+function updateDaftarHint() {
+  const hint = $('dNamaHint');
+  if (hint) hint.textContent = role === 'guru' ? '(nama guru)' : '(nama anak/siswa)';
+}
+
+$('toggleDaftar').onclick = () => {
+  const f = $('fDaftar');
+  f.hidden = !f.hidden;
+  $('toggleDaftar').textContent = f.hidden ? '📝 Daftar Baru' : '✕ Batal Daftar';
+  if (!f.hidden) $('dNama').focus();
+};
+
+let isRegistering = false;
+
+$('fDaftar').onsubmit = async e => {
+  e.preventDefault();
+  if (isRegistering) return;
+
+  const errEl = $('dErr');
+  errEl.textContent = '';
+  const nama = $('dNama').value.trim();
+  const wa = $('dWa').value.trim();
+
+  if (!nama) { errEl.textContent = 'Nama wajib diisi.'; return; }
+
+  isRegistering = true;
+  const btn = $('dGo');
+  btn.disabled = true;
+  showLoading(true);
+
+  try {
+    const d = await api('/api/register', {
+      method: 'POST',
+      body: JSON.stringify({ role, nama, wa })
+    });
+    showLoading(false);
+    alert(
+      'Pendaftaran berhasil! 🎉\n\n' +
+      'PIN Anda: ' + d.pin + '\n\n' +
+      'Simpan PIN ini baik-baik, lalu masuk pakai Nomor WhatsApp & PIN di atas.' +
+      (d.message ? '\n\n' + d.message : '')
+    );
+    $('fDaftar').hidden = true;
+    $('toggleDaftar').textContent = '📝 Daftar Baru';
+    $('wa').value = wa;
+    $('dNama').value = '';
+    $('dWa').value = '';
+    $('pin').focus();
+  } catch (x) {
+    showLoading(false);
+    errEl.textContent = x.message || 'Pendaftaran gagal. Coba lagi.';
+  } finally {
+    isRegistering = false;
+    btn.disabled = false;
+  }
+};
 
 $('f').onsubmit = async e => {
   e.preventDefault();
