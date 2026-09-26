@@ -4,177 +4,1027 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Portal — Alief Bimbel</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Google Fonts: Baloo 2 (playful heading) + Nunito (readable body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#FFFBEF;--ink:#2A2540;--muted:#6E6685;--line:rgba(42,37,64,.1);--blue:#4A90E2;--blue-soft:#DBEAFE;--yellow:#FFC93C;--yellow-soft:#FFF3C4;--coral:#FF7A7A;--coral-soft:#FFE0E0;--mint:#4ECDC4;--mint-soft:#D4F5F1;--h:'Poppins',system-ui,sans-serif;--b:'Nunito',system-ui,sans-serif}
-body{background:var(--bg);color:var(--ink);font-family:var(--b);font-size:15px;line-height:1.6;min-height:100vh}
-h1,h2,h3{font-family:var(--h);letter-spacing:-.02em}
-button,input{font-family:inherit}button{cursor:pointer;border:none}
-.wrap{max-width:720px;margin:0 auto;padding:18px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--h);font-weight:800}
-.logo i{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--mint));color:#fff;display:grid;place-items:center;font-style:normal}
-.card{background:#fff;border:2px solid var(--line);border-radius:22px;padding:22px;margin-bottom:14px}
-.btn{padding:10px 18px;border-radius:100px;font-family:var(--h);font-weight:700;font-size:13.5px;background:var(--blue);color:#fff}
-.btn.g{background:#fff;color:var(--ink);border:2px solid var(--line)}
-.btn.y{background:var(--yellow);color:var(--ink)}
-.btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.btn.wa{background:#25D366;color:#fff}
-.tabs{display:flex;gap:8px;margin-bottom:16px}.tabs .btn{flex:1}
-label{display:block;font-weight:700;font-size:13px;margin:12px 0 5px}
-input{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font-size:15px}
-input:focus{outline:none;border-color:var(--blue)}
-.err{color:#C53030;font-size:13.5px;margin-top:10px;min-height:20px;font-weight:600}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px dashed var(--line)}
-.row:last-child{border-bottom:0}
-.row b{font-family:var(--h);font-size:14.5px}.row small{display:block;color:var(--muted);font-size:13px}
-.bd{padding:3px 12px;border-radius:100px;font-size:12px;font-weight:800}
-.ok{background:var(--mint-soft);color:#0F766E}.no{background:var(--coral-soft);color:#B22B2B}.wt{background:var(--yellow-soft);color:#7A5A00}
-.hari{font-family:var(--h);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
-.acts{display:flex;gap:6px;flex-wrap:wrap;width:100%}
-.sub{color:var(--muted);font-size:14px}
-[hidden]{display:none!important}
+/* ============================================
+   DESIGN SYSTEM - Alief Bimbel
+   Playful for kids + Professional for adults
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors - Friendly & Trustworthy */
+  --color-primary: #4A90E2;        /* Friendly blue */
+  --color-primary-dark: #2E5F8D;
+  --color-secondary: #FFC93C;      /* Warm yellow */
+  --color-success: #4ECDC4;        /* Mint green */
+  --color-success-soft: #D4F5F1;
+  --color-warning: #FF7A7A;        /* Coral */
+  --color-warning-soft: #FFE0E0;
+  --color-bg: #FFFBEF;             /* Warm cream */
+  --color-bg-alt: #FFF;
+  --color-ink: #2A2540;            /* Deep purple-gray */
+  --color-muted: #6E6685;
+  --color-line: rgba(42, 37, 64, 0.1);
+  
+  /* Typography */
+  --font-heading: 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 18px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  
+  /* Borders & Radius */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 100px;
+  --border-width: 2px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(42, 37, 64, 0.08);
+  --shadow-md: 0 4px 16px rgba(42, 37, 64, 0.12);
+  --shadow-lg: 0 8px 24px rgba(42, 37, 64, 0.16);
+  
+  /* Transitions */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: all var(--duration-normal) var(--ease);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+
+.wrap {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+  animation: fadeIn 0.4s var(--ease);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+  padding: var(--space-md) 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: transform var(--duration-fast) var(--ease);
+}
+
+.logo:hover {
+  transform: scale(1.02);
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-success));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+  padding: 11px 20px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  border: var(--border-width) solid transparent;
+  transition: all var(--duration-normal) var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline {
+  background: var(--color-bg-alt);
+  color: var(--color-ink);
+  border-color: var(--color-line);
+}
+
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: rgba(74, 144, 226, 0.05);
+}
+
+.btn-outline.active {
+  background: var(--color-ink);
+  color: #fff;
+  border-color: var(--color-ink);
+}
+
+.btn-success {
+  background: var(--color-success);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #3DB5AC;
+  transform: translateY(-1px);
+}
+
+.btn-wa {
+  background: #25D366;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-wa:hover:not(:disabled) {
+  background: #1EAE54;
+  transform: translateY(-1px);
+}
+
+.btn-small {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+  padding: 14px 24px;
+  font-size: 15px;
+}
+
+.btn-loading::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+  background: var(--color-bg-alt);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration-normal) var(--ease);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card h2 {
+  font-size: 26px;
+  margin-bottom: var(--space-sm);
+  color: var(--color-ink);
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: var(--space-md);
+}
+
+.sub {
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ============================================
+   TABS
+   ============================================ */
+
+.tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  padding: 4px;
+  background: var(--color-bg);
+  border-radius: var(--radius-pill);
+  border: var(--border-width) solid var(--color-line);
+}
+
+.tabs .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+
+label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  margin: var(--space-md) 0 6px;
+  color: var(--color-ink);
+}
+
+input[type="tel"],
+input[type="password"],
+input[type="date"] {
+  width: 100%;
+  padding: 13px 16px;
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  background: var(--color-bg-alt);
+  color: var(--color-ink);
+  transition: all var(--duration-fast) var(--ease);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+input::placeholder {
+  color: var(--color-muted);
+}
+
+.err {
+  color: var(--color-warning);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: var(--space-md);
+  min-height: 20px;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-warning-soft);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-warning);
+  display: none;
+}
+
+.err:not(:empty) {
+  display: block;
+  animation: shake 0.4s var(--ease);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* ============================================
+   LISTS & ROWS
+   ============================================ */
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: var(--space-md) 0;
+  border-bottom: 1px dashed var(--color-line);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row b {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  color: var(--color-ink);
+}
+
+.row small {
+  display: block;
+  color: var(--color-muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.hari {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: var(--space-lg) 0 var(--space-sm);
+  font-weight: 700;
+}
+
+.acts {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+
+.badge {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.badge-success {
+  background: var(--color-success-soft);
+  color: #0F766E;
+}
+
+.badge-warning {
+  background: var(--color-warning-soft);
+  color: #B22B2B;
+}
+
+.badge-pending {
+  background: #FFF3C4;
+  color: #7A5A00;
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 251, 239, 0.9);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-overlay.show {
+  display: flex;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--color-line);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: var(--space-md);
+  }
+  
+  .card {
+    padding: var(--space-lg);
+  }
+  
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .acts .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+}
 </style>
 </head>
 <body>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+</div>
+
 <div class="wrap">
   <div class="top">
-    <a href="index.html" class="logo"><i>A</i>Alief Bimbel</a>
-    <button class="btn g" id="out" hidden>Keluar</button>
+    <a href="index.html" class="logo">
+      <div class="logo-icon">A</div>
+      <span>Alief Bimbel</span>
+    </a>
+    <button class="btn btn-outline btn-small" id="out" hidden>Keluar</button>
   </div>
 
-  <!-- LOGIN -->
+  <!-- LOGIN FORM -->
   <div id="login" class="card">
-    <h2>Masuk</h2>
-    <p class="sub" style="margin-bottom:14px">Gunakan nomor WhatsApp &amp; PIN dari admin.</p>
-    <div class="tabs"><button class="btn" data-r="guru">Guru</button><button class="btn g" data-r="ortu">Orang Tua</button></div>
+    <h2>Selamat Datang! 👋</h2>
+    <p class="sub" style="margin-bottom:18px">Masuk dengan nomor WhatsApp & PIN dari admin.</p>
+    
+    <div class="tabs">
+      <button class="btn btn-outline" data-r="guru">👨‍🏫 Guru</button>
+      <button class="btn btn-outline" data-r="ortu">👪 Orang Tua</button>
+    </div>
+    
     <form id="f">
-      <label for="wa">Nomor WhatsApp</label><input id="wa" type="tel" placeholder="08xxxxxxxxxx" required>
-      <label for="pin">PIN</label><input id="pin" type="password" placeholder="••••••" required>
-      <div class="err" id="err"></div>
-      <button class="btn" style="width:100%;padding:13px" id="go">Masuk</button>
+      <label for="wa">Nomor WhatsApp</label>
+      <input id="wa" type="tel" placeholder="08xxxxxxxxxx" required autocomplete="tel">
+      
+      <label for="pin">PIN</label>
+      <input id="pin" type="password" placeholder="••••••" required autocomplete="current-password">
+      
+      <div class="err" id="err" role="alert"></div>
+      
+      <button class="btn btn-primary btn-full" id="go" type="submit" style="margin-top:18px">
+        Masuk
+      </button>
     </form>
   </div>
 
+  <!-- APP CONTENT -->
   <div id="app" hidden></div>
 </div>
 
 <script>
 'use strict';
+
+// ============================================
+// CONSTANTS & CONFIG
+// ============================================
+
 const API = 'https://alief-worker.aliefbimbel.workers.dev';
 let ADMIN_WA = '62882003377569';
-fetch(API + '/api/public/info').then(r => r.json()).then(d => { if(d.wa) ADMIN_WA = d.wa; }).catch(() => {});
-const HARI = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
-const NAMA_HARI = ['Minggu',...HARI.slice(0,6)];
+const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+const NAMA_HARI = ['Minggu', ...HARI.slice(0, 6)];
+const NAMA_BLN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
+
 const $ = id => document.getElementById(id);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const rp = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
-const iso = () => { const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
-const endT = (j,d) => { const [h,m] = (j||'0:0').split(':').map(Number), t = (h*60+m+Number(d||0))%1440; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); };
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const rp = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const iso = () => {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+};
+const endT = (j, d) => {
+  const [h, m] = (j || '0:0').split(':').map(Number);
+  const t = (h * 60 + m + Number(d || 0)) % 1440;
+  return String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0');
+};
+
+function showLoading(show = true) {
+  $('loading').classList.toggle('show', show);
+}
+
+function showError(message) {
+  const err = $('err');
+  err.textContent = message;
+  setTimeout(() => { err.textContent = ''; }, 5000);
+}
+
+// ============================================
+// INPUT VALIDATION (BUG FIX #1)
+// ============================================
+
+function validatePhone(phone) {
+  const cleaned = phone.trim().replace(/\D/g, '');
+  if (cleaned.length < 10 || cleaned.length > 15) {
+    throw new Error('Nomor WhatsApp harus 10-15 digit');
+  }
+  return cleaned.startsWith('0') ? '62' + cleaned.slice(1) : cleaned;
+}
+
+function validatePin(pin) {
+  const cleaned = pin.trim();
+  if (cleaned.length < 4) {
+    throw new Error('PIN minimal 4 karakter');
+  }
+  return cleaned;
+}
+
+// ============================================
+// API FUNCTIONS (BUG FIX #2 - Better Error Handling)
+// ============================================
+
+async function api(path, opts = {}) {
+  try {
+    const r = await fetch(API + path, {
+      ...opts,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: 'Bearer ' + token } : {})
+      }
+    });
+
+    const d = await r.json().catch(() => ({}));
+    
+    if (!r.ok) {
+      const e = new Error(d.error || 'Server belum mendukung login ini');
+      e.code = r.status;
+      throw e;
+    }
+    
+    return d;
+  } catch (error) {
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Tidak dapat terhubung ke server. Periksa koneksi internet.');
+    }
+    throw error;
+  }
+}
+
+// ============================================
+// STATE MANAGEMENT
+// ============================================
 
 let role = (location.hash.slice(1) === 'ortu') ? 'ortu' : 'guru';
 let token = sessionStorage.getItem('alief_tk') || '';
-let me = null, tanggal = iso();
+let me = null;
+let tanggal = iso();
+let isSubmitting = false; // Prevent double-submit (BUG FIX #3)
 
-async function api(path, opts = {}){
-  const r = await fetch(API + path, { ...opts, headers: { 'Content-Type':'application/json', ...(token ? { Authorization:'Bearer ' + token } : {}) } });
-  const d = await r.json().catch(() => ({}));
-  if(!r.ok){ const e = new Error(d.error || 'Server belum mendukung login ini'); e.code = r.status; throw e; }
-  return d;
-}
+// ============================================
+// INIT ADMIN WA (BUG FIX #4 - Race Condition Fix)
+// ============================================
 
-/* ---- login ---- */
-function setRole(r){
+(async function initAdminWA() {
+  try {
+    const data = await fetch(API + '/api/public/info').then(r => r.json());
+    if (data.wa) ADMIN_WA = data.wa;
+  } catch (e) {
+    console.warn('Failed to load admin WA, using fallback:', e);
+  }
+})();
+
+// ============================================
+// LOGIN LOGIC
+// ============================================
+
+function setRole(r) {
   role = r;
-  document.querySelectorAll('.tabs .btn').forEach(b => b.classList.toggle('g', b.dataset.r !== r));
+  document.querySelectorAll('.tabs .btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.r === r);
+  });
 }
-document.querySelectorAll('.tabs .btn').forEach(b => b.onclick = () => setRole(b.dataset.r));
+
+document.querySelectorAll('.tabs .btn').forEach(b => {
+  b.onclick = () => setRole(b.dataset.r);
+});
+
 setRole(role);
 
 $('f').onsubmit = async e => {
-  e.preventDefault(); $('err').textContent = ''; $('go').disabled = true;
-  try{
-    const d = await api('/api/login', { method:'POST', body: JSON.stringify({ role, wa: $('wa').value.trim(), pin: $('pin').value.trim() }) });
-    token = d.token; sessionStorage.setItem('alief_tk', token); sessionStorage.setItem('alief_role', role);
-    me = d; show();
-  }catch(x){ $('err').textContent = x.code === 401 ? 'Nomor WhatsApp atau PIN salah.' : x.message; }
-  $('go').disabled = false;
+  e.preventDefault();
+  
+  if (isSubmitting) return; // Prevent double-submit
+  
+  const errEl = $('err');
+  const goBtn = $('go');
+  
+  errEl.textContent = '';
+  isSubmitting = true;
+  goBtn.disabled = true;
+  goBtn.classList.add('btn-loading');
+  showLoading(true);
+  
+  try {
+    // Validate inputs
+    const validatedWa = validatePhone($('wa').value);
+    const validatedPin = validatePin($('pin').value);
+    
+    const d = await api('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        role,
+        wa: validatedWa,
+        pin: validatedPin
+      })
+    });
+    
+    token = d.token;
+    sessionStorage.setItem('alief_tk', token);
+    sessionStorage.setItem('alief_role', role);
+    me = d;
+    
+    showLoading(false);
+    show();
+  } catch (x) {
+    showLoading(false);
+    const message = x.code === 401 
+      ? 'Nomor WhatsApp atau PIN salah.' 
+      : x.message || 'Terjadi kesalahan. Silakan coba lagi.';
+    showError(message);
+  } finally {
+    isSubmitting = false;
+    goBtn.disabled = false;
+    goBtn.classList.remove('btn-loading');
+  }
 };
-$('out').onclick = () => { sessionStorage.clear(); token = ''; me = null; $('app').hidden = true; $('out').hidden = true; $('login').hidden = false; $('pin').value = ''; };
 
-async function refresh(){
-  try{ me = await api('/api/me'); show(); }
-  catch(x){ if(x.code === 401) $('out').onclick(); else alert('Gagal: ' + x.message); }
+$('out').onclick = () => {
+  sessionStorage.clear();
+  token = '';
+  me = null;
+  $('app').hidden = true;
+  $('out').hidden = true;
+  $('login').hidden = false;
+  $('pin').value = '';
+  $('wa').focus();
+};
+
+async function refresh() {
+  try {
+    showLoading(true);
+    me = await api('/api/me');
+    showLoading(false);
+    show();
+  } catch (x) {
+    showLoading(false);
+    if (x.code === 401) {
+      $('out').onclick();
+    } else {
+      alert('Gagal memuat data: ' + x.message);
+    }
+  }
 }
 
-/* ---- tampilan ---- */
-function show(){
-  $('login').hidden = true; $('app').hidden = false; $('out').hidden = false;
-  (sessionStorage.getItem('alief_role') === 'ortu' || me.role === 'ortu') ? viewOrtu() : viewGuru();
+// ============================================
+// DISPLAY FUNCTIONS
+// ============================================
+
+function show() {
+  $('login').hidden = true;
+  $('app').hidden = false;
+  $('out').hidden = false;
+  
+  const isOrtu = sessionStorage.getItem('alief_role') === 'ortu' || me.role === 'ortu';
+  isOrtu ? viewOrtu() : viewGuru();
 }
 
-function jadwalHtml(list, withGuru){
-  if(!list.length) return '<p class="sub">Belum ada jadwal.</p>';
+function jadwalHtml(list, withGuru) {
+  if (!list.length) return '<p class="sub">Belum ada jadwal.</p>';
+  
   let h = '';
   HARI.forEach(hr => {
-    const l = list.filter(j => j.hari === hr).sort((a,b) => a.jam.localeCompare(b.jam));
-    if(!l.length) return;
-    h += `<div class="hari">${hr}</div>` + l.map(j => `<div class="row"><div><b>${esc(j.mapel)}</b><small>${esc(j.kelas||'')}${withGuru && j.guruNama ? ' · ' + esc(j.guruNama) : ''}</small></div><span class="bd wt">🕐 ${esc(j.jam)}–${endT(j.jam,j.durasi)}</span></div>`).join('');
+    const l = list.filter(j => j.hari === hr).sort((a, b) => a.jam.localeCompare(b.jam));
+    if (!l.length) return;
+    
+    h += `<div class="hari">📅 ${hr}</div>` + l.map(j => `
+      <div class="row">
+        <div>
+          <b>${esc(j.mapel)}</b>
+          <small>${esc(j.kelas || '')}${withGuru && j.guruNama ? ' · ' + esc(j.guruNama) : ''}</small>
+        </div>
+        <span class="badge badge-pending">🕐 ${esc(j.jam)}–${endT(j.jam, j.durasi)}</span>
+      </div>
+    `).join('');
   });
+  
   return h;
 }
 
-/* ---- ORANG TUA ---- */
-function viewOrtu(){
+// ============================================
+// ORANG TUA VIEW
+// ============================================
+
+function viewOrtu() {
   const { siswa = [], jadwal = [], bayar = [] } = me;
+  
+  if (siswa.length === 0) {
+    $('app').innerHTML = '<div class="card"><p class="sub">Data anak tidak ditemukan.</p></div>';
+    return;
+  }
+  
   $('app').innerHTML = siswa.map(s => {
     const jd = jadwal.filter(j => j.kelas === s.kelas);
-    const by = bayar.filter(b => b.siswaId === s.id).sort((a,b) => (b.tahun - a.tahun) || (NAMA_BLN.indexOf(b.bulan) - NAMA_BLN.indexOf(a.bulan)));
-    return `<div class="card"><h2>${esc(s.nama)}</h2><p class="sub">${esc(s.kelas)} · ${esc(s.program||'')}</p>
-      <h3 style="margin-top:16px;font-size:16px">📅 Jadwal Belajar</h3>${jadwalHtml(jd, true)}</div>
-      <div class="card"><h3 style="font-size:16px">💰 Pembayaran ${esc(s.nama)}</h3>
-      ${by.length ? by.map(b => `<div class="row"><div><b>${esc(b.bulan)} ${esc(b.tahun)}</b><small>${rp(b.jumlah)}</small></div>
-        ${b.status === 'paid' ? '<span class="bd ok">✓ Lunas</span>'
-          : `<div style="display:flex;gap:8px;align-items:center"><span class="bd no">Belum Bayar</span><a class="btn wa" href="${waLink(s,b)}" target="_blank" rel="noopener">Bayar via WhatsApp</a></div>`}</div>`).join('')
-        : '<p class="sub">Belum ada tagihan.</p>'}</div>`;
-  }).join('') || '<div class="card"><p class="sub">Data anak tidak ditemukan.</p></div>';
+    const by = bayar.filter(b => b.siswaId === s.id)
+      .sort((a, b) => (b.tahun - a.tahun) || (NAMA_BLN.indexOf(b.bulan) - NAMA_BLN.indexOf(a.bulan)));
+    
+    return `
+      <div class="card">
+        <h2>${esc(s.nama)} 🎓</h2>
+        <p class="sub">${esc(s.kelas)} · ${esc(s.program || '')}</p>
+        
+        <h3 style="margin-top:20px">📅 Jadwal Belajar</h3>
+        ${jadwalHtml(jd, true)}
+      </div>
+      
+      <div class="card">
+        <h3>💰 Pembayaran ${esc(s.nama)}</h3>
+        ${by.length ? by.map(b => `
+          <div class="row">
+            <div>
+              <b>${esc(b.bulan)} ${esc(b.tahun)}</b>
+              <small>${rp(b.jumlah)}</small>
+            </div>
+            ${b.status === 'paid' 
+              ? '<span class="badge badge-success">✓ Lunas</span>'
+              : `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                  <span class="badge badge-warning">Belum Bayar</span>
+                  <a class="btn btn-wa btn-small" href="${waLink(s, b)}" target="_blank" rel="noopener">
+                    Bayar via WhatsApp
+                  </a>
+                </div>`
+            }
+          </div>
+        `).join('') : '<p class="sub">Belum ada tagihan.</p>'}
+      </div>
+    `;
+  }).join('');
 }
-const NAMA_BLN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-function waLink(s, b){
+
+function waLink(s, b) {
   const t = `Halo Admin Alief Bimbel, saya ingin membayar iuran ${s.nama} (${s.kelas}) bulan ${b.bulan} ${b.tahun} sebesar ${rp(b.jumlah)}.`;
   return 'https://wa.me/' + ADMIN_WA + '?text=' + encodeURIComponent(t);
 }
 
-/* ---- GURU ---- */
-function viewGuru(){
+// ============================================
+// GURU VIEW
+// ============================================
+
+function viewGuru() {
   const { guru, jadwal = [], absen = [] } = me;
-  const d = new Date(tanggal + 'T00:00:00'), hr = NAMA_HARI[d.getDay()];
-  const hariIni = jadwal.filter(j => j.hari === hr).sort((a,b) => a.jam.localeCompare(b.jam));
-  const BD = { hadir:'<span class="bd ok">✓ Hadir</span>', izin:'<span class="bd wt">Izin</span>', sakit:'<span class="bd wt">Sakit</span>', alpa:'<span class="bd no">Alpa</span>' };
-  $('app').innerHTML = `<div class="card"><h2>Halo, ${esc(guru?.nama || 'Guru')}</h2><p class="sub">Isi absensi mengajar Anda.</p>
-    <label for="tgl">Tanggal</label><input type="date" id="tgl" value="${tanggal}"></div>
-    <div class="card"><h3 style="font-size:16px;margin-bottom:6px">Kelas ${hr}</h3>
-    ${hariIni.length ? hariIni.map(j => {
-      const a = absen.find(x => x.jadwalId === j.id && x.tanggal === tanggal), st = a?.status;
-      const B = (v, l) => `<button class="btn g ${st === v ? 'on' : ''}" data-abs="${esc(j.id)}" data-st="${v}" ${st === 'alpa' ? 'disabled' : ''}>${l}</button>`;
-      return `<div class="row" style="flex-direction:column;align-items:stretch"><div style="display:flex;justify-content:space-between;gap:8px"><div><b>${esc(j.mapel)}</b><small>${esc(j.kelas||'')} · ${esc(j.jam)}–${endT(j.jam,j.durasi)}</small></div>${BD[st] || '<span class="bd wt">Belum diabsen</span>'}</div>
-      <div class="acts">${B('hadir','✓ Hadir')}${B('izin','Izin')}${B('sakit','Sakit')}</div></div>`;
-    }).join('') : '<p class="sub">Tidak ada jadwal mengajar hari ini.</p>'}</div>
-    <div class="card"><h3 style="font-size:16px">📅 Jadwal Saya</h3>${jadwalHtml(jadwal, false)}</div>`;
-  $('tgl').onchange = e => { tanggal = e.target.value || iso(); viewGuru(); };
-  document.querySelectorAll('[data-abs]').forEach(b => b.onclick = () => setAbsen(b.dataset.abs, b.dataset.st));
-}
-async function setAbsen(jadwalId, status){
-  const ex = (me.absen || []).find(a => a.jadwalId === jadwalId && a.tanggal === tanggal);
-  const rec = ex ? { ...ex, status } : { id:'absen_' + jadwalId + '_' + tanggal, jadwalId, tanggal, status, createdAt: Date.now() };
-  try{
-    await api('/api/absen/' + encodeURIComponent(rec.id), { method:'PUT', body: JSON.stringify(rec) });
-    me.absen = (me.absen || []).filter(a => a.id !== rec.id).concat(rec); viewGuru();
-  }catch(x){ if(x.code === 401) $('out').onclick(); else alert('Gagal: ' + x.message); }
+  const d = new Date(tanggal + 'T00:00:00');
+  const hr = NAMA_HARI[d.getDay()];
+  const hariIni = jadwal.filter(j => j.hari === hr).sort((a, b) => a.jam.localeCompare(b.jam));
+  
+  const BD = {
+    hadir: '<span class="badge badge-success">✓ Hadir</span>',
+    izin: '<span class="badge badge-pending">Izin</span>',
+    sakit: '<span class="badge badge-pending">Sakit</span>',
+    alpa: '<span class="badge badge-warning">Alpa</span>'
+  };
+  
+  $('app').innerHTML = `
+    <div class="card">
+      <h2>Halo, ${esc(guru?.nama || 'Guru')}! 👋</h2>
+      <p class="sub">Isi absensi mengajar Anda.</p>
+      
+      <label for="tgl">Tanggal</label>
+      <input type="date" id="tgl" value="${tanggal}">
+    </div>
+    
+    <div class="card">
+      <h3>Kelas ${hr}</h3>
+      ${hariIni.length ? hariIni.map(j => {
+        const a = absen.find(x => x.jadwalId === j.id && x.tanggal === tanggal);
+        const st = a?.status;
+        const B = (v, label, icon) => `
+          <button 
+            class="btn ${st === v ? 'btn-primary' : 'btn-outline'} btn-small" 
+            data-abs="${esc(j.id)}" 
+            data-st="${v}"
+            ${st === 'alpa' ? 'disabled' : ''}
+          >
+            ${icon} ${label}
+          </button>
+        `;
+        
+        return `
+          <div class="row" style="flex-direction:column;align-items:stretch">
+            <div style="display:flex;justify-content:space-between;gap:12px;width:100%">
+              <div>
+                <b>${esc(j.mapel)}</b>
+                <small>${esc(j.kelas || '')} · ${esc(j.jam)}–${endT(j.jam, j.durasi)}</small>
+              </div>
+              ${BD[st] || '<span class="badge badge-pending">Belum diabsen</span>'}
+            </div>
+            <div class="acts">
+              ${B('hadir', 'Hadir', '✓')}
+              ${B('izin', 'Izin', '📝')}
+              ${B('sakit', 'Sakit', '🤒')}
+            </div>
+          </div>
+        `;
+      }).join('') : '<p class="sub">Tidak ada jadwal mengajar hari ini.</p>'}
+    </div>
+    
+    <div class="card">
+      <h3>📅 Jadwal Saya</h3>
+      ${jadwalHtml(jadwal, false)}
+    </div>
+  `;
+  
+  const tglInput = $('tgl');
+  if (tglInput) {
+    tglInput.onchange = e => {
+      tanggal = e.target.value || iso();
+      viewGuru();
+    };
+  }
+  
+  document.querySelectorAll('[data-abs]').forEach(b => {
+    b.onclick = () => setAbsen(b.dataset.abs, b.dataset.st);
+  });
 }
 
-if(token){ me = { role: sessionStorage.getItem('alief_role') || 'guru' }; refresh(); }
+// ============================================
+// ABSENSI (BUG FIX #5 - Loading State)
+// ============================================
+
+let isSettingAbsen = false;
+
+async function setAbsen(jadwalId, status) {
+  if (isSettingAbsen) return; // Prevent double-click
+  
+  const ex = (me.absen || []).find(a => a.jadwalId === jadwalId && a.tanggal === tanggal);
+  const rec = ex 
+    ? { ...ex, status } 
+    : { 
+        id: 'absen_' + jadwalId + '_' + tanggal, 
+        jadwalId, 
+        tanggal, 
+        status, 
+        createdAt: Date.now() 
+      };
+  
+  isSettingAbsen = true;
+  showLoading(true);
+  
+  try {
+    await api('/api/absen/' + encodeURIComponent(rec.id), {
+      method: 'PUT',
+      body: JSON.stringify(rec)
+    });
+    
+    me.absen = (me.absen || []).filter(a => a.id !== rec.id).concat(rec);
+    showLoading(false);
+    viewGuru();
+  } catch (x) {
+    showLoading(false);
+    if (x.code === 401) {
+      $('out').onclick();
+    } else {
+      alert('Gagal menyimpan absensi: ' + x.message);
+    }
+  } finally {
+    isSettingAbsen = false;
+  }
+}
+
+// ============================================
+// INIT
+// ============================================
+
+if (token) {
+  me = { role: sessionStorage.getItem('alief_role') || 'guru' };
+  refresh();
+}
 </script>
 </body>
 </html>
