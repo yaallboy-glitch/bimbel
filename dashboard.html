@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -101,6 +102,8 @@ input,select,textarea{font-family:inherit}
 .btn-primary:hover{transform:translate3d(0,-2px,0);box-shadow:0 14px 28px -12px rgba(74,144,226,.7)}
 .btn-yellow{background:var(--yellow);color:var(--ink);box-shadow:0 8px 20px -8px rgba(255,201,60,.6)}
 .btn-yellow:hover{transform:translate3d(0,-2px,0)}
+.lock-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted);font-size:13px}
+.lock-divider::before,.lock-divider::after{content:'';flex:1;height:1px;background:var(--line)}
 .btn-ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
 .btn-ghost:hover{border-color:var(--blue);color:var(--blue-deep)}
 .btn-danger{background:#fff;color:var(--danger);border:1.5px solid var(--danger-soft)}
@@ -1020,6 +1023,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       <input type="password" id="lockPin" placeholder="••••••" autocomplete="current-password" required>
     </div>
     <button class="btn btn-primary" type="submit" id="lockBtn">Masuk</button>
+
+    <div class="lock-divider"><span>atau</span></div>
+    <div id="googleBtnAdmin" style="display:flex;justify-content:center;margin-bottom:10px"></div>
+    <p class="sub" id="lockGoogleErr" style="color:var(--danger,#E53E3E);text-align:center;min-height:18px"></p>
+
     <a href="index.html" class="sb-back">← Kembali ke Landing</a>
   </form>
 </div>
@@ -1032,6 +1040,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
    KONFIGURASI
    ============================================================ */
 const API_BASE  = 'https://alief-worker.aliefbimbel.workers.dev';
+const GOOGLE_CLIENT_ID = '806589013552-d10aoihf1ie00o5cpo6dcauqi5feaaiq.apps.googleusercontent.com';
 const PIN_KEY   = 'alief_admin_key';
 const CACHE_KEY = 'aliefbimbel_cache_v2';
 const OLD_KEY   = 'aliefbimbel_data_v1';      // data lama (versi localStorage)
@@ -1154,6 +1163,62 @@ function showLock(msg){
   setTimeout(() => $('lockPin').focus(), 50);
 }
 function hideLock(){ $('lock').classList.remove('show'); }
+
+/* ---- Login Admin via Google ---- */
+function initGoogleAdminLogin(){
+  if(!window.google || !google.accounts || !google.accounts.id) return;
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleAdminCredential
+  });
+  const holder = $('googleBtnAdmin');
+  if(holder){
+    google.accounts.id.renderButton(holder, {
+      type: 'standard', theme: 'outline', size: 'large',
+      text: 'signin_with', shape: 'pill', logo_alignment: 'left'
+    });
+  }
+}
+
+async function handleGoogleAdminCredential(resp){
+  const errEl = $('lockGoogleErr');
+  errEl.textContent = '';
+  const btn = $('lockBtn');
+  btn.disabled = true;
+  try{
+    const r = await fetch(API_BASE + '/api/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential: resp.credential, role: 'admin' })
+    });
+    const d = await r.json().catch(() => ({}));
+    if(!r.ok || !d.adminKey){
+      throw new Error(d.error || 'Login Google gagal.');
+    }
+    adminKey = d.adminKey;
+    const ok = await loadFromServer(true);
+    if(ok) lsSet(PIN_KEY, adminKey);
+    else adminKey = '';
+  }catch(e){
+    errEl.textContent = e.message || 'Login Google gagal.';
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+window.addEventListener('load', () => {
+  // google script dimuat async, coba beberapa kali sampai siap
+  let tries = 0;
+  const t = setInterval(() => {
+    tries++;
+    if(window.google && google.accounts && google.accounts.id){
+      clearInterval(t);
+      initGoogleAdminLogin();
+    } else if(tries > 40){
+      clearInterval(t);
+    }
+  }, 150);
+});
 
 $('lockForm').addEventListener('submit', async e => {
   e.preventDefault();
