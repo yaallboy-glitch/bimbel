@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Portal — Alief Bimbel</title>
+<title>Portal — AlifBimbel</title>
 
 <!-- Google Fonts: Baloo 2 (playful heading) + Nunito (readable body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
 
 <style>
 /* ============================================
-   DESIGN SYSTEM - Alief Bimbel
+   DESIGN SYSTEM - AlifBimbel
    Playful for kids + Professional for adults
    ============================================ */
 
@@ -567,6 +567,80 @@ input::placeholder {
     min-width: 120px;
   }
 }
+
+/* AlifBimbel responsive finish: calm, parent-trustworthy, child-welcoming. */
+:root{
+  --color-primary:#356b8c;
+  --color-primary-dark:#274f69;
+  --color-secondary:#e8bd65;
+  --color-success:#4f9288;
+  --color-bg:#f7f6f1;
+  --color-bg-alt:#fff;
+  --color-ink:#26363d;
+  --color-muted:#586a70;
+  --color-line:rgba(38,54,61,.13);
+  --ease:cubic-bezier(.2,.7,.25,1);
+  --shadow-sm:0 2px 8px rgba(38,54,61,.055);
+  --shadow-md:0 10px 28px rgba(38,54,61,.09);
+  --shadow-lg:0 20px 48px rgba(38,54,61,.14);
+}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 50% -20%,#fff 0%,var(--color-bg) 66%);font-size:16px}
+.wrap{width:min(100%,1040px);max-width:1040px;padding:clamp(16px,3.2vw,36px);animation:portalIn .5s var(--ease) both}
+@keyframes portalIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.top{margin-bottom:clamp(20px,4vw,40px);padding:8px 0}
+.logo{font-size:21px;letter-spacing:-.035em}
+.logo-icon{background:linear-gradient(145deg,#356b8c,#4f9288);box-shadow:0 5px 14px rgba(53,107,140,.17)}
+/* On the logged-out screen, keep the entry action available but visually quiet. */
+.top #out{min-height:40px;background:rgba(255,255,255,.68);border-color:var(--color-line);color:var(--color-muted);box-shadow:none}
+#login{max-width:560px;margin:clamp(22px,5vh,56px) auto 36px;padding:clamp(22px,5vw,40px);border:1px solid var(--color-line);border-radius:20px;background:rgba(255,255,255,.94);box-shadow:0 18px 55px rgba(38,54,61,.075)}
+#login h2{font-size:clamp(26px,5vw,34px);letter-spacing:-.04em}
+#go{background:#3f7089;box-shadow:0 2px 7px rgba(53,107,140,.12);font-weight:700}
+#go:hover:not(:disabled){background:#315e78;box-shadow:0 5px 12px rgba(53,107,140,.17)}
+#login>.sub{max-width:42ch;font-size:15px}
+.tabs{gap:8px;border-radius:14px;background:#f3f4f1;border:1px solid var(--color-line)}
+.tabs .btn{min-height:46px;border-radius:10px}
+.btn{min-height:44px;border-radius:10px;font-family:var(--font-body);font-weight:800;transition:transform .18s var(--ease),background-color .18s ease,border-color .18s ease,box-shadow .18s ease}
+.btn-primary{background:linear-gradient(135deg,#356b8c,#315e78);box-shadow:0 5px 13px rgba(53,107,140,.16)}
+.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,#2d5e7a,#274f69);box-shadow:0 8px 18px rgba(53,107,140,.2)}
+.card{border:1px solid var(--color-line);border-radius:16px;box-shadow:0 2px 10px rgba(38,54,61,.04);transition:transform .22s var(--ease),box-shadow .22s ease,border-color .22s ease}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:rgba(53,107,140,.2)}
+input,select,textarea{min-height:46px;border-radius:10px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid rgba(53,107,140,.48);outline-offset:3px}
+.btn:active:not(:disabled){transform:translateY(1px) scale(.99)}
+@media(min-width:700px){
+  .wrap{padding:32px 40px}
+  #login{margin-top:clamp(36px,8vh,84px)}
+  #app>.card{padding:28px}
+}
+@media(max-width:600px){
+  body{font-size:15px}
+  .wrap{padding:14px 16px calc(24px + env(safe-area-inset-bottom))}
+  .top{margin-bottom:14px;padding:5px 0}
+  .logo{font-size:19px}
+  .logo-icon{width:40px;height:40px}
+  #login{margin:20px auto;padding:22px 18px;border-radius:16px}
+  .card{padding:18px;margin-bottom:14px;border-radius:14px}
+  .card h2{font-size:24px}
+  .tabs{border-radius:12px}
+  .tabs .btn{padding:9px 10px;white-space:normal;line-height:1.25}
+  .row{gap:10px}
+  .acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .acts .btn{justify-content:center;min-width:0;padding-inline:10px}
+  .btn-full{min-height:48px}
+}
+@media(max-width:360px){
+  .wrap{padding-inline:12px}
+  #login{padding:18px 14px}
+  .tabs{gap:4px}
+  .tabs .btn{font-size:12px}
+  .acts{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
 </style>
 </head>
 <body>
@@ -580,7 +654,7 @@ input::placeholder {
   <div class="top">
     <a href="index.html" class="logo">
       <div class="logo-icon">A</div>
-      <span>Alief Bimbel</span>
+      <span>AlifBimbel</span>
     </a>
     <button class="btn btn-outline btn-small" id="out" hidden>Keluar</button>
   </div>
@@ -1050,7 +1124,7 @@ function viewOrtu() {
 }
 
 function waLink(s, b) {
-  const t = `Halo Admin Alief Bimbel, saya ingin membayar iuran ${s.nama} (${s.kelas}) bulan ${b.bulan} ${b.tahun} sebesar ${rp(b.jumlah)}.`;
+  const t = `Halo Admin AlifBimbel, saya ingin membayar iuran ${s.nama} (${s.kelas}) bulan ${b.bulan} ${b.tahun} sebesar ${rp(b.jumlah)}.`;
   return 'https://wa.me/' + ADMIN_WA + '?text=' + encodeURIComponent(t);
 }
 
