@@ -443,47 +443,6 @@ section{padding:100px 0;position:relative}
 .program .price small{font-size:14px;color:var(--muted);font-weight:600}
 .program .btn{justify-content:center;width:100%}
 
-/* ===== TESTIMONI ===== */
-.testi{
-  background:linear-gradient(180deg,#F0F7FF,#EAF4FF);
-  position:relative;overflow:hidden;
-}
-.testi::before{
-  content:'';position:absolute;bottom:-150px;right:-100px;
-  width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(184,164,232,.25),transparent 65%);
-  filter:blur(60px);pointer-events:none;
-}
-.testi-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-  position:relative;z-index:1;
-}
-.testi-card{
-  padding:32px 28px;border-radius:24px;
-  background:#fff;
-  border:2px solid var(--line);
-  box-shadow:var(--shadow-sm);
-  transition:transform .4s var(--ease), box-shadow .4s, border-color .3s;
-}
-.testi-card:hover{transform:translate3d(0,-6px,0);box-shadow:var(--shadow-md);border-color:var(--lavender)}
-.testi-quote{
-  font-family:var(--body);font-size:16px;font-weight:500;
-  line-height:1.7;margin-bottom:24px;color:var(--ink);
-}
-.testi-quote::before{content:'"';color:var(--blue);font-family:var(--heading);font-weight:800;font-size:28px;line-height:0;position:relative;top:8px;margin-right:2px}
-.testi-author{display:flex;align-items:center;gap:14px}
-.testi-avatar{
-  width:48px;height:48px;border-radius:16px;
-  display:grid;place-items:center;
-  font-family:var(--heading);font-weight:800;font-size:20px;
-  color:#fff;
-}
-.testi-avatar.v1{background:linear-gradient(135deg,var(--blue),var(--mint))}
-.testi-avatar.v2{background:linear-gradient(135deg,var(--coral),var(--yellow));color:var(--ink)}
-.testi-avatar.v3{background:linear-gradient(135deg,var(--lavender),var(--blue))}
-.testi-name{font-family:var(--heading);font-size:15.5px;font-weight:700}
-.testi-role{font-size:13.5px;color:var(--muted);font-weight:500}
-
 /* ===== HARGA ===== */
 .pricing-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
@@ -698,7 +657,7 @@ footer::before{
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:50px}
   .hero-visual{max-width:480px;margin:0 auto;width:100%}
-  .features-grid, .how-grid, .programs-grid, .testi-grid, .pricing-grid{
+  .features-grid, .how-grid, .programs-grid, .pricing-grid{
     grid-template-columns:1fr;
   }
   .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
@@ -732,7 +691,7 @@ footer::before{
   --ui-spring:cubic-bezier(.34,1.56,.64,1);
 }
 body{overflow-x:hidden}
-button,a,.feature,.program,.testi-card,.price-card,.how-step,.trust-item,.faq-item,.mockup{
+button,a,.feature,.program,.price-card,.how-step,.faq-item,.mockup{
   -webkit-tap-highlight-color:transparent;
 }
 button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
@@ -748,13 +707,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   transform:translateX(-130%);transition:transform .9s var(--ui-ease);
 }
 .mockup:hover::after{transform:translateX(130%)}
-.feature,.program,.testi-card,.price-card,.how-step{will-change:transform}
-.feature::after,.program::after,.testi-card::after,.price-card::after,.how-step::after{
+.feature,.program,.price-card,.how-step{will-change:transform}
+.feature::after,.program::after,.price-card::after,.how-step::after{
   content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(74,144,226,.07),transparent 30%);
   opacity:0;transition:opacity .25s;
 }
-.feature:hover::after,.program:hover::after,.testi-card:hover::after,.price-card:hover::after,.how-step:hover::after{opacity:1}
+.feature:hover::after,.program:hover::after,.price-card:hover::after,.how-step:hover::after{opacity:1}
 .btn{position:relative;overflow:hidden;isolation:isolate}
 .btn::after{
   content:"";position:absolute;inset:-40%;
@@ -786,7 +745,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .mockup{aspect-ratio:16/10;transform:rotate(-1deg)}
   .mockup-body{padding:22px}
   section{padding:86px 0}
-  .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{gap:20px}
+  .features-grid,.how-grid,.programs-grid,.pricing-grid{gap:20px}
 }
 @media (min-width:681px) and (max-width:1100px){
   .wrap{padding:0 22px}
@@ -801,8 +760,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .hero-visual .mock-badge.b1{left:-10px}
   .hero-visual .mock-badge.b2{right:-10px}
   section{padding:72px 0}
-  .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .how-step:last-child,.program:last-child,.price-card:last-child,.testi-card:last-child{grid-column:1/-1;width:calc(50% - 10px);justify-self:center}
+  .features-grid,.how-grid,.programs-grid,.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .how-step:last-child,.program:last-child,.price-card:last-child{grid-column:1/-1;width:calc(50% - 10px);justify-self:center}
 }
 @media (max-width:680px){
   .wrap{padding:0 15px}
@@ -842,8 +801,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .trust{padding:10px 0 50px}
   .trust-inner{gap:8px}
   .trust-item{font-size:11.5px;padding:8px 12px}
-  .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{grid-template-columns:1fr;gap:13px}
-  .feature,.how-step,.program,.testi-card,.price-card{padding:22px 19px;border-radius:19px}
+  .features-grid,.how-grid,.programs-grid,.pricing-grid{grid-template-columns:1fr;gap:13px}
+  .feature,.how-step,.program,.price-card{padding:22px 19px;border-radius:19px}
   .feature h3{font-size:18px}
   .program h3{font-size:23px}
   .price-card.pop{transform:none}
@@ -1035,20 +994,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
           </a>
           <a href="#program" class="btn btn-ghost">Lihat Program</a>
         </div>
-        <div class="hero-trust reveal">
-          <div class="item">
-            <span class="num" data-count="1200">0</span>
-            <span class="lbl">Siswa aktif</span>
-          </div>
-          <div class="item">
-            <span class="num" data-count="48">0</span>
-            <span class="lbl">Tutor pilihan</span>
-          </div>
-          <div class="item">
-            <span class="num" data-count="96">0</span>
-            <span class="lbl">% naik nilai</span>
-          </div>
-        </div>
       </div>
 
       <div class="hero-visual reveal">
@@ -1091,32 +1036,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
             </div>
           </div>
         </div>
-        <div class="mock-badge b1">
-          <div class="icon">✓</div>
-          <div>Nilai naik +28%</div>
-        </div>
-        <div class="mock-badge b2">
-          <div class="icon g">★</div>
-          <div>Rating 4.9 / 5</div>
-        </div>
       </div>
     </div>
   </div>
 </header>
 
-<section class="trust">
-  <div class="wrap">
-    <p class="trust-label reveal">Dipercaya sekolah & komunitas di berbagai kota</p>
-    <div class="trust-inner reveal">
-    <span class="trust-item">SDN n plaosan</span>
-<span class="trust-item">SMPN 2 kokap</span>
-<span class="trust-item">SMAN ??</span>
-<span class="trust-item">SDN ??</span>
-<span class="trust-item">SMPN ??</span>
-<span class="trust-item">SMKN ??</span>
-    </div>
-  </div>
-</section>
 
 <section id="fitur">
   <div class="wrap">
@@ -1193,51 +1117,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow reveal">Program</div>
-      <h2 class="reveal">Pilih yang <span class="hl">paling pas</span>.</h2>
-      <p class="reveal">Semua program termasuk try out, laporan bulanan, dan konsultasi orang tua.</p>
+      <h2 class="reveal">Cari program <span class="hl">yang sesuai</span>.</h2>
+      <p class="reveal">Informasi program, ketersediaan kelas, dan biaya dikonfirmasi langsung oleh admin.</p>
     </div>
-
     <div class="programs-grid">
       <div class="program reveal">
-        <span class="program-tag">SD KELAS 1–6</span>
-        <h3>Fondasi Kuat</h3>
-        <p class="desc">Bangun dasar Matematika, Bahasa Indonesia, dan IPA dengan cara yang menyenangkan.</p>
-        <ul>
-          <li>Kelas maksimal 6 siswa</li>
-          <li>2× pertemuan / minggu</li>
-          <li>Durasi 90 menit / sesi</li>
-          <li>Laporan bulanan</li>
-        </ul>
-        <div class="price"><span data-p="sd">Rp 450rb</span> <small>/ bulan</small></div>
-        <a href="#daftar" class="btn btn-ghost">Pilih Program</a>
+        <span class="program-tag">JENJANG SD</span>
+        <h3>Program SD</h3>
+        <p class="desc">Tanyakan pilihan mata pelajaran, format belajar, jadwal, dan biaya kepada admin.</p>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Program SD</a>
       </div>
-
       <div class="program reveal">
-        <span class="program-tag">SMP KELAS 7–9</span>
-        <h3>Naik Level</h3>
-        <p class="desc">Siapkan siswa untuk ujian sekolah dan ujian nasional dengan materi terstruktur.</p>
-        <ul>
-          <li>Kelas maksimal 6 siswa</li>
-          <li>3× pertemuan / minggu</li>
-          <li>Try out tiap 2 minggu</li>
-          <li>Konsultasi ortu via WA</li>
-        </ul>
-        <div class="price"><span data-p="smp">Rp 650rb</span> <small>/ bulan</small></div>
-        <a href="#daftar" class="btn btn-primary">Pilih Program</a>
+        <span class="program-tag">JENJANG SMP</span>
+        <h3>Program SMP</h3>
+        <p class="desc">Tanyakan pilihan mata pelajaran, format belajar, jadwal, dan biaya kepada admin.</p>
+        <a href="#daftar" class="btn btn-primary">Tanyakan Program SMP</a>
       </div>
-
       <div class="program reveal">
-        <span class="program-tag">SMA KELAS 10–12</span>
-        <h3>Siap Ujian</h3>
-        <p class="desc">Fokus ke persiapan UTBK, ujian sekolah, dan pemantapan materi per jurusan.</p>
-        <ul>
-          <li>Kelas maksimal 6 siswa</li>
-          <li>3× pertemuan / minggu</li>
-          <li>Try out UTBK tiap minggu</li>
-          <li>Sesi konsultasi jurusan</li>
-        </ul>
-        <div class="price"><span data-p="sma">Rp 850rb</span> <small>/ bulan</small></div>
-        <a href="#daftar" class="btn btn-ghost">Pilih Program</a>
+        <span class="program-tag">JENJANG SMA</span>
+        <h3>Program SMA</h3>
+        <p class="desc">Tanyakan pilihan mata pelajaran, format belajar, jadwal, dan biaya kepada admin.</p>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Program SMA</a>
       </div>
     </div>
   </div>
@@ -1255,101 +1155,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   </div>
 </section>
 
-<section class="testi">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow reveal">Testimoni</div>
-      <h2 class="reveal">Kata mereka yang <span class="hl">sudah coba</span>.</h2>
-    </div>
-
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <p class="testi-quote">Anak saya yang tadinya benci Matematika, sekarang malah minta tambah jadwal. Tutornya sabar banget.</p>
-        <div class="testi-author">
-          <div class="testi-avatar v1">R</div>
-          <div>
-            <div class="testi-name">Bu Rina</div>
-            <div class="testi-role">Orang tua siswa SMP</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <p class="testi-quote">Yang bikin beda itu kelasnya kecil. Jadi saya berani tanya kalau nggak paham, nggak malu.</p>
-        <div class="testi-author">
-          <div class="testi-avatar v2">A</div>
-          <div>
-            <div class="testi-name">Alif</div>
-            <div class="testi-role">Siswa SMA kelas 11</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <p class="testi-quote">Laporan bulanannya jelas. Saya jadi tahu anak saya berkembang di bagian mana, dan perlu dibantu di mana.</p>
-        <div class="testi-author">
-          <div class="testi-avatar v3">B</div>
-          <div>
-            <div class="testi-name">Pak Budi</div>
-            <div class="testi-role">Orang tua siswa SD</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section id="harga">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow reveal">Harga</div>
-      <h2 class="reveal">Transparan. <span class="hl">Tanpa biaya tersembunyi</span>.</h2>
-      <p class="reveal">Bayar bulanan, bisa berhenti kapan saja. Tidak ada kontrak panjang.</p>
+      <div class="eyebrow reveal">Biaya</div>
+      <h2 class="reveal">Informasi biaya <span class="hl">dari admin</span>.</h2>
+      <p class="reveal">Biaya dan pilihan layanan dikonfirmasi langsung agar sesuai informasi terbaru.</p>
     </div>
-
-    <div class="pricing-grid">
-      <div class="price-card reveal">
-        <h3>Reguler</h3>
-        <p class="who">Cocok untuk siswa yang baru mulai</p>
-        <div class="price-amount" data-p="reguler">450<small>rb</small></div>
-        <p class="price-period">per bulan</p>
-        <ul>
-          <li>2× pertemuan / minggu</li>
-          <li>Kelas maksimal 6 siswa</li>
-          <li>Materi + latihan soal</li>
-          <li>Laporan bulanan</li>
-        </ul>
-        <a href="#daftar" class="btn btn-ghost">Mulai Reguler</a>
-      </div>
-
-      <div class="price-card pop reveal">
-        <span class="pop-tag">Paling Laris</span>
-        <h3>Intensif</h3>
-        <p class="who">Untuk siswa yang mau hasil maksimal</p>
-        <div class="price-amount" data-p="intensif">750<small>rb</small></div>
-        <p class="price-period">per bulan</p>
-        <ul>
-          <li>3× pertemuan / minggu</li>
-          <li>Try out tiap 2 minggu</li>
-          <li>Grup WhatsApp orang tua</li>
-          <li>Konsultasi kapan saja</li>
-          <li>Laporan bulanan detail</li>
-        </ul>
-        <a href="#daftar" class="btn btn-primary">Mulai Intensif</a>
-      </div>
-
-      <div class="price-card reveal">
-        <h3>Privat</h3>
-        <p class="who">1-on-1, jadwal bebas</p>
-        <div class="price-amount" data-p="privat">1,2<small>jt</small></div>
-        <p class="price-period">per bulan</p>
-        <ul>
-          <li>1-on-1 dengan tutor</li>
-          <li>Jadwal fleksibel</li>
-          <li>Materi 100% custom</li>
-          <li>Bisa ke rumah</li>
-          <li>Laporan mingguan</li>
-        </ul>
-        <a href="#daftar" class="btn btn-ghost">Mulai Privat</a>
-      </div>
+    <div class="section-head">
+      <a href="#daftar" class="btn btn-primary">Tanyakan Biaya</a>
     </div>
   </div>
 </section>
@@ -1394,8 +1209,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   <div class="wrap">
     <div class="cta-box reveal">
       <h2>Siap bikin belajar jadi <span class="hl">menyenangkan</span>?</h2>
-      <p>Daftar sekarang lewat WhatsApp. Cuma butuh 2 menit, admin siap membantu memilih program dan jadwal.</p>
-      <a href="https://wa.me/+62882003377569?text=Halo%20Alief%20Bimbel%2C%20saya%20mau%20daftar" class="btn btn-yellow">
+      <p>Hubungi admin AlifBimbel untuk menanyakan program, biaya, dan jadwal yang tersedia.</p>
+      <a href="https://wa.me/+62882003377569?text=Halo%20AlifBimbel%2C%20saya%20ingin%20menanyakan%20program" class="btn btn-yellow">
         Chat via WhatsApp
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -1475,33 +1290,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(function(el){ revealObs.observe(el); });
 
-  /* COUNT-UP */
-  function animateCount(el, target){
-    if(reduced){ el.textContent = target.toLocaleString('id-ID'); return; }
-    var start = performance.now();
-    function step(now){
-      var t = Math.min(1, (now - start) / 1400);
-      var eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.round(target * eased).toLocaleString('id-ID');
-      if(t < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  var countObs = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(e.isIntersecting){
-        var el = e.target;
-        var target = parseInt(el.dataset.count, 10);
-        if(!isNaN(target) && !el.dataset.counted){
-          el.dataset.counted = '1';
-          animateCount(el, target);
-        }
-        countObs.unobserve(el);
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('[data-count]').forEach(function(el){ countObs.observe(el); });
-
   /* Smooth scroll */
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click', function(e){
@@ -1522,7 +1310,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 (function(){
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.addEventListener('pointermove',function(e){
-    const el=e.target.closest('.feature,.program,.testi-card,.price-card,.how-step');
+    const el=e.target.closest('.feature,.program,.price-card,.how-step');
     if(!el || reduced) return;
     const r=el.getBoundingClientRect();
     el.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
@@ -1593,15 +1381,9 @@ fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/jadwal').then(fun
 })();
 </script>
 <script>
-/* TARIF & WA dari admin */
+/* Nomor WhatsApp resmi diambil dari info admin bila tersedia. */
 (function(){
-fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(function(r){return r.json()}).then(function(d){
- var t=d.tarif||{};
- function f(n){return n>=1e6?[String(+(n/1e6).toFixed(2)).replace('.',','),'jt']:[String(Math.round(n/1000)),'rb']}
- document.querySelectorAll('[data-p]').forEach(function(el){
-  var n=+t[el.dataset.p];if(!n)return;var x=f(n);
-  if(el.classList.contains('price-amount'))el.innerHTML=x[0]+'<small>'+x[1]+'</small>';else el.textContent='Rp '+x[0]+x[1];
- });
+fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(function(r){if(!r.ok)throw new Error('Info tidak tersedia');return r.json()}).then(function(d){
  if(d.wa)document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.href=a.href.replace(/wa\.me\/\+?\d+/,'wa.me/'+d.wa)});
 }).catch(function(){});
 })();
