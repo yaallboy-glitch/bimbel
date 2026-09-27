@@ -876,7 +876,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .nav-actions{gap:8px}
 }
 @media (max-width:680px){
-  .nav-actions .btn{display:none}
+  .nav-actions [data-login]{
+    display:inline-flex;justify-content:center;
+    padding:9px 13px;background:transparent;color:var(--muted);
+    border:1px solid var(--line);box-shadow:none;font-size:13px;
+  }
+  .nav-actions .menu-toggle{display:flex}
 }
 
 /* LOGIN CHOOSER */
