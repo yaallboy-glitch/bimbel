@@ -263,6 +263,35 @@ h1,h2,h3,h4{font-family:var(--heading);letter-spacing:-.02em}
 .mock-badge .icon.g{background:var(--mint);color:#fff}
 .mock-badge .icon.c{background:var(--coral);color:#fff}
 
+/* ===== HERO SCHEDULE PREVIEW ===== */
+.schedule-preview{
+  position:relative;isolation:isolate;overflow:hidden;padding:25px;
+  border:1px solid rgba(74,144,226,.15);border-radius:28px;
+  background:linear-gradient(145deg,#fff 0%,#F2F7FF 100%);
+  box-shadow:var(--shadow-lg),0 0 0 7px rgba(255,255,255,.42);
+  color:var(--ink);
+}
+.schedule-preview::before{
+  content:'';position:absolute;z-index:-1;width:230px;height:230px;border-radius:50%;
+  top:-120px;right:-80px;background:var(--yellow-soft);filter:blur(20px);opacity:.72;
+}
+.schedule-preview__top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.schedule-preview__eyebrow{display:block;color:var(--blue-deep);font-family:var(--heading);font-size:11px;font-weight:800;letter-spacing:.12em}
+.schedule-preview__top h2{font-size:27px;line-height:1.1;margin-top:2px}
+.schedule-preview__date{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:var(--ink);color:#fff;font-family:var(--heading);font-weight:800;font-size:22px;line-height:.75;box-shadow:0 8px 16px -8px rgba(42,37,64,.45)}
+.schedule-preview__date small{font-size:9px;letter-spacing:.08em}
+.schedule-preview__days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px}
+.schedule-preview__days span{display:grid;justify-items:center;gap:3px;padding:7px 2px;border-radius:11px;color:var(--muted);font-size:11px;font-weight:700;line-height:1.1}
+.schedule-preview__days b{font-family:var(--heading);font-size:11px}.schedule-preview__days .is-today{background:var(--blue);color:#fff;box-shadow:0 7px 14px -8px rgba(37,99,235,.8)}
+.schedule-preview__active{display:flex;align-items:center;gap:11px;padding:14px;border-radius:19px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:#fff;box-shadow:0 13px 25px -14px rgba(37,99,235,.8)}
+.schedule-preview__active-icon{display:grid;place-items:center;flex:0 0 39px;width:39px;height:39px;border-radius:13px;background:rgba(255,255,255,.18)}
+.schedule-preview__active-icon svg{width:21px;height:21px}.schedule-preview__active-copy{min-width:0;display:grid;gap:1px;flex:1}.schedule-preview__active-copy span{font-family:var(--heading);font-size:9px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.82)}
+.schedule-preview__active-copy span i{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%;background:#96F4C8;box-shadow:0 0 0 3px rgba(150,244,200,.15);animation:schedulePulse 1.8s ease-in-out infinite}.schedule-preview__active-copy strong{font-family:var(--heading);font-size:16px;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.schedule-preview__active-copy small{font-size:11px;color:rgba(255,255,255,.8);font-weight:600}
+.schedule-preview__join{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:#fff;color:var(--blue-deep);transition:transform .25s var(--ease),background .2s}.schedule-preview__join:hover{background:var(--yellow);transform:translateX(2px)}.schedule-preview__join svg{width:18px;height:18px}
+.schedule-preview__list{padding:16px 2px 0}.schedule-preview__list>p{font-family:var(--heading);font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}.schedule-preview__item{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed rgba(42,37,64,.13)}
+.schedule-preview__item time{width:37px;font-family:var(--heading);font-size:13px;font-weight:800;color:var(--ink)}.schedule-preview__subject{display:grid;place-items:center;width:31px;height:31px;border-radius:10px;font-family:var(--heading);font-size:11px;font-weight:800}.subject-blue{background:var(--blue-soft);color:var(--blue-deep)}.subject-yellow{background:var(--yellow-soft);color:#8C6500}.schedule-preview__item div{display:grid;line-height:1.15}.schedule-preview__item strong{font-family:var(--heading);font-size:14px}.schedule-preview__item small{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+@keyframes schedulePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.62;transform:scale(.72)}}
+
 /* ===== SECTION COMMON ===== */
 section{padding:100px 0;position:relative}
 .section-head{max-width:680px;margin:0 auto 60px;text-align:center}
@@ -777,6 +806,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .hero-content{order:1}
   .hero-visual{order:0;width:100%}
   .mockup{aspect-ratio:16/10;transform:none;border-radius:22px}
+  .schedule-preview{padding:18px;border-radius:22px}
+  .schedule-preview__top{margin-bottom:13px}.schedule-preview__top h2{font-size:23px}
+  .schedule-preview__days{margin-bottom:13px}.schedule-preview__active{padding:12px;gap:9px}
+  .schedule-preview__active-copy strong{font-size:14.5px}.schedule-preview__active-copy small{font-size:10px}
+  .schedule-preview__list{padding-top:12px}.schedule-preview__item{padding:7px 0}
   .mockup-body{padding:17px}
   .mock-row{gap:10px;margin-bottom:11px}
   .mock-avatar{width:36px;height:36px;border-radius:11px;font-size:15px}
@@ -816,6 +850,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .hero-cta{flex-direction:column}
   .hero-cta .btn{width:100%}
   .hero-trust{gap:13px}
+}
+@media (max-width:380px){
+  .schedule-preview{padding:15px}.schedule-preview__active-icon{display:none}.schedule-preview__days{gap:2px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -1001,44 +1038,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
         </div>
       </div>
 
-      <div class="hero-visual reveal">
-        <div class="mockup">
-          <div class="mockup-top"><span></span><span></span><span></span></div>
-          <div class="mockup-body">
-            <div class="mock-row">
-              <div class="mock-avatar">A</div>
-              <div class="mock-lines">
-                <div class="mock-line w-70"></div>
-                <div class="mock-line w-45"></div>
-              </div>
+      <div class="hero-visual reveal" aria-label="Contoh jadwal kelas aktif AlifBimbel">
+        <div class="schedule-preview">
+          <div class="schedule-preview__top">
+            <div>
+              <span class="schedule-preview__eyebrow">JADWAL BELAJAR</span>
+              <h2>Hari ini, Senin</h2>
             </div>
-            <div class="mock-row">
-              <div class="mock-avatar c2">R</div>
-              <div class="mock-lines">
-                <div class="mock-line w-90"></div>
-                <div class="mock-line w-45"></div>
-              </div>
-            </div>
-            <div class="mock-row">
-              <div class="mock-avatar c3">F</div>
-              <div class="mock-lines">
-                <div class="mock-line w-70"></div>
-                <div class="mock-line w-90"></div>
-              </div>
-            </div>
-            <div class="mock-row">
-              <div class="mock-avatar c4">S</div>
-              <div class="mock-lines">
-                <div class="mock-line w-90"></div>
-                <div class="mock-line w-45"></div>
-              </div>
-            </div>
-            <div class="mock-card">
-              <span class="mock-tag">Progress minggu ini</span>
-              <div class="mock-line w-70"></div>
-              <div class="mock-progress"><i></i></div>
-              <div class="mock-line w-45"></div>
-            </div>
+            <span class="schedule-preview__date">12<br><small>MEI</small></span>
+          </div>
+          <div class="schedule-preview__days" aria-label="Pilihan hari">
+            <span><b>S</b>11</span><span class="is-today"><b>S</b>12</span><span><b>S</b>13</span><span><b>R</b>14</span><span><b>K</b>15</span><span><b>J</b>16</span><span><b>S</b>17</span>
+          </div>
+          <div class="schedule-preview__active">
+            <div class="schedule-preview__active-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+            <div class="schedule-preview__active-copy"><span><i></i> KELAS SEDANG BERLANGSUNG</span><strong>Matematika Intensif</strong><small>15.30 – 17.00 · Kelas 8A</small></div>
+            <button class="schedule-preview__join" type="button" aria-label="Lihat kelas Matematika Intensif"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+          <div class="schedule-preview__list">
+            <p>SELANJUTNYA</p>
+            <div class="schedule-preview__item"><time>17.30</time><span class="schedule-preview__subject subject-blue">BI</span><div><strong>Bahasa Indonesia</strong><small>Kelas 8A · Kak Nisa</small></div></div>
+            <div class="schedule-preview__item"><time>19.00</time><span class="schedule-preview__subject subject-yellow">IP</span><div><strong>IPA Terpadu</strong><small>Kelas 8A · Kak Dimas</small></div></div>
           </div>
         </div>
       </div>
