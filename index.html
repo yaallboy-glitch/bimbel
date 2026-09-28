@@ -940,8 +940,22 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 .jd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
 .jd-day{background:#fff;border:2px solid var(--line);border-radius:22px;padding:20px}
 .jd-day h3{font-size:16px;margin-bottom:10px;color:var(--blue-deep)}
-.jd-it{padding:9px 0;border-top:1px dashed var(--line);font-size:14px}
-.jd-it b{font-family:var(--heading);display:block;font-size:14.5px}.jd-it span{color:var(--muted);font-size:13px}
+.jd-it{padding:9px 0;border-top:1px dashed var(--line);font-size:14px;transition:opacity .2s}
+.jd-it.is-done{opacity:.6}
+.jd-it-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:2px}
+.jd-it-head b{font-family:var(--heading);font-size:14.5px}
+.jd-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:100px;font-family:var(--heading);line-height:1.2}
+.jd-badge--live{background:rgba(39,174,96,.14);color:#219653}
+.jd-badge--live i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#27ae60;animation:schedulePulse 1.6s infinite ease-in-out}
+.jd-badge--done{background:rgba(100,116,139,.12);color:#64748b}
+.jd-badge--soon{background:rgba(74,144,226,.12);color:var(--blue)}
+.schedule-preview__item.is-done{opacity:.6}
+.sched-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto;white-space:nowrap;font-family:var(--heading);flex-shrink:0}
+.sched-tag--live{background:rgba(39,174,96,.14);color:#219653}
+.sched-tag--live i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#27ae60;animation:schedulePulse 1.6s infinite ease-in-out}
+.sched-tag--done{background:rgba(100,116,139,.12);color:#64748b}
+.sched-tag--soon{background:rgba(74,144,226,.12);color:var(--blue)}
+.jd-it span{color:var(--muted);font-size:13px}
 .jd-empty{text-align:center;color:var(--muted);grid-column:1/-1}
 
 @keyframes fadeIn {
@@ -1403,25 +1417,56 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')o.classList.
 (function(){
 var H=['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'],D=[],K='Semua';
 var g=document.getElementById('jdGrid'),t=document.getElementById('jdTabs');
-function e(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function getWibDate(){
+ var d=new Date();
+ var utc=d.getTime()+(d.getTimezoneOffset()*60000);
+ return new Date(utc+(7*3600000));
+}
+function e(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';'})}
 function end(j,d){var p=(j||'0:0').split(':'),m=(+p[0]*60+ +p[1]+ +d)%1440;return ('0'+Math.floor(m/60)).slice(-2)+':'+('0'+m%60).slice(-2)}
+function toMin(j){var p=(j||'0:0').split(':');return (+p[0]*60)+ (+p[1])}
+
 function draw(){
  var ks=['Semua'].concat(D.map(function(x){return x.kelas}).filter(function(v,i,a){return v&&a.indexOf(v)===i}).sort());
  t.innerHTML=ks.map(function(k){return '<button type="button" class="'+(k===K?'on':'')+'" data-k="'+e(k)+'">'+e(k)+'</button>'}).join('');
+ var wib=getWibDate();
+ var days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+ var todayName=days[wib.getDay()];
+ var nowM=wib.getHours()*60+wib.getMinutes();
+
  var h='';
  H.forEach(function(hr){
   var l=D.filter(function(x){return x.hari===hr&&(K==='Semua'||x.kelas===K)}).sort(function(a,b){return a.jam.localeCompare(b.jam)});
-  if(l.length)h+='<div class="jd-day"><h3>'+hr+'</h3>'+l.map(function(x){return '<div class="jd-it"><b>'+e(x.mapel)+'</b><span>'+e(x.jam)+'–'+end(x.jam,x.durasi)+' · '+e(x.kelas)+(x.guruNama?' · '+e(x.guruNama):'')+'</span></div>'}).join('')+'</div>';
+  if(l.length){
+   h+='<div class="jd-day"><h3>'+hr+(hr===todayName?' <span style="font-size:12px;font-weight:600;color:var(--blue)">(Hari ini · WIB)</span>':'')+'</h3>'
+    +l.map(function(x){
+     var st=toMin(x.jam), en=st+(+x.durasi||60);
+     var badge='', cls='jd-it';
+     if(hr===todayName){
+      if(nowM>=st && nowM<en){
+       badge='<span class="jd-badge jd-badge--live"><i></i> Berlangsung</span>';
+       cls='jd-it is-live';
+      } else if(nowM>=en){
+       badge='<span class="jd-badge jd-badge--done">✓ Selesai</span>';
+       cls='jd-it is-done';
+      } else {
+       badge='<span class="jd-badge jd-badge--soon">Akan Datang</span>';
+       cls='jd-it is-upcoming';
+      }
+     }
+     return '<div class="'+cls+'"><div class="jd-it-head"><b>'+e(x.mapel)+'</b>'+badge+'</div><span>'+e(x.jam)+'–'+end(x.jam,x.durasi)+' · '+e(x.kelas)+(x.guruNama?' · '+e(x.guruNama):'')+'</span></div>';
+    }).join('')+'</div>';
+  }
  });
  g.innerHTML=h||'<p class="jd-empty">Belum ada jadwal.</p>';
 }
-t.addEventListener('click',function(ev){var b=ev.target.closest('[data-k]');if(b){K=b.dataset.k;draw()}});
+
 function drawHero(data, forcedDay){
  var card=document.getElementById("heroSchedCard");
  if(!card)return;
  var days=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  var months=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
- var now=new Date();
+ var now=getWibDate();
  var todayName=days[now.getDay()];
  var curDay=forcedDay||todayName;
 
@@ -1440,21 +1485,23 @@ function drawHero(data, forcedDay){
 
  var dayList=(data||[]).filter(function(x){return x.hari===curDay}).sort(function(a,b){return a.jam.localeCompare(b.jam)});
  var nowM=now.getHours()*60+now.getMinutes();
- var activeItem=null, isOngoing=false;
+ var activeItem=null, isOngoing=false, isDone=false;
 
  if(curDay===todayName){
   for(var i=0;i<dayList.length;i++){
-   var p=(dayList[i].jam||"0:0").split(":");
-   var st=+p[0]*60+ +p[1];
+   var st=toMin(dayList[i].jam);
    var en=st+(+dayList[i].durasi||60);
    if(nowM>=st && nowM<en){activeItem=dayList[i];isOngoing=true;break;}
   }
   if(!activeItem){
    for(var j=0;j<dayList.length;j++){
-    var pj=(dayList[j].jam||"0:0").split(":");
-    var stj=+pj[0]*60+ +pj[1];
+    var stj=toMin(dayList[j].jam);
     if(stj>nowM){activeItem=dayList[j];break;}
    }
+  }
+  if(!activeItem && dayList.length>0){
+   activeItem=dayList[dayList.length-1];
+   isDone=true;
   }
  }
  if(!activeItem && dayList.length>0)activeItem=dayList[0];
@@ -1468,7 +1515,14 @@ function drawHero(data, forcedDay){
   if(activeItem){
    activeWrap.style.display="flex";
    if(activeStatus){
-    var stText=isOngoing?"SEDANG BERLANGSUNG":(curDay===todayName?"KELAS BERIKUTNYA HARI INI":"KELAS UTAMA HARI INI");
+    var stText="";
+    if(curDay===todayName){
+     if(isOngoing) stText="SEDANG BERLANGSUNG (LIVE)";
+     else if(isDone) stText="✓ SEMUA KELAS HARI INI SELESAI";
+     else stText="KELAS BERIKUTNYA HARI INI";
+    } else {
+     stText="KELAS UTAMA ("+curDay.toUpperCase()+")";
+    }
     activeStatus.innerHTML="<i></i> "+stText;
    }
    if(activeName)activeName.textContent=activeItem.mapel;
@@ -1487,10 +1541,18 @@ function drawHero(data, forcedDay){
    itemsEl.innerHTML=remaining.map(function(x){
     var code=(x.mapel||"").split(" ").map(function(w){return w[0]}).join("").slice(0,2).toUpperCase()||"KB";
     var col=/calistung/i.test(x.mapel)?"subject-mint":(/tka/i.test(x.mapel)?"subject-yellow":"subject-blue");
-    return '<div class="schedule-preview__item">'
+    var st=toMin(x.jam), en=st+(+x.durasi||60);
+    var tag="", cls="schedule-preview__item";
+    if(curDay===todayName){
+     if(nowM>=st && nowM<en){tag='<span class="sched-tag sched-tag--live"><i></i> Live</span>';cls+=" is-live";}
+     else if(nowM>=en){tag='<span class="sched-tag sched-tag--done">✓ Selesai</span>';cls+=" is-done";}
+     else{tag='<span class="sched-tag sched-tag--soon">Akan Datang</span>';cls+=" is-upcoming";}
+    }
+    return '<div class="'+cls+'">'
      +'<time>'+e(x.jam)+'</time>'
      +'<span class="schedule-preview__subject '+col+'">'+e(code)+'</span>'
      +'<div><strong>'+e(x.mapel)+'</strong><small>'+e(x.kelas)+' \u00b7 '+end(x.jam,x.durasi)+(x.guruNama?' \u00b7 '+e(x.guruNama):'')+'</small></div>'
+     +tag
      +'</div>';
    }).join("");
   } else if(!activeItem){
@@ -1502,6 +1564,7 @@ function drawHero(data, forcedDay){
  }
 }
 
+t.addEventListener("click",function(ev){var b=ev.target.closest("[data-k]");if(b){K=b.dataset.k;draw()}});
 var heroDaysEl=document.getElementById("heroSchedDays");
 if(heroDaysEl){
  heroDaysEl.addEventListener("click",function(ev){
