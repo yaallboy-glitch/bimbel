@@ -826,9 +826,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
       <div class="topbar"><div><h1>Pengaturan</h1><p class="sub">Tarif dan nomor WhatsApp yang tampil di website</p></div></div>
       <div class="panel">
         <div class="form-row full"><div class="field"><label for="pgWa">Nomor WhatsApp Admin</label><input type="tel" id="pgWa" placeholder="08xxxxxxxxxx"></div></div>
-        <div class="form-row"><div class="field"><label for="pgSd">Program SD (Rp/bulan)</label><input type="number" id="pgSd" step="10000"></div><div class="field"><label for="pgSmp">Program SMP</label><input type="number" id="pgSmp" step="10000"></div></div>
-        <div class="form-row"><div class="field"><label for="pgSma">Program SMA</label><input type="number" id="pgSma" step="10000"></div><div class="field"><label for="pgReguler">Paket Reguler</label><input type="number" id="pgReguler" step="10000"></div></div>
-        <div class="form-row"><div class="field"><label for="pgIntensif">Paket Intensif</label><input type="number" id="pgIntensif" step="10000"></div><div class="field"><label for="pgPrivat">Paket Privat</label><input type="number" id="pgPrivat" step="10000"></div></div>
+        <div class="form-row"><div class="field"><label for="pgSd13">Program SD Kelas 1-3 (Rp/bulan)</label><input type="number" id="pgSd13" step="10000"></div><div class="field"><label for="pgSd46">Program SD Kelas 4-6 (Rp/bulan)</label><input type="number" id="pgSd46" step="10000"></div></div>
+        <div class="form-row"><div class="field"><label for="pgReguler">Paket Reguler</label><input type="number" id="pgReguler" step="10000"></div><div class="field"><label for="pgIntensif">Paket Intensif</label><input type="number" id="pgIntensif" step="10000"></div></div>
+        <div class="form-row"><div class="field"><label for="pgPrivat">Paket Privat SD</label><input type="number" id="pgPrivat" step="10000"></div></div>
         <div class="form-actions"><button class="btn btn-primary" type="button" onclick="savePengaturan()">Simpan</button></div>
       </div>
     </section>
@@ -871,14 +871,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
         <label>Kelas / Program</label>
         <select id="jdlKelas">
           <option value="">— Pilih Kelas —</option>
+          <option>SD Kelas 1</option>
+          <option>SD Kelas 2</option>
+          <option>SD Kelas 3</option>
+          <option>SD Kelas 4</option>
+          <option>SD Kelas 5</option>
+          <option>SD Kelas 6</option>
           <option>SD Kelas 1-3</option>
           <option>SD Kelas 4-6</option>
-          <option>SMP Kelas 7</option>
-          <option>SMP Kelas 8</option>
-          <option>SMP Kelas 9</option>
-          <option>SMA Kelas 10</option>
-          <option>SMA Kelas 11</option>
-          <option>SMA Kelas 12</option>
+          <option>Privat SD</option>
         </select>
       </div>
       <div class="field">
