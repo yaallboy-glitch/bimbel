@@ -6,7 +6,7 @@
 <title>AlifBimbel — Belajar Jadi Menyenangkan, Prestasi Jadi Mungkin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -290,12 +290,7 @@ h1,h2,h3,h4{font-family:var(--heading);letter-spacing:-.02em}
 .schedule-preview__active-icon svg{width:21px;height:21px}.schedule-preview__active-copy{min-width:0;display:grid;gap:1px;flex:1}.schedule-preview__active-copy span{font-family:var(--heading);font-size:9px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.82)}
 .schedule-preview__active-copy span i{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%;background:#96F4C8;box-shadow:0 0 0 3px rgba(150,244,200,.15);animation:schedulePulse 1.8s ease-in-out infinite}.schedule-preview__active-copy strong{font-family:var(--heading);font-size:16px;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.schedule-preview__active-copy small{font-size:11px;color:rgba(255,255,255,.8);font-weight:600}
 .schedule-preview__join{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:#fff;color:var(--blue-deep);transition:transform .25s var(--ease),background .2s}.schedule-preview__join:hover{background:var(--yellow);transform:translateX(2px)}.schedule-preview__join svg{width:18px;height:18px}
-.schedule-preview__list{padding:16px 2px 0}.schedule-preview__list>p{font-family:var(--heading);font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}.schedule-preview{transition:transform .45s var(--ease), box-shadow .45s}
-.schedule-preview:hover{transform:translate3d(0,-4px,0)}
-.schedule-preview__active{transition:transform .25s var(--ease), box-shadow .25s}
-.schedule-preview__active:hover{transform:translateY(-2px)}
-.schedule-preview__item{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed rgba(42,37,64,.13);transition:background .2s, transform .2s;border-radius:10px}
-.schedule-preview__item:hover{background:rgba(74,144,226,.06);transform:translateX(3px)}
+.schedule-preview__list{padding:16px 2px 0}.schedule-preview__list>p{font-family:var(--heading);font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}.schedule-preview__item{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed rgba(42,37,64,.13)}
 .schedule-preview__item time{width:37px;font-family:var(--heading);font-size:13px;font-weight:800;color:var(--ink)}.schedule-preview__subject{display:grid;place-items:center;width:31px;height:31px;border-radius:10px;font-family:var(--heading);font-size:11px;font-weight:800}.subject-blue{background:var(--blue-soft);color:var(--blue-deep)}.subject-yellow{background:var(--yellow-soft);color:#8C6500}.subject-mint{background:var(--mint-soft);color:#0F766E}.subject-coral{background:var(--coral-soft);color:#B22B2B}.subject-lavender{background:var(--lavender-soft);color:#6D28D9}.schedule-preview__item div{display:grid;line-height:1.15}.schedule-preview__item strong{font-family:var(--heading);font-size:14px}.schedule-preview__item small{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
 @keyframes schedulePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.62;transform:scale(.72)}}
 
@@ -478,48 +473,6 @@ section{padding:100px 0;position:relative}
 }
 .program .price small{font-size:14px;color:var(--muted);font-weight:600}
 .program .btn{justify-content:center;width:100%}
-
-/* ===== TESTIMONI ===== */
-.testi{
-  background:linear-gradient(180deg,#F0F7FF,#EAF4FF);
-  position:relative;overflow:hidden;
-}
-.testi::before{
-  content:'';position:absolute;bottom:-150px;right:-100px;
-  width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(184,164,232,.25),transparent 65%);
-  filter:blur(60px);pointer-events:none;
-}
-.testi-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-  position:relative;z-index:1;
-}
-.testi-card{
-  padding:32px 28px;border-radius:24px;
-  background:#fff;
-  border:2px solid var(--line);
-  box-shadow:var(--shadow-sm);
-  transition:transform .4s var(--ease), box-shadow .4s, border-color .3s;
-  position:relative;
-}
-.testi-card:hover{transform:translate3d(0,-6px,0);box-shadow:var(--shadow-md);border-color:var(--lavender)}
-.testi-quote{
-  font-family:var(--body);font-size:16px;font-weight:500;
-  line-height:1.7;margin-bottom:24px;color:var(--ink);
-}
-.testi-quote::before{content:'"';color:var(--blue);font-family:var(--heading);font-weight:800;font-size:28px;line-height:0;position:relative;top:8px;margin-right:2px}
-.testi-author{display:flex;align-items:center;gap:14px}
-.testi-avatar{
-  width:48px;height:48px;border-radius:16px;
-  display:grid;place-items:center;
-  font-family:var(--heading);font-weight:800;font-size:20px;
-  color:#fff;
-}
-.testi-avatar.v1{background:linear-gradient(135deg,var(--blue),var(--mint))}
-.testi-avatar.v2{background:linear-gradient(135deg,var(--coral),var(--yellow));color:var(--ink)}
-.testi-avatar.v3{background:linear-gradient(135deg,var(--lavender),var(--blue))}
-.testi-name{font-family:var(--heading);font-size:15.5px;font-weight:700}
-.testi-role{font-size:13.5px;color:var(--muted);font-weight:500}
 
 /* ===== HARGA ===== */
 .pricing-grid{
@@ -724,18 +677,124 @@ footer::before{
 
 /* ===== REVEAL ===== */
 .reveal{
-  opacity:0;transform:translate3d(0,28px,0);
-  transition:opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  opacity:0;transform:translate3d(0,32px,0);
+  transition:opacity .65s var(--ease-out), transform .65s var(--ease-out);
   will-change:transform,opacity;
 }
 .reveal.in{opacity:1;transform:translate3d(0,0,0)}
-.reveal.done{will-change:auto}
+.reveal.done{will-change:auto;transition:none}
+
+/* ===== ENHANCED ANIMATIONS ===== */
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-8px) rotate(0deg)}
+}
+@keyframes blob1{
+  0%,100%{transform:scale(1) translate(0,0)}
+  33%{transform:scale(1.08) translate(18px,-12px)}
+  66%{transform:scale(.95) translate(-10px,8px)}
+}
+@keyframes blob2{
+  0%,100%{transform:scale(1) translate(0,0)}
+  33%{transform:scale(.92) translate(-14px,10px)}
+  66%{transform:scale(1.06) translate(12px,-8px)}
+}
+@keyframes countUp{
+  from{opacity:0;transform:translateY(12px) scale(.9)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes shimmer{
+  0%{background-position:-200% center}
+  100%{background-position:200% center}
+}
+@keyframes starPop{
+  0%{transform:scale(0) rotate(-20deg);opacity:0}
+  60%{transform:scale(1.2) rotate(5deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+.hero-bg .b1{animation:blob1 12s ease-in-out infinite}
+.hero-bg .b2{animation:blob2 15s ease-in-out infinite}
+.hero-bg .b3{animation:blob2 18s ease-in-out infinite reverse}
+.hero-trust .num{
+  animation:countUp .6s var(--ease) both;
+}
+.hero-trust .item:nth-child(2) .num{animation-delay:.1s}
+.hero-trust .item:nth-child(3) .num{animation-delay:.2s}
+.section-head .eyebrow::before{animation:starPop .5s var(--ease) both}
+
+/* shimmer on highlight underlines */
+.hl::after,.hl2::after,.section-head h2 .hl::after{
+  background:linear-gradient(90deg,
+    var(--yellow) 0%,
+    rgba(255,201,60,.85) 40%,
+    var(--yellow) 60%,
+    rgba(255,201,60,.7) 100%
+  );
+  background-size:200% auto;
+  animation:shimmer 3s linear infinite;
+}
+
+/* feature card stagger */
+.feature:nth-child(1){transition-delay:0s}
+.feature:nth-child(2){transition-delay:.05s}
+.feature:nth-child(3){transition-delay:.1s}
+.feature:nth-child(4){transition-delay:.15s}
+.feature:nth-child(5){transition-delay:.2s}
+.feature:nth-child(6){transition-delay:.25s}
+
+/* how-step stagger */
+.how-step:nth-child(1){transition-delay:0s}
+.how-step:nth-child(2){transition-delay:.08s}
+.how-step:nth-child(3){transition-delay:.16s}
+
+/* program stagger */
+.program:nth-child(1){transition-delay:0s}
+.program:nth-child(2){transition-delay:.06s}
+.program:nth-child(3){transition-delay:.12s}
+
+/* price-card pop pulse enhanced */
+@keyframes softPop{
+  0%,100%{box-shadow:0 20px 50px -20px rgba(255,201,60,.5),0 0 0 0 rgba(255,201,60,.0)}
+  50%{box-shadow:0 28px 60px -18px rgba(255,201,60,.62),0 0 0 6px rgba(255,201,60,.06)}
+}
+
+/* step-num entrance */
+.how-step .step-num{
+  transition:transform .4s var(--ease), box-shadow .4s;
+}
+.how-step:hover .step-num{
+  transform:rotate(-8deg) scale(1.08) translateY(-3px);
+  box-shadow:0 14px 30px -8px rgba(74,144,226,.55);
+}
+
+/* FAQ smooth open animation */
+.faq-answer{
+  animation:fadeDown .3s var(--ease-out);
+}
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* CTA box star float */
+.cta-box::after{
+  animation:logoFloat 6s ease-in-out infinite;
+}
+
+/* trust items hover ripple */
+.trust-item{position:relative;overflow:hidden;isolation:isolate}
+.trust-item::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(74,144,226,.12),transparent 55%);
+  opacity:0;transition:opacity .2s;
+}
+.trust-item:hover::after{opacity:1}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:50px}
   .hero-visual{max-width:480px;margin:0 auto;width:100%}
-  .features-grid, .how-grid, .programs-grid, .testi-grid, .pricing-grid{
+  .features-grid, .how-grid, .programs-grid, .pricing-grid{
     grid-template-columns:1fr;
   }
   .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
@@ -758,7 +817,6 @@ footer::before{
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
   .reveal{opacity:1;transform:none}
-  .schedule-preview:hover,.schedule-preview__active:hover,.schedule-preview__item:hover,.testi-card:hover{transform:none}
 }
 
 /* =========================================================
@@ -824,7 +882,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .mockup{aspect-ratio:16/10;transform:rotate(-1deg)}
   .mockup-body{padding:22px}
   section{padding:86px 0}
-  .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{gap:20px}
+  .features-grid,.how-grid,.programs-grid,.pricing-grid{gap:20px}
 }
 @media (min-width:681px) and (max-width:1100px){
   .wrap{padding:0 22px}
@@ -839,7 +897,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .hero-visual .mock-badge.b1{left:-10px}
   .hero-visual .mock-badge.b2{right:-10px}
   section{padding:72px 0}
-  .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .features-grid,.how-grid,.programs-grid,.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .how-step:last-child,.program:last-child,.price-card:last-child{grid-column:1/-1;width:calc(50% - 10px);justify-self:center}
 }
 @media (max-width:680px){
@@ -885,7 +943,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   .trust{padding:10px 0 50px}
   .trust-inner{gap:8px}
   .trust-item{font-size:11.5px;padding:8px 12px}
-  .features-grid,.how-grid,.programs-grid,.testi-grid,.pricing-grid{grid-template-columns:1fr;gap:13px}
+  .features-grid,.how-grid,.programs-grid,.pricing-grid{grid-template-columns:1fr;gap:13px}
   .feature,.how-step,.program,.price-card{padding:22px 19px;border-radius:19px}
   .feature h3{font-size:18px}
   .program h3{font-size:23px}
@@ -1091,7 +1149,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
         <div class="eyebrow reveal">Kelas baru dibuka minggu ini</div>
         <h1 class="reveal">Belajar jadi <span class="hl">menyenangkan</span>, prestasi jadi <span class="hl2">mungkin</span>.</h1>
         <p class="hero-sub reveal">
-          <b>AlifBimbel</b> bantu siswa SD kelas 1–6 paham pelajaran dengan cara yang personal, sabar, dan sesuai gaya belajar masing-masing. Bukan sekadar les, tapi teman belajar.
+          <b>AlifBimbel</b> bantu siswa SD–SMA paham pelajaran dengan cara yang personal, sabar, dan sesuai gaya belajar masing-masing. Bukan sekadar les, tapi teman belajar.
         </p>
         <div class="hero-cta reveal">
           <a href="#daftar" class="btn btn-yellow">
@@ -1099,20 +1157,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a href="#program" class="btn btn-ghost">Lihat Program</a>
-        </div>
-        <div class="hero-trust reveal">
-          <div class="item">
-            <span class="num">SD</span>
-            <span class="lbl">Kelas 1–6</span>
-          </div>
-          <div class="item">
-            <span class="num">CALISTUNG</span>
-            <span class="lbl">Program unggulan</span>
-          </div>
-          <div class="item">
-            <span class="num">WIB</span>
-            <span class="lbl">Jadwal GMT+7</span>
-          </div>
         </div>
       </div>
 
@@ -1156,19 +1200,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   </div>
 </header>
 
-<section class="trust">
-  <div class="wrap">
-    <p class="trust-label reveal">Dipercaya sekolah & komunitas di berbagai kota</p>
-    <div class="trust-inner reveal">
-      <span class="trust-item">SD N Plaosan</span>
-      <span class="trust-item">SD ??</span>
-      <span class="trust-item">SD ??</span>
-      <span class="trust-item">SD ??</span>
-      <span class="trust-item">SD ??</span>
-      <span class="trust-item">SD ??</span>
-    </div>
-  </div>
-</section>
 
 <section id="fitur">
   <div class="wrap">
@@ -1181,33 +1212,33 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
     <div class="features-grid">
       <div class="feature reveal">
         <div class="f-icon i1">👨‍🏫</div>
-        <h3>Tutor Sabar</h3>
-        <p>Tutor kami dipilih karena sabar menghadapi anak SD. Tidak buru-buru, ikuti tempo anak.</p>
+        <h3>Tutor Pilihan</h3>
+        <p>Semua tutor sudah melewati seleksi ketat — bukan cuma pintar, tapi juga sabar dan bisa bikin siswa nyaman.</p>
       </div>
       <div class="feature reveal">
-        <div class="f-icon i2">📚</div>
-        <h3>CALISTUNG Fokus</h3>
-        <p>Program unggulan untuk kelas 1–3: baca, tulis, hitung, dengan metode bermain.</p>
+        <div class="f-icon i2">👥</div>
+        <h3>Kelas Kecil</h3>
+        <p>Maksimal 6 siswa per kelas. Cukup ruang untuk tanya, tapi tetap seru karena ada teman belajar.</p>
       </div>
       <div class="feature reveal">
         <div class="f-icon i3">🎯</div>
-        <h3>Materi Sekolah</h3>
-        <p>Ikuti pelajaran dan tugas sekolah anak. Materi disesuaikan kurikulum SD.</p>
+        <h3>Kurikulum Adaptif</h3>
+        <p>Materi disesuaikan dengan kemampuan siswa. Yang belum paham dasar, kita bantu dari awal.</p>
       </div>
       <div class="feature reveal">
         <div class="f-icon i4">📊</div>
         <h3>Laporan Bulanan</h3>
-        <p>Orang tua dapat laporan perkembangan tiap bulan — jelas, jujur, mudah dibaca.</p>
+        <p>Orang tua dapat laporan perkembangan tiap bulan — jelas, jujur, dan mudah dibaca.</p>
       </div>
       <div class="feature reveal">
-        <div class="f-icon i5">🕐</div>
-        <h3>Jadwal WIB</h3>
-        <p>Jadwal kelas real-time sesuai GMT+7. Lihat kelas berlangsung & selesai langsung.</p>
+        <div class="f-icon i5">📝</div>
+        <h3>Try Out Rutin</h3>
+        <p>Latihan ujian tiap 2 minggu, dibahas bareng, biar siswa siap mental dan materi.</p>
       </div>
       <div class="feature reveal">
         <div class="f-icon i6">💬</div>
         <h3>Konsultasi Ortu</h3>
-        <p>Grup WhatsApp khusus orang tua. Tanya langsung ke tutor kapan saja.</p>
+        <p>Grup WhatsApp khusus orang tua. Bisa tanya langsung ke tutor kapan saja.</p>
       </div>
     </div>
   </div>
@@ -1245,48 +1276,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow reveal">Program</div>
-      <h2 class="reveal">Pilih yang <span class="hl">paling pas</span>.</h2>
-      <p class="reveal">Semua program termasuk laporan bulanan dan konsultasi orang tua.</p>
+      <h2 class="reveal">Cari program <span class="hl">yang sesuai</span>.</h2>
+      <p class="reveal">Informasi program, ketersediaan kelas, dan biaya dikonfirmasi langsung oleh admin.</p>
     </div>
     <div class="programs-grid">
       <div class="program reveal">
-        <span class="program-tag">SD KELAS 1–3</span>
-        <h3>Fondasi Awal</h3>
-        <p class="desc">Bangun dasar membaca, menulis, dan berhitung (CALISTUNG) dengan cara yang menyenangkan.</p>
-        <ul>
-          <li>2× pertemuan / minggu</li>
-          <li>Durasi 90 menit / sesi</li>
-          <li>Materi sesuai kurikulum SD</li>
-          <li>Laporan bulanan</li>
-        </ul>
-        <div class="price"><span data-p="sd">Rp 450rb</span> <small>/ bulan</small></div>
-        <a href="#daftar" class="btn btn-ghost">Pilih Program</a>
+        <span class="program-tag">JENJANG SD</span>
+        <h3>Program SD</h3>
+        <p class="desc">Tanyakan pilihan mata pelajaran, format belajar, jadwal, dan biaya kepada admin.</p>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Program SD</a>
       </div>
       <div class="program reveal">
-        <span class="program-tag">SD KELAS 4–6</span>
-        <h3>Naik Level</h3>
-        <p class="desc">Siapkan siswa untuk ulangan harian dan ujian sekolah dengan materi terstruktur.</p>
-        <ul>
-          <li>3× pertemuan / minggu</li>
-          <li>Latihan soal rutin</li>
-          <li>Konsultasi ortu via WA</li>
-          <li>Laporan bulanan</li>
-        </ul>
-        <div class="price"><span data-p="smp">Rp 650rb</span> <small>/ bulan</small></div>
-        <a href="#daftar" class="btn btn-primary">Pilih Program</a>
+        <span class="program-tag">JENJANG SMP</span>
+        <h3>Program SMP</h3>
+        <p class="desc">Tanyakan pilihan mata pelajaran, format belajar, jadwal, dan biaya kepada admin.</p>
+        <a href="#daftar" class="btn btn-primary">Tanyakan Program SMP</a>
       </div>
       <div class="program reveal">
-        <span class="program-tag">SD KELAS 6</span>
-        <h3>Siap Lulusan</h3>
-        <p class="desc">Fokus persiapan ujian akhir SD dan kesiapan masuk SMP favorit.</p>
-        <ul>
-          <li>3× pertemuan / minggu</li>
-          <li>Simulasi ujian rutin</li>
-          <li>Pemantapan materi kunci</li>
-          <li>Laporan bulanan detail</li>
-        </ul>
-        <div class="price"><span data-p="sma">Rp 850rb</span> <small>/ bulan</small></div>
-        <a href="#daftar" class="btn btn-ghost">Pilih Program</a>
+        <span class="program-tag">JENJANG SMA</span>
+        <h3>Program SMA</h3>
+        <p class="desc">Tanyakan pilihan mata pelajaran, format belajar, jadwal, dan biaya kepada admin.</p>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Program SMA</a>
       </div>
     </div>
   </div>
@@ -1305,97 +1315,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 </section>
 
 
-<section class="testi">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow reveal">Testimoni</div>
-      <h2 class="reveal">Kata mereka yang <span class="hl">sudah coba</span>.</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <p class="testi-quote">Anak saya yang tadinya benci Matematika, sekarang malah minta tambah jadwal. Tutornya sabar banget.</p>
-        <div class="testi-author">
-          <div class="testi-avatar v1">R</div>
-          <div>
-            <div class="testi-name">Bu Rina</div>
-            <div class="testi-role">Orang tua siswa SD kelas 4</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <p class="testi-quote">Sebelumnya anak saya belum bisa baca. Setelah CALISTUNG di sini, sekarang sudah lancar baca.</p>
-        <div class="testi-author">
-          <div class="testi-avatar v2">S</div>
-          <div>
-            <div class="testi-name">Bu Sari</div>
-            <div class="testi-role">Orang tua siswa SD kelas 1</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <p class="testi-quote">Laporan bulanannya jelas. Saya jadi tahu anak saya berkembang di bagian mana, dan perlu dibantu di mana.</p>
-        <div class="testi-author">
-          <div class="testi-avatar v3">B</div>
-          <div>
-            <div class="testi-name">Pak Budi</div>
-            <div class="testi-role">Orang tua siswa SD kelas 6</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="harga">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow reveal">Harga</div>
-      <h2 class="reveal">Transparan. <span class="hl">Tanpa biaya tersembunyi</span>.</h2>
-      <p class="reveal">Bayar bulanan, bisa berhenti kapan saja. Tidak ada kontrak panjang.</p>
+      <div class="eyebrow reveal">Biaya</div>
+      <h2 class="reveal">Informasi biaya <span class="hl">dari admin</span>.</h2>
+      <p class="reveal">Biaya dan pilihan layanan dikonfirmasi langsung agar sesuai informasi terbaru.</p>
     </div>
-    <div class="pricing-grid">
-      <div class="price-card reveal">
-        <h3>Reguler</h3>
-        <p class="who">Cocok untuk kelas 1–3, baru mulai</p>
-        <div class="price-amount" data-p="reguler">450<small>rb</small></div>
-        <p class="price-period">per bulan</p>
-        <ul>
-          <li>2× pertemuan / minggu</li>
-          <li>CALISTUNG + materi sekolah</li>
-          <li>Latihan soal rutin</li>
-          <li>Laporan bulanan</li>
-        </ul>
-        <a href="#daftar" class="btn btn-ghost">Mulai Reguler</a>
-      </div>
-      <div class="price-card pop reveal">
-        <span class="pop-tag">Paling Laris</span>
-        <h3>Intensif</h3>
-        <p class="who">Untuk siswa yang mau hasil maksimal</p>
-        <div class="price-amount" data-p="intensif">750<small>rb</small></div>
-        <p class="price-period">per bulan</p>
-        <ul>
-          <li>3× pertemuan / minggu</li>
-          <li>Latihan ujian rutin</li>
-          <li>Grup WhatsApp orang tua</li>
-          <li>Konsultasi kapan saja</li>
-          <li>Laporan bulanan detail</li>
-        </ul>
-        <a href="#daftar" class="btn btn-primary">Mulai Intensif</a>
-      </div>
-      <div class="price-card reveal">
-        <h3>Privat</h3>
-        <p class="who">1-on-1, jadwal bebas</p>
-        <div class="price-amount" data-p="privat">1,2<small>jt</small></div>
-        <p class="price-period">per bulan</p>
-        <ul>
-          <li>1-on-1 dengan tutor</li>
-          <li>Jadwal fleksibel</li>
-          <li>Materi 100% custom</li>
-          <li>Bisa ke rumah</li>
-          <li>Laporan mingguan</li>
-        </ul>
-        <a href="#daftar" class="btn btn-ghost">Mulai Privat</a>
-      </div>
+    <div class="section-head">
+      <a href="#daftar" class="btn btn-primary">Tanyakan Biaya</a>
     </div>
   </div>
 </section>
@@ -1511,14 +1439,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   var revealObs = new IntersectionObserver(function(entries){
     entries.forEach(function(e, i){
       if(e.isIntersecting){
+        var delay = i * 60;
         setTimeout(function(){
           e.target.classList.add('in');
-          setTimeout(function(){ e.target.classList.remove('reveal','in','done'); }, 900);
-        }, i * 55);
+          // wait for transition to finish before removing classes
+          var dur = parseFloat(getComputedStyle(e.target).transitionDuration || '0') * 1000 + 50;
+          setTimeout(function(){ e.target.classList.add('done'); }, dur);
+        }, delay);
         revealObs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
   document.querySelectorAll('.reveal').forEach(function(el){ revealObs.observe(el); });
 
   /* Smooth scroll */
@@ -1541,7 +1472,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 (function(){
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.addEventListener('pointermove',function(e){
-    const el=e.target.closest('.feature,.program,.testi-card,.price-card,.how-step');
+    const el=e.target.closest('.feature,.program,.price-card,.how-step,.trust-item');
     if(!el || reduced) return;
     const r=el.getBoundingClientRect();
     el.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
@@ -1550,8 +1481,28 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   document.addEventListener('pointerdown',function(e){
     const b=e.target.closest('.btn,.menu-toggle,.trust-item');
     if(!b || reduced) return;
-    b.animate([{transform:'scale(1)'},{transform:'scale(.97)'},{transform:'scale(1)'}],{duration:180,easing:'ease-out'});
+    b.animate([{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}],{duration:200,easing:'ease-out'});
   });
+  // Schedule card day buttons — animate on click
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest('#heroSchedDays button');
+    if(!btn || reduced) return;
+    btn.animate([
+      {transform:'scale(.88)',opacity:.6},
+      {transform:'scale(1.06)',opacity:1},
+      {transform:'scale(1)'}
+    ],{duration:320,easing:'cubic-bezier(.34,1.56,.64,1)'});
+  });
+  // FAQ smooth open: force reflow for animation
+  document.addEventListener('toggle',function(e){
+    if(!e.target.classList.contains('faq-item')) return;
+    const ans=e.target.querySelector('.faq-answer');
+    if(ans && e.target.open){
+      ans.style.animation='none';
+      ans.offsetHeight; // reflow
+      ans.style.animation='';
+    }
+  },true);
 })();
 </script>
 
@@ -1755,16 +1706,10 @@ fetch("https://alief-worker.aliefbimbel.workers.dev/api/public/jadwal").then(fun
 })();
 </script>
 <script>
-/* TARIF & WA dari admin */
+/* Nomor WhatsApp resmi diambil dari info admin bila tersedia. */
 (function(){
-fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(function(r){return r.json()}).then(function(d){
- var t=d.tarif||{};
- function f(n){return n>=1e6?[String(+(n/1e6).toFixed(2)).replace('.',','),'jt']:[String(Math.round(n/1000)),'rb']}
- document.querySelectorAll('[data-p]').forEach(function(el){
-  var n=+t[el.dataset.p];if(!n)return;var x=f(n);
-  if(el.classList.contains('price-amount'))el.innerHTML=x[0]+'<small>'+x[1]+'</small>';else el.textContent='Rp '+x[0]+x[1];
- });
- if(d.wa)document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.href=a.href.replace(/wa\.me\/+?\d+/,'wa.me/'+d.wa)});
+fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(function(r){if(!r.ok)throw new Error('Info tidak tersedia');return r.json()}).then(function(d){
+ if(d.wa)document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.href=a.href.replace(/wa\.me\/\+?\d+/,'wa.me/'+d.wa)});
 }).catch(function(){});
 })();
 </script>

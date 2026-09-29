@@ -641,6 +641,70 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
+/* ===== ENHANCED PORTAL ANIMATIONS ===== */
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(20px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes tabSlide{
+  from{opacity:0;transform:translateX(-8px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes rowIn{
+  from{opacity:0;transform:translateX(-6px)}
+  to{opacity:1;transform:translateX(0)}
+}
+#login{
+  animation:cardIn .45s cubic-bezier(.22,1,.36,1) both;
+}
+#app .card{
+  animation:cardIn .4s cubic-bezier(.22,1,.36,1) both;
+}
+#app .card:nth-child(2){animation-delay:.08s}
+#app .card:nth-child(3){animation-delay:.16s}
+#app .card:nth-child(4){animation-delay:.24s}
+.row{
+  animation:rowIn .35s cubic-bezier(.22,1,.36,1) both;
+}
+/* Tab switch indicator animation */
+.tabs .btn.active{
+  position:relative;overflow:hidden;
+}
+.tabs .btn.active::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at center, rgba(255,255,255,.25), transparent 65%);
+  animation:tabGlow 2s ease-in-out infinite;
+}
+@keyframes tabGlow{
+  0%,100%{opacity:.5}
+  50%{opacity:1}
+}
+/* Badge pulse for live status */
+.jd-badge--live i, .sched-tag--live i{
+  animation:livePulse 1.4s ease-in-out infinite;
+}
+@keyframes livePulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.5);opacity:.5}
+}
+/* Input focus glow */
+input:focus{
+  box-shadow:0 0 0 4px rgba(53,107,140,.12),0 0 0 2px rgba(53,107,140,.25)!important;
+  transform:translateY(-1px);
+  transition:transform .2s,box-shadow .2s;
+}
+/* Error shake */
+.err:not(:empty){
+  animation:portalShake .4s cubic-bezier(.22,1,.36,1);
+}
+@keyframes portalShake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
 </style>
 </head>
 <body>
@@ -1047,7 +1111,8 @@ function show() {
   $('app').hidden = false;
   $('out').hidden = false;
   
-  const isOrtu = sessionStorage.getItem('alief_role') === 'ortu' || me.role === 'ortu';
+  const storedRole = sessionStorage.getItem('alief_role');
+  const isOrtu = storedRole === 'ortu' || (me && me.role === 'ortu');
   isOrtu ? viewOrtu() : viewGuru();
 }
 

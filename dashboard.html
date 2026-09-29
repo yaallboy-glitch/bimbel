@@ -7,7 +7,7 @@
 <title>Dashboard — AlifBimbel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -565,6 +565,72 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   to { transform: rotate(360deg); }
 }
 
+/* ===== ENHANCED ANIMATIONS (dashboard) ===== */
+@keyframes slideInLeft{
+  from{opacity:0;transform:translateX(-18px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes slideInUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes statIn{
+  from{opacity:0;transform:translateY(14px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes panelIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.sidebar{animation:slideInLeft .45s cubic-bezier(.22,1,.36,1) both}
+.main{animation:slideInUp .5s cubic-bezier(.22,1,.36,1) .05s both}
+.stat{animation:statIn .55s cubic-bezier(.34,1.56,.64,1) both}
+.stat:nth-child(1){animation-delay:.05s}
+.stat:nth-child(2){animation-delay:.12s}
+.stat:nth-child(3){animation-delay:.19s}
+.stat:nth-child(4){animation-delay:.26s}
+.panel{animation:panelIn .5s cubic-bezier(.22,1,.36,1) .22s both}
+.panel:nth-child(2){animation-delay:.3s}
+.panel:nth-child(3){animation-delay:.36s}
+
+/* sb-link active indicator */
+.sb-link.on::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:4px;height:24px;border-radius:0 4px 4px 0;
+  background:var(--yellow);opacity:.85;
+}
+.sb-link{position:relative}
+
+/* Table row hover */
+.tbl tr:hover td{background:rgba(74,144,226,.04);transition:background .15s}
+
+/* stat value shimmer on load */
+.stat .val{
+  background:linear-gradient(90deg,var(--ink) 0%,var(--blue-deep) 50%,var(--ink) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerStat 3s linear infinite;
+}
+@keyframes shimmerStat{
+  0%{background-position:200% center}
+  100%{background-position:-200% center}
+}
+
+/* modal entrance */
+.modal-box{
+  animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.94) translateY(10px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+/* focus ring consistent */
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
+  outline:3px solid rgba(74,144,226,.35);outline-offset:3px;border-radius:8px;
+}
 </style>
 </head>
 <body class="loading">
