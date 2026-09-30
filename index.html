@@ -1116,7 +1116,23 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
   to { transform: rotate(360deg); }
 }
 
-</style>
+/* ==== NEW STYLE: price columns & feature list ==== */
+.kelas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin:2rem 0}
+.kelas-col{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease-out)}
+.kelas-col.private{background:var(--yellow-soft)}
+.kelas-col.regular{background:var(--mint-soft)}
+.kelas-col h3{margin:0 0 .4rem;font-size:1.2rem}
+.kelas-col .who{font-size:.9rem;color:var(--muted);margin-bottom:.6rem}
+.kelas-col .price-amount{font-size:1.4rem;font-weight:800;margin:.4rem 0}
+.kelas-col .price-amount span{font-size:.8rem;vertical-align:super}
+.kelas-col .btn{width:100%;justify-content:center}
+.kelas-col .pop-tag{background:var(--yellow);color:#fff;padding:2px 6px;border-radius:4px;font-size:.75rem;font-weight:600;margin-bottom:.5rem;display:inline-block}
+.kelas-col .feature-list{list-style:none;margin:1rem 0;padding:0;display:grid;gap:.5rem;font-size:.9rem;color:var(--muted)}
+.kelas-col .feature-icon{margin-right:.4rem}
+/* animation */
+.kelas-col{animation:pcIn .55s var(--ease-out) both;animation-delay:var(--i)}
+@keyframes pcIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
 </head>
 <body>
 
@@ -1340,11 +1356,43 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
 <section id="harga">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow reveal">Biaya</div>
-      <h2 class="reveal">Informasi biaya <span class="hl">dari admin</span>.</h2>
-      <p class="reveal">Biaya dan pilihan layanan dikonfirmasi langsung agar sesuai informasi terbaru.</p>
+      <div class="eyebrow reveal">Program SD</div>
+      <h2 class="reveal">Bimbel <span class="hl">SD 1‑6</span></h2>
+      <p class="reveal">Paket khusus untuk siswa SD, dibagi tiga tingkatan sesuai kelas.</p>
     </div>
-    <div class="pricing-grid" id="priceGrid"></div>
+    <!-- three SD packages, no price displayed -->
+    <div class="kelas-grid" id="sdPackages">
+      <div class="kelas-col private" style="animation-delay:0ms" tabindex="0">
+        <h3>SD Kelas 1‑2</h3>
+        <div class="who">Calistung &amp; Dasar</div>
+        <ul class="feature-list">
+          <li><span class="feature-icon">📖</span>Bimbingan membaca</li>
+          <li><span class="feature-icon">✍️</span>Latihan menulis</li>
+          <li><span class="feature-icon">➗</span>Dasar berhitung</li>
+        </ul>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Paket</a>
+      </div>
+      <div class="kelas-col regular" style="animation-delay:80ms" tabindex="0">
+        <h3>SD Kelas 3‑4</h3>
+        <div class="who">Pendampingan Mapel</div>
+        <ul class="feature-list">
+          <li><span class="feature-icon">🧪</span>Matematika &amp; IPA</li>
+          <li><span class="feature-icon">📚</span>Bahasa Indonesia</li>
+          <li><span class="feature-icon">📖</span>PR &amp; Tugas</li>
+        </ul>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Paket</a>
+      </div>
+      <div class="kelas-col private" style="animation-delay:160ms" tabindex="0">
+        <h3>SD Kelas 5‑6</h3>
+        <div class="who">Persiapan Ujian</div>
+        <ul class="feature-list">
+          <li><span class="feature-icon">⚡</span>Kelas intensif</li>
+          <li><span class="feature-icon">📝</span>Latihan ujian</li>
+          <li><span class="feature-icon">📊</span>Feedback tiap minggu</li>
+        </ul>
+        <a href="#daftar" class="btn btn-ghost">Tanyakan Paket</a>
+      </div>
+    </div>
   </div>
 </section>
 
