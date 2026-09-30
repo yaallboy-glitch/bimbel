@@ -1331,9 +1331,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{
       <h2 class="reveal">Informasi biaya <span class="hl">dari admin</span>.</h2>
       <p class="reveal">Biaya dan pilihan layanan dikonfirmasi langsung agar sesuai informasi terbaru.</p>
     </div>
-    <div class="section-head">
-      <a href="#daftar" class="btn btn-primary">Tanyakan Biaya</a>
-    </div>
+    <div class="pricing-grid" id="priceGrid"></div>
   </div>
 </section>
 
@@ -1721,6 +1719,26 @@ fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(funct
  if(d.wa)document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.href=a.href.replace(/wa\.me\/\+?\d+/,'wa.me/'+d.wa)});
 }).catch(function(){});
 })();
+<script>
+// Render price list from backend
+(function(){
+  const container=document.getElementById('priceGrid');
+  if(!container) return;
+  fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/harga')
+    .then(r=>r.ok?r.json():Promise.reject('Failed'))
+    .then(data=>{
+      const list=data.pricing||[];
+      if(!list.length){container.innerHTML='<p class="jd-empty">Belum ada paket harga.</p>';return;}
+      container.innerHTML = list.map(p=>`
+        <div class="price-card pop reveal">
+          <h3>${p.title}</h3>
+          <div class="who">${p.kelas}</div>
+          <div class="price-amount"><span>Rp</span>${p.harga}<small>/bln</small></div>
+          <ul>${(p.fitur||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+          <a href="#daftar" class="btn btn-primary">Pilih</a>
+        </div>`).join('');
+    })
+    .catch(()=>{container.innerHTML='<p class="jd-empty">Gagal memuat paket harga.</p>';});
+})();
 </script>
-</body>
-</html>
+
