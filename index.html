@@ -538,6 +538,12 @@ section{padding:100px 0;position:relative}
 }
 .price-card.pop li::before{background:var(--yellow);color:var(--ink)}
 .price-card .btn{justify-content:center;width:100%}
+/* entrance: stagger dimainkan per-kartu (delay inline), aman untuk kartu di-inject dinamis */
+@keyframes pcIn{from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+#priceGrid .price-card{animation:pcIn .55s var(--ease-out) both}
+#priceGrid .price-card.pop{animation:pcIn .55s var(--ease-out) both}
+#priceGrid .price-card:hover,#priceGrid .price-card:focus-visible{transform:translate3d(0,-8px,0);box-shadow:var(--shadow-md);outline:3px solid rgba(74,144,226,.35);outline-offset:2px}
+#priceGrid .price-card.pop:hover,#priceGrid .price-card.pop:focus-visible{transform:scale(1.04) translate3d(0,-8px,0)}
 
 /* ===== FAQ ===== */
 .faq{background:linear-gradient(180deg,#FFF7E0,#FFFBEF);position:relative;overflow:hidden}
@@ -1730,16 +1736,19 @@ fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(funct
     .then(function(r){if(!r.ok)throw new Error('info tidak tersedia');return r.json();})
     .then(function(d){
       var t=d.tarif||{};
+      var DESC={sd:'SD Kelas 1–3',smp:'SMP Kelas 7–9',sma:'SMA Kelas 10–12',reguler:'Jadwal reguler mingguan',intensif:'Persiapan ujian & rapor',privat:'Sesi privat di rumah'};
       var keys=Object.keys(t).filter(function(k){return t[k]});
       if(!keys.length){grid.innerHTML='<p class="jd-empty">Belum ada tarif yang diisi.</p>';return;}
-      grid.innerHTML=keys.map(function(k){
+      grid.innerHTML=keys.map(function(k,i){
         var nama=LABEL[k]||k.charAt(0).toUpperCase()+k.slice(1);
         var harga=Number(t[k]).toLocaleString('id-ID');
-        return '<div class="price-card pop in">'+
+        var pop=k==='reguler';
+        return '<div class="price-card'+(pop?' pop':'')+'" style="animation-delay:'+(i*80)+'ms" tabindex="0">'+
+          (pop?'<div class="pop-tag">Paling Diminati</div>':'')+
           '<h3>'+nama+'</h3>'+
-          '<div class="who">AlifBimbel</div>'+
-          '<div class="price-amount"><span>Rp</span>'+harga+'<small>/bln</small></div>'+
-          '<a href="#daftar" class="btn btn-primary">Pilih</a>'+
+          '<div class="who">'+(DESC[k]||'AlifBimbel')+'</div>'+
+          '<div class="price-amount"><span>Rp</span>'+harga+'<small>/bulan</small></div>'+
+          '<a href="#daftar" class="btn '+(pop?'btn-primary':'btn-ghost')+'">Pilih Paket</a>'+
         '</div>';
       }).join('');
     })
