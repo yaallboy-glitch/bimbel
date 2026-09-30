@@ -1,0 +1,16 @@
+/* added new classes for price columns */
+.kelas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin:2rem 0}
+.kelas-col{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease-out)}
+.kelas-col.private{background:var(--yellow-soft)}
+.kelas-col.regular{background:var(--mint-soft)}
+.kelas-col h3{margin:0 0 .4rem;font-size:1.2rem}
+.kelas-col .who{font-size:.9rem;color:var(--muted);margin-bottom:.6rem}
+.kelas-col .price-amount{font-size:1.4rem;font-weight:800;margin:.4rem 0}
+.kelas-col .price-amount span{font-size:.8rem;vertical-align:super}
+.kelas-col .btn{width:100%;justify-content:center}
+.kelas-col .pop-tag{background:var(--yellow);color:#fff;padding:2px 6px;border-radius:4px;font-size:.75rem;font-weight:600;margin-bottom:.5rem;display:inline-block}
+.kelas-col .feature-list{list-style:none;margin:1rem 0;padding:0;display:grid;gap:.5rem;font-size:.9rem;color:var(--muted)}
+.kelas-col .feature-icon{margin-right:.4rem}
+/* animation */
+.kelas-col{animation:pcIn .55s var(--ease-out) both;animation-delay:var(--i)}
+@keyframes pcIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
