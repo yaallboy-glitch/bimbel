@@ -1719,26 +1719,31 @@ fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info').then(funct
  if(d.wa)document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.href=a.href.replace(/wa\.me\/\+?\d+/,'wa.me/'+d.wa)});
 }).catch(function(){});
 })();
+</script>
 <script>
-// Render price list from backend
+// Render price list dari /api/public/info (field tarif) — sumber data sama dengan dashboard
 (function(){
-  const container=document.getElementById('priceGrid');
-  if(!container) return;
-  fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/harga')
-    .then(r=>r.ok?r.json():Promise.reject('Failed'))
-    .then(data=>{
-      const list=data.pricing||[];
-      if(!list.length){container.innerHTML='<p class="jd-empty">Belum ada paket harga.</p>';return;}
-      container.innerHTML = list.map(p=>`
-        <div class="price-card pop reveal">
-          <h3>${p.title}</h3>
-          <div class="who">${p.kelas}</div>
-          <div class="price-amount"><span>Rp</span>${p.harga}<small>/bln</small></div>
-          <ul>${(p.fitur||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
-          <a href="#daftar" class="btn btn-primary">Pilih</a>
-        </div>`).join('');
+  var grid=document.getElementById('priceGrid');
+  if(!grid) return;
+  var LABEL={sd:'Tingkat SD',smp:'Tingkat SMP',sma:'Tingkat SMA',reguler:'Paket Reguler',intensif:'Paket Intensif',privat:'Paket Privat'};
+  fetch('https://alief-worker.aliefbimbel.workers.dev/api/public/info')
+    .then(function(r){if(!r.ok)throw new Error('info tidak tersedia');return r.json();})
+    .then(function(d){
+      var t=d.tarif||{};
+      var keys=Object.keys(t).filter(function(k){return t[k]});
+      if(!keys.length){grid.innerHTML='<p class="jd-empty">Belum ada tarif yang diisi.</p>';return;}
+      grid.innerHTML=keys.map(function(k){
+        var nama=LABEL[k]||k.charAt(0).toUpperCase()+k.slice(1);
+        var harga=Number(t[k]).toLocaleString('id-ID');
+        return '<div class="price-card pop in">'+
+          '<h3>'+nama+'</h3>'+
+          '<div class="who">AlifBimbel</div>'+
+          '<div class="price-amount"><span>Rp</span>'+harga+'<small>/bln</small></div>'+
+          '<a href="#daftar" class="btn btn-primary">Pilih</a>'+
+        '</div>';
+      }).join('');
     })
-    .catch(()=>{container.innerHTML='<p class="jd-empty">Gagal memuat paket harga.</p>';});
+    .catch(function(){grid.innerHTML='<p class="jd-empty">Gagal memuat paket harga.</p>';});
 })();
 </script>
 
